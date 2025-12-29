@@ -1,0 +1,34 @@
+[
+  {
+    "id": 1,
+    "name": "Sarah Jenkins",
+    "role": "CTO, FinStream",
+    "review": "MssTechno transformed our legacy financial platform into a scalable, cloud-native solution. Their expertise in secure API integration was exactly what we needed.",
+    "rating": 5,
+    "image": "/img/testimonial/t1.jpg"
+  },
+  {
+    "id": 2,
+    "name": "David Chen",
+    "role": "Founder, HealthVibe",
+    "review": "The mobile app they built for us has seen incredible user adoption. The UI/UX is intuitive, and the performance is flawless across both iOS and Android.",
+    "rating": 5,
+    "image": "/img/testimonial/t2.jpg"
+  },
+  {
+    "id": 3,
+    "name": "Marcus Johnson",
+    "role": "Director of Ops, LogisticsCo",
+    "review": "Their AI-driven analytics dashboard gave us visibility we never had before. We can now predict supply chain bottlenecks weeks in advance.",
+    "rating": 5,
+    "image": "/img/testimonial/t3.jpg"
+  },
+  {
+    "id": 4,
+    "name": "Emily Watson",
+    "role": "VP Product, EduTech Solutions",
+    "review": "A true partner in innovation. They guided us through the entire product lifecycle, from initial concept to a successful market launch.",
+    "rating": 5,
+    "image": "/img/testimonial/t4.jpg"
+  }
+]

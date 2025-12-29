@@ -1,0 +1,20 @@
+[
+    {
+        "id": 1,
+        "name": "Tech Insight Team",
+        "username": "TechTeam",
+        "email": "insights@msstechno.com"
+    },
+    {
+        "id": 2,
+        "name": "Cloud Architects",
+        "username": "CloudArch",
+        "email": "cloud@msstechno.com"
+    },
+    {
+        "id": 3,
+        "name": "AI Research Lab",
+        "username": "AILab",
+        "email": "ai@msstechno.com"
+    }
+]

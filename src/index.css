@@ -1,0 +1,282 @@
+@import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Hanken+Grotesk:ital,wght@0,100..900;1,100..900&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Hanken Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "EB Garamond", Georgia, serif;
+  
+  --color-primary: #2c6834;
+  --color-primary-container: #46814a;
+  --color-primary-fixed: #b1f2b0;
+  --color-primary-fixed-dim: #96d696;
+  --color-secondary: #914a36;
+  --color-secondary-container: #fda288;
+  --color-secondary-fixed: #ffdbd1;
+  --color-secondary-fixed-dim: #ffb5a0;
+  --color-tertiary: #715822;
+  --color-tertiary-container: #8b7138;
+  --color-tertiary-fixed: #ffdf9f;
+  --color-tertiary-fixed-dim: #e3c281;
+  
+  --color-mss-green: #4D8B4F;
+  --color-mss-green-light: #5fa55e;
+  --color-mss-brown: #6B2D1A;
+  --color-mss-amber: #8b5a2b;
+  
+  --color-surface-container-lowest: #ffffff;
+  --color-surface-container-low: #f1f4f9;
+  --color-surface-container: #ebeef3;
+  --color-surface-container-high: #e5e8ee;
+  --color-surface-container-highest: #e0e3e8;
+  --color-background-warm: #fcfdfb;
+}
+
+/* Custom CSS for Liquid Glass effects */
+.glass-card {
+  background: rgba(255, 255, 255, 0.45);
+  backdrop-filter: blur(24px) saturate(140%);
+  -webkit-backdrop-filter: blur(24px) saturate(140%);
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  box-shadow: 
+    inset 0 1px 2px rgba(255, 255, 255, 0.4),
+    0 8px 32px 0 rgba(31, 38, 135, 0.04);
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.glass-card:hover {
+  background: rgba(255, 255, 255, 0.65);
+  border-color: rgba(255, 255, 255, 0.8);
+  box-shadow: 
+    inset 0 1px 3px rgba(255, 255, 255, 0.6),
+    0 20px 48px 0 rgba(31, 38, 135, 0.08);
+}
+
+.glass-panel-dark {
+  background: rgba(26, 26, 26, 0.35);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
+}
+
+.liquid-pill {
+  background: rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(20px) saturate(120%);
+  -webkit-backdrop-filter: blur(20px) saturate(120%);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  box-shadow: 
+    inset 0 1px 1px rgba(255, 255, 255, 0.6),
+    0 4px 15px rgba(0, 0, 0, 0.02);
+}
+
+.reflection-sweep {
+  position: relative;
+  overflow: hidden;
+}
+
+.reflection-sweep::after {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -150%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    45deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0) 40%,
+    rgba(255, 255, 255, 0.25) 50%,
+    rgba(255, 255, 255, 0) 60%,
+    transparent 100%
+  );
+  transform: rotate(25deg);
+  transition: all 0.8s ease-out;
+  pointer-events: none;
+}
+
+.reflection-sweep:hover::after {
+  left: 150%;
+  transition: all 1.2s ease-out;
+}
+
+.hero-gradient-bg {
+  background: 
+    radial-gradient(circle at 75% 25%, rgba(77, 139, 79, 0.08) 0%, transparent 45%),
+    radial-gradient(circle at 25% 75%, rgba(107, 45, 26, 0.05) 0%, transparent 40%),
+    radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.4) 0%, transparent 100%),
+    #f8fafd;
+}
+
+.liquid-blob {
+  filter: blur(80px);
+  will-change: transform;
+}
+
+.ambient-glow-green {
+  background: radial-gradient(circle, rgba(77, 139, 79, 0.12) 0%, rgba(77, 139, 79, 0) 70%);
+}
+
+.ambient-glow-brown {
+  background: radial-gradient(circle, rgba(107, 45, 26, 0.08) 0%, rgba(107, 45, 26, 0) 70%);
+}
+
+.active-nav-dot::after {
+  content: '';
+  position: absolute;
+  bottom: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background-color: var(--color-mss-brown);
+}
+
+/* Custom Scrollbar for Liquid Elegance */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(10px);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(77, 139, 79, 0.2);
+  border-radius: 9999px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(77, 139, 79, 0.4);
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+
+/* Text Gradient Utilities */
+.text-gradient-green-brown {
+  background: linear-gradient(135deg, #4D8B4F 0%, #6B2D1A 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.text-gradient-gold-green {
+  background: linear-gradient(135deg, #8b5a2b 0%, #4D8B4F 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Liquid Floating Bubbles CSS */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.04);
+}
+
+.liquid-bubble {
+  width: 64px;
+  height: 64px;
+  transition: all 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.liquid-bubble:hover {
+  width: 280px;
+  height: 100px;
+  border-radius: 28px;
+  padding: 16px 20px;
+  justify-content: flex-start;
+  background: rgba(255, 255, 255, 0.85);
+  border-color: rgba(77, 139, 79, 0.3);
+  box-shadow: 0 12px 36px rgba(77, 139, 79, 0.1);
+}
+
+/* Follow Us Special Expansion */
+.follow-us-bubble:hover {
+  width: 300px;
+  height: 200px;
+  padding: 20px;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.bubble-content {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  width: 0;
+  white-space: nowrap;
+  margin-left: 16px;
+}
+
+.liquid-bubble:hover .bubble-content {
+  opacity: 1;
+  pointer-events: auto;
+  width: auto;
+  white-space: normal;
+}
+
+.bubble-icon {
+  transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+  flex-shrink: 0;
+}
+
+.liquid-bubble:hover .bubble-icon {
+  transform: scale(0.9);
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+}
+.animate-float { 
+  animation: float 6s ease-in-out infinite; 
+}
+
+/* VisionOS Reflection */
+.liquid-bubble::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 50%;
+  background: linear-gradient(180deg, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0) 100%);
+  pointer-events: none;
+}
+
+.social-mini-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.social-mini-icon {
+  width: 38px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.04);
+  border: 1px solid rgba(0, 0, 0, 0.03);
+  transition: all 0.3s ease;
+}
+
+.social-mini-icon:hover {
+  background: rgba(255, 255, 255, 1);
+  border-color: rgba(77, 139, 79, 0.2);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+

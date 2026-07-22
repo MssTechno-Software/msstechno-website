@@ -1,0 +1,45 @@
+{
+    "redirects": [
+        {
+            "source": "/about-us",
+            "destination": "/about",
+            "permanent": true
+        },
+        {
+            "source": "/blogs",
+            "destination": "/insights",
+            "permanent": true
+        },
+        {
+            "source": "/blog",
+            "destination": "/insights",
+            "permanent": true
+        },
+        {
+            "source": "/services",
+            "destination": "/solutions",
+            "permanent": true
+        },
+        {
+            "source": "/services/:slug",
+            "destination": "/solutions/:slug",
+            "permanent": true
+        },
+        {
+            "source": "/projects",
+            "destination": "/?scroll=case-studies",
+            "permanent": true
+        },
+    {
+            "source": "/contact-us",
+            "destination": "/?scroll=contact-section",
+            "permanent": true
+        }
+    ],
+    "rewrites": [
+        {
+            "source": "/(.*)",
+            "destination": "/index.html"
+        }
+    ]
+}

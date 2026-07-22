@@ -748,31 +748,7 @@ const CareersSection = () => {
             text-center
           "
         >
-          <motion.button
-            whileHover={{ y: -3 }}
-            whileTap={{ scale: 0.97 }}
-            onClick={goToContactSection}
-            className="
-              inline-flex
-              items-center
-              gap-2
-              rounded-full
-              border
-              border-white/80
-              bg-white/40
-              px-8
-              py-3.5
-              text-sm
-              font-bold
-              text-[#6B2D1A]
-              shadow-[inset_0_1px_0_white,0_15px_40px_rgba(50,60,50,0.08)]
-              backdrop-blur-2xl
-            "
-          >
-            Explore All Open Positions
-            <ArrowRight className="h-4 w-4 text-[#4D8B4F]" />
-          </motion.button>
-
+  
           <p className="text-xs text-[#657067] sm:text-sm">
             Don't see your ideal role listed above? We always
             welcome exceptional builders. Email us at{" "}

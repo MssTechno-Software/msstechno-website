@@ -485,7 +485,7 @@ const handleSearch = () => {
                     sm:inline-block
                   "
                 >
-                  Lets get started on your journey to success
+                  Solutions Today Success Tomorrow
                 </span>
               </div>
             </button>

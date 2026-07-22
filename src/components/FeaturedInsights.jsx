@@ -1,9 +1,10 @@
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo } from "react";
 import { motion } from "motion/react";
 import { BLOGS } from "../articles";
 import { ArrowRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 const SMOOTH_CURVE = [0.25, 1, 0.5, 1];
 
@@ -26,6 +27,12 @@ const LiquidGlassHighlight = () => {
 
 export function FeaturedInsights() {
     const navigate = useNavigate();
+    const location = useLocation();
+
+    useEffect(() => {
+        window.scrollTo({ top: 0, behavior: "instant" });
+    }, [location.pathname]);
+
     const memoizedBlogs = useMemo(() => BLOGS, []);
 
     return (
@@ -43,15 +50,15 @@ export function FeaturedInsights() {
                     <div className="mb-6 flex justify-center">
                         <div
                             className="
-                               relative isolate
-                               inline-flex items-center gap-2
-                               rounded-full
-                               border border-white/60
-                               bg-white/35
-                               px-5 py-2
-                               backdrop-blur-xl
-                               shadow-[inset_0_1px_2px_rgba(255,255,255,0.9),0_8px_30px_rgba(0,0,0,0.05)]
-                              "
+                                relative isolate
+                                inline-flex items-center gap-2
+                                rounded-full
+                                border border-white/60
+                                bg-white/35
+                                px-5 py-2
+                                backdrop-blur-xl
+                                shadow-[inset_0_1px_2px_rgba(255,255,255,0.9),0_8px_30px_rgba(0,0,0,0.05)]
+                            "
                         >
                             <span className="h-2 w-2 rounded-full bg-[#6B2D1A]" />
                             <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#38573D]">
@@ -156,7 +163,10 @@ export function FeaturedInsights() {
                 {/*BOTTOM FOOTER CAPSULE ACTION CTA BUTTO*/}
                 <div className="flex justify-center">
                     <motion.button
-                        onClick={() => navigate("/insights")}
+                        onClick={() => {
+                            window.scrollTo({ top: 0, behavior: "auto" });
+                            navigate("/insights");
+                        }}
                         whileHover={{ y: -2, scale: 1.015 }}
                         whileTap={{ scale: 0.985 }}
                         className="group relative isolate overflow-hidden px-10 py-4 rounded-full border border-white/80 bg-white/60 text-[#2b6831] font-bold text-lg shadow-[inset_0_1px_2px_rgba(255,255,255,1),inset_0_-2px_4px_rgba(61,82,64,0.1),0_12px_30px_rgba(0,0,0,0.03)] backdrop-blur-xl transition-all duration-300 flex items-center gap-3"

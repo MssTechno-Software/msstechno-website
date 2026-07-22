@@ -2,7 +2,7 @@ import { motion } from "motion/react";
 import { useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import SEO from "../components/SEO";
-
+import { Helmet } from "react-helmet-async";
 import {
   ArrowRight,
   BrainCircuit,
@@ -25,6 +25,25 @@ import {
   TrendingUp,
   Flag,
   Telescope,
+  Linkedin,
+  Mail,
+  Check,
+  Quote,
+  Compass,
+  Rocket,
+  Target,
+  Zap,
+  Crown,
+  Calendar,
+  Clock,
+  CheckCircle,
+  FileText,
+  Workflow as WorkflowIcon,
+  CheckCircle2,
+  Award,
+  Layers,
+  GraduationCap,
+  Smile,
 } from "lucide-react";
 
 import mssGlowLogo from "../../assets/images/mss-glow-logo.png";
@@ -33,6 +52,14 @@ import dnaImage from "../../assets/images/dna.png";
 import { Header } from "../components/Header";
 import { ProcessSection } from "../components/ProcessSection";
 import { Footer } from "../components/Footer";
+{/*images imports for meet out team*/}
+import ceoImage from "../../assets/images/team/ceo.png";
+import meghanaImage from "../../assets/images/team/meghana.png";
+import snehaImage from "../../assets/images/team/sneha.png";
+import venkatImage from "../../assets/images/team/venkat.png";
+import jasminImage from "../../assets/images/team/jasmin.png";
+import praveenImage from "../../assets/images/team/praveen.png";
+
 
 
 const AboutPage = () => {
@@ -66,7 +93,8 @@ const AboutPage = () => {
     });
   };
 
-  const goToContactSection = () => {
+  const goToContact = () => {
+  if (window.location.pathname === "/") {
     const section = document.getElementById("contact-section");
 
     if (section) {
@@ -75,7 +103,21 @@ const AboutPage = () => {
         block: "start",
       });
     }
-  };
+  } else {
+    navigate("/");
+
+    setTimeout(() => {
+      const section = document.getElementById("contact-section");
+
+      if (section) {
+        section.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
+      }
+    }, 300);
+  }
+};
 
   const goToSolutionsPage = () => {
     navigate("/solutions");
@@ -86,7 +128,21 @@ const AboutPage = () => {
       }
     }, 100);
   };
-
+const aboutSchema = {
+  "@context": "https://schema.org",
+  "@type": "AboutPage",
+  "@id": "https://www.msstechno.com/about-us#about",
+  "url": "https://www.msstechno.com/about-us",
+  "name": "About MSS Techno",
+  "description":
+    "Learn about MSS Techno, our mission, vision, leadership, and enterprise software expertise.",
+  "isPartOf": {
+    "@id": "https://www.msstechno.com/#website"
+  },
+  "about": {
+    "@id": "https://www.msstechno.com/#organization"
+  }
+};
   return (
     
     <div className="min-h-screen bg-[#F7F8F5] font-sans text-[#171A17] antialiased">
@@ -94,7 +150,13 @@ const AboutPage = () => {
         title="About MSS Techno | Our Story & Mission"
         description="Learn about MSS Techno, our mission, vision and enterprise software expertise."
         url="https://msstechno.com/about"
+        showSchemas={true}
       />
+      <Helmet>
+     <script type="application/ld+json">
+      {JSON.stringify(aboutSchema)}
+      </script>
+      </Helmet>
       <Header activeSection="about" />
       <main>
         {/* HERO SECTION */}
@@ -233,7 +295,7 @@ const AboutPage = () => {
                 }}
                 className="
                   mt-8
-                  max-w-[470px]
+                  max-w-[900px]
                   text-[17px]
                   leading-[1.75]
                   text-[#59625C]
@@ -924,12 +986,533 @@ const AboutPage = () => {
             </div>
           </div>
         </section>
+
+        {/* MEET OUR TEAM SECTION */}
+        <section
+          id="meet-our-team"
+          className="relative min-h-screen overflow-hidden bg-[#F7F8F5] px-6 py-24 lg:px-12 xl:px-16"
+        >
+          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_12%_18%,rgba(255,255,255,1)_0%,transparent_38%),radial-gradient(circle_at_68%_55%,rgba(195,220,198,0.28)_0%,transparent_36%),radial-gradient(circle_at_88%_85%,rgba(139,60,36,0.15)_0%,transparent_34%),linear-gradient(135deg,#FAFBF8_0%,#F3F6F1_50%,#F6EEE9_100%)]" />
+
+          <div className="pointer-events-none absolute -bottom-[430px] -left-[280px] h-[720px] w-[1050px] rotate-[10deg] rounded-[50%] border-2 border-white/90 bg-[linear-gradient(135deg,rgba(255,255,255,0.10),rgba(113,181,121,0.18),rgba(219,239,220,0.34))] backdrop-blur-[28px] shadow-[inset_0_18px_34px_rgba(255,255,255,0.96),inset_0_-20px_42px_rgba(77,139,79,0.10)]" />
+          <div className="pointer-events-none absolute -bottom-[460px] -right-[280px] h-[760px] w-[980px] -rotate-[10deg] rounded-[50%] border-2 border-white/80 bg-[linear-gradient(145deg,rgba(255,255,255,0.08),rgba(139,60,36,0.17),rgba(238,213,200,0.30))] backdrop-blur-[30px] shadow-[inset_0_18px_34px_rgba(255,255,255,0.90),inset_0_-22px_44px_rgba(139,60,36,0.11)]" />
+
+          <WaterBubble className="left-[12%] top-[14%] h-8 w-8" />
+          <WaterBubble className="right-[14%] top-[22%] h-7 w-7" />
+          <WaterBubble className="bottom-[18%] left-[26%] h-6 w-6" />
+
+          <div className="relative z-25 mx-auto max-w-[1600px]">
+            {/* OUR LEADERSHIP */}
+            <div className="mb-20 text-center">
+              <div className="inline-flex items-center gap-3 rounded-full border border-white/90 bg-white/20 px-5 py-3 backdrop-blur-[35px] backdrop-saturate-[220%] shadow-[inset_3px_3px_5px_white,inset_-3px_-4px_7px_rgba(77,139,79,0.06),0_15px_40px_rgba(60,75,62,0.07)] mb-6">
+                <Crown className="h-4 w-4 text-[#C59B27]" />
+                <span className="text-[11px] font-bold uppercase tracking-[0.15em] text-[#9A7513]">
+                  OUR LEADERSHIP
+                </span>
+              </div>
+
+              <motion.div
+                initial={{ opacity: 0, y: -30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.2 }}
+                transition={{ duration: 0.8 }}
+                className="mx-auto max-w-[900px] rounded-[54px] border-2 border-[#D4AF37]/50 bg-white/30 p-10 sm:p-14 backdrop-blur-[45px] backdrop-saturate-[250%] shadow-[inset_0_2px_6px_white,0_35px_100px_rgba(212,175,55,0.15)] relative overflow-hidden"
+              >
+                <div className="pointer-events-none absolute left-[25%] top-0 h-[2px] w-[50%] bg-[linear-gradient(90deg,transparent,#D4AF37,transparent)]" />
+                
+                <div className="relative mx-auto h-[180px] w-[180px] overflow-hidden rounded-full border-4 border-white shadow-[0_20px_45px_rgba(0,0,0,0.15)] bg-white/40">
+                  <img
+                    src={ceoImage}
+                    alt="Manikanta Vegirothu"
+                    className="h-full w-full object-contain object-center"
+                  />
+                </div>
+
+                <h3 className="mt-8 text-[32px] font-semibold tracking-[-0.02em] text-[#191D1A]">
+                  Manikanta Vegirothu
+                </h3>
+                <p className="mt-1.5 text-[16px] font-semibold text-[#C59B27]">
+                  Founder & Chief Executive Officer
+                </p>
+
+                <blockquote className="mt-6 mx-auto max-w-[680px] text-[17px] leading-[1.8] italic text-[#4F5650]">
+                 "True leadership inspires innovation, builds strong teams, and transforms ideas into meaningful solutions."                          </blockquote>
+
+                <div className="mt-8 flex flex-wrap items-center justify-center gap-6 text-[14px] font-medium text-[#5E665F] border-t border-white/60 pt-6">
+                  <div className="flex items-center gap-2">
+                    <span className="font-bold text-[#4D8B4F]">2018</span>
+                    <span>•</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="font-bold text-[#4D8B4F]">50+ Projects</span>
+                    <span>•</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="font-bold text-[#4D8B4F]">30+ Clients</span>
+                  </div>
+                </div>
+
+                <div className="mt-6 flex justify-center gap-3">
+                  <a
+                    href="#linkedin"
+                    aria-label="Manikanta Vegirothu's LinkedIn"
+                    className="flex h-10 w-10 items-center justify-center rounded-full border border-white/90 bg-white/40 backdrop-blur-xl shadow-[inset_2px_2px_4px_white,0_4px_10px_rgba(212,175,55,0.12)] transition-colors hover:bg-[#C59B27] hover:text-white text-[#C59B27]"
+                  >
+                    <Linkedin className="h-4 w-4" />
+                  </a>
+                  <a
+                    href="#email"
+                    aria-label="Email Manikanta Vegirothu"
+                    className="flex h-10 w-10 items-center justify-center rounded-full border border-white/90 bg-white/40 backdrop-blur-xl shadow-[inset_2px_2px_4px_white,0_4px_10px_rgba(212,175,55,0.12)] transition-colors hover:bg-[#C59B27] hover:text-white text-[#C59B27]"
+                  >
+                    <Mail className="h-4 w-4" />
+                  </a>
+                </div>
+              </motion.div>
+            </div>
+
+            <div className="grid grid-cols-1 gap-14 lg:grid-cols-[40%_60%] items-start">
+              
+              {/* LEFT SIDE (40%) - Balanced vertical fill card */}
+              <motion.div
+                initial={{ opacity: 0, x: -40 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true, amount: 0.2 }}
+                transition={{ duration: 0.8 }}
+                className="flex flex-col h-full justify-between"
+              >
+                <div>
+                  <div className="inline-flex items-center gap-3 rounded-full border border-white/90 bg-white/20 px-5 py-3 backdrop-blur-[35px] backdrop-saturate-[220%] shadow-[inset_3px_3px_5px_white,inset_-3px_-4px_7px_rgba(77,139,79,0.06),0_15px_40px_rgba(60,75,62,0.07)]">
+                    <span className="h-2 w-2 rounded-full bg-[#4D8B4F]" />
+                    <span className="text-[11px] font-bold uppercase tracking-[0.12em] text-[#3F7843]">
+                      TEAM
+                    </span>
+                  </div>
+
+                  <h2 className="mt-7 text-[45px] font-semibold leading-[1.08] tracking-[-0.055em] text-[#171917] sm:text-[55px] xl:text-[62px]">
+                    Meet the <span className="text-[#4D8B4F]">People</span>
+                    <br />
+                    Behind <span className="text-[#8B3C24]">MSS Techno.</span>
+                  </h2>
+
+                  <p className="mt-6 max-w-[480px] text-[16px] leading-[1.8] text-[#59625C] sm:text-[17px]">
+                    Behind every successful solution is a passionate team of innovators, engineers, designers, and leaders working together to build the future.
+                  </p>
+
+                  <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2">
+                    <TeamFeatureItem text="30+ Professionals" icon={Users} color="green" />
+                    <TeamFeatureItem text="8+ Departments" icon={Building2} color="brown" />
+                    <TeamFeatureItem text="Innovation First Culture" icon={Sparkles} color="green" />
+                    <TeamFeatureItem text="Collaboration Driven" icon={Heart} color="brown" />
+                  </div>
+                </div>
+
+                {/* REDESIGNED "Life at MSS Techno" CARD */}
+                <motion.div
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, amount: 0.2 }}
+                  transition={{ duration: 0.8, delay: 0.2 }}
+                  className="
+                    relative
+                    flex
+                    flex-col
+                    justify-between
+                    mt-10
+                    lg:mt-8
+                    flex-1
+                    overflow-hidden
+                    rounded-[42px]
+                    border
+                    border-white/80
+                    bg-white/20
+                    p-6
+                    sm:p-8
+                    backdrop-blur-[40px]
+                    backdrop-saturate-[250%]
+                    shadow-[inset_0_1px_1px_rgba(255,255,255,0.9),inset_0_-12px_24px_rgba(77,139,79,0.04),0_25px_60px_rgba(65,80,68,0.10)]
+                  "
+                >
+                  <div className="pointer-events-none absolute left-[12%] top-0 h-px w-[76%] bg-white/90" />
+
+                  {/* Header */}
+                  <div className="flex items-center justify-between">
+                    <span className="text-[12px] font-bold uppercase tracking-[0.15em] text-[#4D8B4F]">
+                      LIFE AT MSS TECHNO
+                    </span>
+                    <span className="flex h-7 w-7 items-center justify-center rounded-full border border-white/80 bg-[#4D8B4F]/15 text-[#4D8B4F]">
+                      <Sparkles className="h-3.5 w-3.5" />
+                    </span>
+                  </div>
+
+                  {/* 1. Hero Image */}
+                  <div className="relative my-3 h-[120px] w-full overflow-hidden rounded-[18px] border border-white/60 shadow-[inset_0_2px_6px_rgba(0,0,0,0.04)]">
+                    <img
+                      src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1000&q=80"
+                      alt="Team Collaboration"
+                      className="h-full w-full object-cover"
+                    />
+                    <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(135deg,rgba(77,139,79,0.2)_0%,transparent_70%)]" />
+                    <div className="absolute bottom-2 left-2 rounded-full border border-white/80 bg-white/40 px-3 py-1 backdrop-blur-md">
+                      <span className="text-[12px] font-semibold uppercase tracking-wider text-[#244D2A]">
+                        People • Innovation • Growth
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* 2. Inspirational Quote */}
+                  <div className="my-2.5 rounded-[16px] border border-white/70 bg-white/30 p-3 backdrop-blur-xl">
+                    <div className="flex items-start gap-2">
+                      <Quote className="h-3.5 w-3.5 shrink-0 text-[#8B3C24] mt-0.5" />
+                      <p className="text-[14px] font-medium italic leading-[1.5] text-[#2C332E]">
+                        "We don't just build software. We build people, leaders, and lasting impact."
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* 3. Culture Highlights */}
+                  <div className="my-2">
+                    <p className="text-[14px] font-bold uppercase tracking-[0.1em] text-[#59625C] mb-1.5">
+                      Culture Highlights
+                    </p>
+                    <div className="grid grid-cols-2 gap-2">
+                      <div className="flex items-center gap-2 rounded-[14px] border border-white/70 bg-white/30 px-3 py-1.5 backdrop-blur-xl">
+                        <Zap className="h-3.5 w-3.5 text-[#4D8B4F]" />
+                        <span className="text-[14px] font-semibold text-[#2C332E]">Innovation Driven</span>
+                      </div>
+                      <div className="flex items-center gap-2 rounded-[14px] border border-white/70 bg-white/30 px-3 py-1.5 backdrop-blur-xl">
+                        <Smile className="h-3.5 w-3.5 text-[#8B3C24]" />
+                        <span className="text-[14px] font-semibold text-[#2C332E]">Customer First</span>
+                      </div>
+                      <div className="flex items-center gap-2 rounded-[14px] border border-white/70 bg-white/30 px-3 py-1.5 backdrop-blur-xl">
+                        <Users className="h-3.5 w-3.5 text-[#4D8B4F]" />
+                        <span className="text-[14px] font-semibold text-[#2C332E]">Collaborative Teams</span>
+                      </div>
+                      <div className="flex items-center gap-2 rounded-[14px] border border-white/70 bg-white/30 px-3 py-1.5 backdrop-blur-xl">
+                        <GraduationCap className="h-3.5 w-3.5 text-[#8B3C24]" />
+                        <span className="text-[14px] font-semibold text-[#2C332E]">Continuous Learning</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* 4. Our Values */}
+                  <div className="my-2 pt-2 border-t border-white/60">
+                    <p className="text-[14px] font-bold uppercase tracking-[0.1em] text-[#59625C] mb-1.5">
+                      Our Values
+                    </p>
+                    <div className="grid grid-cols-3 gap-x-2 gap-y-1 text-[14px] font-semibold text-[#3A423C]">
+                      <div className="flex items-center gap-1"><Check className="h-3 w-3 text-[#4D8B4F]" /> Ownership</div>
+                      <div className="flex items-center gap-1"><Check className="h-3 w-3 text-[#4D8B4F]" /> Integrity</div>
+                      <div className="flex items-center gap-1"><Check className="h-3 w-3 text-[#4D8B4F]" /> Excellence</div>
+                      <div className="flex items-center gap-1"><Check className="h-3 w-3 text-[#4D8B4F]" /> Transparency</div>
+                      <div className="flex items-center gap-1"><Check className="h-3 w-3 text-[#4D8B4F]" /> Innovation</div>
+                      <div className="flex items-center gap-1"><Check className="h-3 w-3 text-[#4D8B4F]" /> Growth Mindset</div>
+                    </div>
+                  </div>
+
+                  {/* 5. Career Journey */}
+                  <div className="my-2 pt-2 border-t border-white/60">
+                    <p className="text-[14px] font-bold uppercase tracking-[0.1em] text-[#59625C] mb-1.5">
+                      Career Journey
+                    </p>
+                    <div className="flex items-center justify-between gap-1 text-[10px] font-semibold text-[#3F7843]">
+                      <div className="rounded-full border border-white/70 bg-white/30 px-2.5 py-1 text-center backdrop-blur-xl">Learn</div>
+                      <ArrowRight className="h-3 w-3 text-[#788079] shrink-0" />
+                      <div className="rounded-full border border-white/70 bg-white/30 px-2.5 py-1 text-center backdrop-blur-xl">Collaborate</div>
+                      <ArrowRight className="h-3 w-3 text-[#788079] shrink-0" />
+                      <div className="rounded-full border border-white/70 bg-white/30 px-2.5 py-1 text-center backdrop-blur-xl">Innovate</div>
+                      <ArrowRight className="h-3 w-3 text-[#788079] shrink-0" />
+                      <div className="rounded-full border border-white/70 bg-white/30 px-2.5 py-1 text-center backdrop-blur-xl">Lead</div>
+                      <ArrowRight className="h-3 w-3 text-[#788079] shrink-0" />
+                      <div className="rounded-full border border-white/70 bg-white/30 px-2.5 py-1 text-center backdrop-blur-xl text-[#8B3C24]">Inspire</div>
+                    </div>
+                  </div>
+
+                  {/* 6. Team Statistics */}
+                  <div className="my-2 pt-2 border-t border-white/60">
+                    <div className="grid grid-cols-4 gap-1 rounded-[16px] border border-white/70 bg-white/30 p-2 text-center backdrop-blur-xl">
+                      <div>
+                        <p className="text-[14px] font-bold text-[#4D8B4F]">30+</p>
+                        <p className="text-[10px] text-[#59625C]">Professionals</p>
+                      </div>
+                      <div>
+                        <p className="text-[14px] font-bold text-[#4D8B4F]">50+</p>
+                        <p className="text-[10px] text-[#59625C]">Projects</p>
+                      </div>
+                      <div>
+                        <p className="text-[14px] font-bold text-[#4D8B4F]">30+</p>
+                        <p className="text-[10px] text-[#59625C]">Clients</p>
+                      </div>
+                      <div>
+                        <p className="text-[14px] font-bold text-[#8B3C24]">AI First</p>
+                        <p className="text-[10px] text-[#59625C]">Culture</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* 7. Why Employees Love MSS Techno */}
+                  <div className="my-2 pt-2 border-t border-white/60">
+                    <p className="text-[14px] font-bold uppercase tracking-[0.1em] text-[#59625C] mb-1.5">
+                      Why Employees Love MSS Techno
+                    </p>
+                    <div className="grid grid-cols-2 gap-2">
+                      <div className="rounded-[14px] border border-white/70 bg-white/30 p-2.5 backdrop-blur-xl">
+                        <p className="text-[12px] font-semibold text-[#191D1A]">Flexible Work Culture</p>
+                      </div>
+                      <div className="rounded-[14px] border border-white/70 bg-white/30 p-2.5 backdrop-blur-xl">
+                        <p className="text-[12px] font-semibold text-[#191D1A]">Learning & Certifications</p>
+                      </div>
+                      <div className="rounded-[14px] border border-white/70 bg-white/30 p-2.5 backdrop-blur-xl">
+                        <p className="text-[12px] font-semibold text-[#191D1A]">Modern Technology Stack</p>
+                      </div>
+                      <div className="rounded-[14px] border border-white/70 bg-white/30 p-2.5 backdrop-blur-xl">
+                        <p className="text-[12px] font-semibold text-[#191D1A]">Career Growth Opportunities</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* 8. Recognition Section */}
+                  <div className="my-2 pt-2 border-t border-white/60">
+                    <div className="inline-flex items-center gap-1.5 rounded-full border border-white/80 bg-white/40 px-3 py-1 backdrop-blur-xl mb-1.5">
+                      <span className="text-[11px]">⭐</span>
+                      <span className="text-[10px] font-bold uppercase tracking-wider text-[#4D8B4F]">Employee First Culture</span>
+                    </div>
+                    <p className="text-[14px] font-bold  italic text-[#4A524C]">
+                      "Every contribution is valued. Every achievement is celebrated."
+                    </p>
+                  </div>
+
+                  {/* 9. Bottom CTA */}
+                  <div className="mt-3 pt-2.5 border-t border-white/60 flex items-center justify-between">
+                    <div>
+                      <p className="text-[14px] font-bold text-[#191D1A]">Join Our Innovation Journey</p>
+                      <p className="text-[15px] font-bold  text-[#59625C]">Let's create technology that makes a difference.</p>
+                    </div>
+                    <button
+                      onClick={goToContact}
+                      className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-white/80 bg-[#4D8B4F] text-white shadow-[0_4px_12px_rgba(77,139,79,0.3)] transition hover:scale-105"
+                    >
+                      <ArrowRight className="h-4 w-4" />
+                    </button>
+                  </div>
+                </motion.div>
+
+              </motion.div>
+
+              {/* RIGHT SIDE  */}
+              <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
+                <TeamMemberCard
+                  name="Meghana"
+                  role="Project Management Office (PMO)"
+                  description="Driving project coordination, timelines, and seamless cross-functional delivery."
+                  image={meghanaImage}     
+                  delay={0.1}
+                />
+                <TeamMemberCard
+                  name="Sneha"
+                  role="Solution Architect"
+                  description="Leading solution design, technical architecture, and successful module implementation."
+                  image={snehaImage}       
+                  delay={0.2}
+                />
+                <TeamMemberCard
+                  name="Venkat"
+                  role="Python Backend Developer"
+                  description="Developing robust backend logic, APIs, and scalable data integration layers."
+                  image={venkatImage}   
+                  delay={0.3}
+                />
+                <TeamMemberCard
+                  name="Jasmin"
+                  role="Front End Developer"
+                  description="Crafting responsive, intuitive user interfaces and smooth interactive workflows."
+                  image={jasminImage}  
+                  delay={0.4}
+                />
+                <TeamMemberCard
+                  name="Praveen"
+                  role="Front End Developer"
+                  description="Engineering modern UI components and high-performance client-side application views."
+                  image={praveenImage}   
+                  delay={0.5}
+                />
+              </div>
+
+            </div>
+
+            {/* PROJECT APPRECIATION SECTION */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
+              className="mx-auto mt-20 max-w-[1100px] rounded-[42px] border border-white/90 bg-white/25 p-10 sm:p-12 backdrop-blur-[35px] backdrop-saturate-[220%] shadow-[inset_3px_3px_6px_white,0_20px_50px_rgba(60,75,62,0.08)] flex flex-col md:flex-row items-center gap-8"
+            >
+              <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full border border-white/90 bg-[#D8E8D8]/60 text-[#3F8045] shadow-[inset_2px_2px_4px_white]">
+                <Sparkles className="h-8 w-8" />
+              </div>
+              <div>
+                <h3 className="text-[20px] font-semibold text-[#191D1A]">
+                  Project Appreciation
+                </h3>
+                <p className="mt-3 text-[16px] leading-[1.8] text-[#4A524C]">
+                  Special appreciation to Manikanta Vegirothu (Founder & CEO) for his vision and leadership, Meghana (PMO) for driving project coordination and delivery, and Sneha (Solution Architect) for solution design, technical leadership, and ensuring the successful implementation of the Employee Timesheet Module.
+                </p>
+              </div>
+            </motion.div>
+
+            {/* EMPLOYEE TIMESHEET MODULE HIGHLIGHTS */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
+              className="mx-auto mt-16 max-w-[1200px]"
+            >
+              <div className="text-center mb-10">
+                <span className="text-[12px] font-bold uppercase tracking-[0.15em] text-[#4D8B4F]">
+                  Enterprise Solution
+                </span>
+                <h3 className="mt-3 text-[32px] font-semibold tracking-[-0.02em] text-[#191D1A]">
+                  Employee Timesheet Module
+                </h3>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <ModuleFeatureCard icon={Calendar} title="Calendar" description="Intuitive date tracking and timesheet scheduling views." />
+                <ModuleFeatureCard icon={Clock} title="Logging" description="Seamless hours entry and activity recording interface." />
+                <ModuleFeatureCard icon={CheckCircle} title="Validation" description="Automated checks ensuring accurate data submission." />
+                <ModuleFeatureCard icon={FileText} title="Tracking" description="Real-time status monitoring and reporting dashboards." />
+                <ModuleFeatureCard icon={Zap} title="Leave" description="Integrated time-off and attendance synchronization." />
+                <ModuleFeatureCard icon={WorkflowIcon} title="Workflow" description="Streamlined approval chains and automated notifications." />
+              </div>
+            </motion.div>
+
+          </div>
+        </section>
+
       </main>
 
       <Footer />
     </div>
   );
 };
+
+const TeamFeatureItem = ({ text, icon: Icon, color = "green" }) => {
+  const isGreen = color === "green";
+  return (
+    <motion.div
+      whileHover={{ y: -3 }}
+      className="flex items-center gap-3.5 rounded-[24px] border border-white/80 bg-white/20 p-4 backdrop-blur-[30px] backdrop-saturate-[220%] shadow-[inset_3px_3px_5px_white,0_10px_25px_rgba(60,75,62,0.06)]"
+    >
+      <div
+        className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-white/90 ${
+          isGreen ? "bg-[#D8E8D8]/50 text-[#3F8045]" : "bg-[#EBDCD4]/50 text-[#91472E]"
+        } shadow-[inset_2px_2px_4px_white]`}
+      >
+        <Icon className="h-5 w-5" />
+      </div>
+      <span className="text-[13px] font-semibold text-[#2C332E]">{text}</span>
+    </motion.div>
+  );
+};
+
+const TeamMemberCard = ({ name, role, description, image, delay = 0 }) => {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.2 }}
+      transition={{ duration: 0.7, delay }}
+      whileHover={{
+        y: -10,
+        scale: 1.02,
+        transition: { duration: 0.3 },
+      }}
+      className="
+        relative
+        flex
+        flex-col
+        overflow-hidden
+        rounded-[42px]
+        border
+        border-white/80
+        bg-white/20
+        p-6
+        backdrop-blur-[40px]
+        backdrop-saturate-[250%]
+        shadow-[inset_0_1px_1px_rgba(255,255,255,0.9),inset_0_-12px_24px_rgba(77,139,79,0.04),0_25px_60px_rgba(65,80,68,0.10)]
+        group
+      "
+    >
+      <div className="pointer-events-none absolute left-[12%] top-0 h-px w-[76%] bg-white/90" />
+
+      {/* Portrait Profile Image Container*/}
+      <div className="relative aspect-[4/5] w-full overflow-hidden rounded-[32px] border border-white/60 bg-white/40 shadow-[inset_0_2px_6px_rgba(0,0,0,0.04)]">
+        <motion.img
+          src={image}
+          alt={name}
+          className="h-full w-full object-contain object-center transition-transform duration-500 group-hover:scale-105"
+        />
+        {/* Glass Reflection overlay */}
+        <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(135deg,rgba(255,255,255,0.3)_0%,transparent_50%,rgba(255,255,255,0)_100%)] opacity-70 transition-opacity duration-500 group-hover:opacity-100" />
+      </div>
+
+      <div className="mt-6 flex flex-col flex-grow">
+        <div className="flex items-start justify-between gap-4">
+          <div>
+            <h3 className="text-[20px] font-semibold tracking-[-0.02em] text-[#191D1A]">
+              {name}
+            </h3>
+            <p className="mt-1 text-[13px] font-medium text-[#4D8B4F]">
+              {role}
+            </p>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <motion.a
+              whileHover={{ scale: 1.1, rotate: 6 }}
+              whileTap={{ scale: 0.95 }}
+              href="#linkedin"
+              aria-label={`${name}'s LinkedIn`}
+              className="flex h-9 w-9 items-center justify-center rounded-full border border-white/90 bg-white/30 backdrop-blur-xl shadow-[inset_2px_2px_4px_white,0_4px_10px_rgba(77,139,79,0.08)] transition-colors hover:bg-[#4D8B4F] hover:text-white text-[#4D8B4F]"
+            >
+              <Linkedin className="h-4 w-4" />
+            </motion.a>
+            <motion.a
+              whileHover={{ scale: 1.1, rotate: -6 }}
+              whileTap={{ scale: 0.95 }}
+              href="#email"
+              aria-label={`Email ${name}`}
+              className="flex h-9 w-9 items-center justify-center rounded-full border border-white/90 bg-white/30 backdrop-blur-xl shadow-[inset_2px_2px_4px_white,0_4px_10px_rgba(139,60,36,0.08)] transition-colors hover:bg-[#8B3C24] hover:text-white text-[#8B3C24]"
+            >
+              <Mail className="h-4 w-4" />
+            </motion.a>
+          </div>
+        </div>
+
+        <p className="mt-4 text-[14px] font-medium leading-[1.6] text-[#5E665F]">
+          {description}
+        </p>
+      </div>
+    </motion.div>
+  );
+};
+
+const ModuleFeatureCard = ({ icon: Icon, title, description }) => (
+  <motion.div
+    whileHover={{ y: -5 }}
+    className="flex items-start gap-4 rounded-[32px] border border-white/80 bg-white/20 p-6 backdrop-blur-[35px] backdrop-saturate-[220%] shadow-[inset_2px_2px_5px_white,0_15px_35px_rgba(60,75,62,0.06)]"
+  >
+    <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-white/90 bg-[#D8E8D8]/50 text-[#3F8045] shadow-[inset_2px_2px_4px_white]">
+      <Icon className="h-6 w-6" />
+    </div>
+    <div>
+      <h4 className="text-[16px] font-semibold text-[#191D1A]">{title}</h4>
+      <p className="mt-1 text-[13px] leading-[1.6] text-[#5E665F]">{description}</p>
+    </div>
+  </motion.div>
+);
 
 const MissionVisionCard = ({
   icon: Icon,

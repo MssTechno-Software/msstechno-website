@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-
+import SEO from "./components/SEO";
 import { Header } from "./components/Header";
 import { HeroSection } from "./components/HeroSection";
 import { AboutSection } from "./components/AboutSection";
@@ -42,6 +42,7 @@ function HomePage() {
   const [isMeetingOpen, setIsMeetingOpen] =
     useState(false);
 
+// Update the active navigation item based on the current scroll position
 
   useEffect(() => {
     const handleScroll = () => {
@@ -85,9 +86,32 @@ function HomePage() {
       );
     };
   }, []);
+ // Scroll to a specific section when redirected with a scroll query parameter
+  // Example: /?scroll=contact-section or /?scroll=case-studies
+  useEffect(() => {
+  const params = new URLSearchParams(window.location.search);
+  const scrollTo = params.get("scroll");
+
+  if (!scrollTo) return;
+
+  setTimeout(() => {
+    document
+      .getElementById(scrollTo)
+      ?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+  }, 300);
+}, []);
 
   return (
     <>
+     <SEO
+      title="MSS Techno Software Pvt Ltd"
+      description="MSS Techno Software Pvt Ltd delivers AI Solutions, Custom Software Development, Web Development, Mobile App Development, Cloud Solutions, DevOps, UI/UX Design, Data Analytics and QA Testing."
+      url={window.location.href}
+      showSchemas={true}
+    />
       <Header
       activeSection={activeSection}
       />

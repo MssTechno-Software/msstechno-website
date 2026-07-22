@@ -1,9 +1,8 @@
-// SolutionsPage.jsx
 import { useEffect } from "react";
 import { motion } from "motion/react";
 import { useNavigate } from "react-router-dom";
 import SEO from "../components/SEO";
-
+import { Helmet } from "react-helmet-async";
 import {
   BrainCircuit,
   Cloud,
@@ -241,14 +240,35 @@ const SolutionsPage = () => {
         behavior: "smooth",
       });
   };
+  const collectionSchema = {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "@id": "https://www.msstechno.com/services",
+    "url": "https://www.msstechno.com/services",
+    "name": "Software Development Services",
+    "description":
+      "Explore AI, Cloud, Web Development, Mobile App Development, UI/UX Design, DevOps and Enterprise Software services offered by MSS Techno.",
+    "isPartOf": {
+      "@id": "https://www.msstechno.com/#website"
+    },
+    "about": {
+      "@id": "https://www.msstechno.com/#organization"
+    }
+  };
 
   return (
     <>
       <SEO
-        title="Software Development Services | MSS Techno"
+        title="Software Development Services  MSS Techno"
         description="Explore AI, Cloud, Web Development, Mobile Apps and Enterprise Software services."
         url="https://msstechno.com/services"
       />
+      <Helmet>
+        <script type="application/ld+json">
+          {JSON.stringify(collectionSchema)}
+        </script>
+      </Helmet>
+
       <Header activeSection="solutions" />
 
       <main
@@ -637,7 +657,8 @@ const SolutionsPage = () => {
             </div>
           </div>
 
-          {/* TRUST BAR */}
+          {/* TRUST BAR 
+
           <div
             className="
               relative
@@ -690,7 +711,8 @@ const SolutionsPage = () => {
                 {company}
               </span>
             ))}
-          </div>
+          </div>*/}
+
         </section>
 
         {/* OUR EXPERTISE */}

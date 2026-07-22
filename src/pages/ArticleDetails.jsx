@@ -126,26 +126,47 @@ export default function ArticleDetails() {
             {/* Floating Share Panel */}
             <aside className="fixed left-8 top-1/2 -translate-y-1/2 hidden xl:flex flex-col gap-4 z-50">
 
-                <button
-                    onClick={shareLinkedIn}
-                    className="p-4 rounded-full border border-white/90 bg-white/60 backdrop-blur-xl shadow-lg text-[#4D8B4F] hover:scale-110 transition-transform"
-                >
-                    <Linkedin className="h-5 w-5" />
-                </button>
+                <div className="group relative flex items-center">
+                    <button
+                        onClick={shareLinkedIn}
+                        className="p-4 rounded-full border border-white/90 bg-white/60 backdrop-blur-xl shadow-lg text-[#4D8B4F] hover:scale-110 transition-transform"
+                    >
+                        <Linkedin className="h-5 w-5" />
+                    </button>
+                    <div className="pointer-events-none absolute left-[calc(100%+12px)] opacity-0 translate-x-[-8px] group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 ease-out z-50">
+                        <div className="whitespace-nowrap rounded-full border border-white/80 bg-white/70 px-4 py-2 text-xs font-semibold text-[#171A17] backdrop-blur-2xl shadow-[0_10px_25px_rgba(0,0,0,0.08)]">
+                            Share on LinkedIn
+                        </div>
+                    </div>
+                </div>
 
-                <button
-                    onClick={shareTwitter}
-                    className="p-4 rounded-full border border-white/90 bg-white/60 backdrop-blur-xl shadow-lg text-[#4D8B4F] hover:scale-110 transition-transform"
-                >
-                    <Twitter className="h-5 w-5" />
-                </button>
+                <div className="group relative flex items-center">
+                    <button
+                        onClick={shareTwitter}
+                        className="p-4 rounded-full border border-white/90 bg-white/60 backdrop-blur-xl shadow-lg text-[#4D8B4F] hover:scale-110 transition-transform"
+                    >
+                        <Twitter className="h-5 w-5" />
+                    </button>
+                    <div className="pointer-events-none absolute left-[calc(100%+12px)] opacity-0 translate-x-[-8px] group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 ease-out z-50">
+                        <div className="whitespace-nowrap rounded-full border border-white/80 bg-white/70 px-4 py-2 text-xs font-semibold text-[#171A17] backdrop-blur-2xl shadow-[0_10px_25px_rgba(0,0,0,0.08)]">
+                            Share on X
+                        </div>
+                    </div>
+                </div>
 
-                <button
-                    onClick={copyLink}
-                    className="p-4 rounded-full border border-white/90 bg-white/60 backdrop-blur-xl shadow-lg text-[#4D8B4F] hover:scale-110 transition-transform"
-                >
-                    <Copy className="h-5 w-5" />
-                </button>
+                <div className="group relative flex items-center">
+                    <button
+                        onClick={copyLink}
+                        className="p-4 rounded-full border border-white/90 bg-white/60 backdrop-blur-xl shadow-lg text-[#4D8B4F] hover:scale-110 transition-transform"
+                    >
+                        <Copy className="h-5 w-5" />
+                    </button>
+                    <div className="pointer-events-none absolute left-[calc(100%+12px)] opacity-0 translate-x-[-8px] group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 ease-out z-50">
+                        <div className="whitespace-nowrap rounded-full border border-white/80 bg-white/70 px-4 py-2 text-xs font-semibold text-[#171A17] backdrop-blur-2xl shadow-[0_10px_25px_rgba(0,0,0,0.08)]">
+                            Copy Link
+                        </div>
+                    </div>
+                </div>
 
             </aside>
 

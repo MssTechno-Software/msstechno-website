@@ -61,14 +61,14 @@ const CONTACT_ITEMS_RIGHT = [
     Icon: Globe,
     tone: "brown",
   },
- {
-  id: "whatsapp",
-  title: "WhatsApp",
-  label: "Fastest Response",
-  value: "Chat Now",
-  Icon: FaWhatsapp,
-  tone: "green",
-},
+  {
+    id: "whatsapp",
+    title: "WhatsApp",
+    label: "Fastest Response",
+    value: "Chat Now",
+    Icon: FaWhatsapp,
+    tone: "green",
+  },
 ];
 
 function LiquidContactBubble({
@@ -81,7 +81,7 @@ function LiquidContactBubble({
   const isBrown = item.tone === "brown";
 
   return (
-    
+
     <motion.button
       type="button"
       onClick={onClick}
@@ -270,8 +270,8 @@ function ContactSection({
     }
 
     if (id === "call") {
-     window.location.href = "tel:+14372997361";
-     return;
+      window.location.href = "tel:+14372997361";
+      return;
     }
 
     if (id === "careers") {
@@ -279,26 +279,26 @@ function ContactSection({
       return;
     }
 
-   if (id === "email") {
-    window.open(
-   "https://mail.google.com/mail/?view=cm&fs=1&to=info@msstechno.com",
-   "_blank"
-    );
-  return;
-}
+    if (id === "email") {
+      window.open(
+        "https://mail.google.com/mail/?view=cm&fs=1&to=info@msstechno.com",
+        "_blank"
+      );
+      return;
+    }
 
     if (id === "website") {
       scrollToSection("case-studies");
       return;
     }
-    
+
     if (id === "whatsapp") {
-     if (id === "whatsapp") {
-     window.open(
-     "https://wa.me/14372997361?text=Hello%20MSS%20Techno,%20I%20would%20like%20to%20know%20more%20about%20your%20services.",
-     "_blank"
-    );
-}
+      if (id === "whatsapp") {
+        window.open(
+          "https://wa.me/14372997361?text=Hello%20MSS%20Techno,%20I%20would%20like%20to%20know%20more%20about%20your%20services.",
+          "_blank"
+        );
+      }
     }
   };
 
@@ -357,7 +357,7 @@ function ContactSection({
   `;
 
   return (
-    
+
     <section
       id="contact-section"
       className="
@@ -367,7 +367,7 @@ function ContactSection({
         py-24
       "
     >
-      
+
       {/* BACKGROUND */}
 
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
@@ -430,7 +430,7 @@ function ContactSection({
         "
       >
         {/* HEADER */}
-  
+
         <motion.div
           initial={{
             opacity: 0,
@@ -812,25 +812,23 @@ function ContactSection({
                         }
                         className={`${inputClass} cursor-pointer appearance-none`}
                       >
-                        <option>
-                          Custom Software Development
-                        </option>
+                        <option>AI-Powered Solutions & Intelligent Automation</option>
 
-                        <option>
-                          Cloud Infrastructure & DevOps
-                        </option>
+                        <option>Custom Software Development</option>
 
-                        <option>
-                          Mobile App Solutions
-                        </option>
+                        <option>Modern Web Application Development</option>
 
-                        <option>
-                          AI & Machine Learning
-                        </option>
+                        <option>Cross-Platform Mobile App Development</option>
 
-                        <option>
-                          UI/UX Design Systems
-                        </option>
+                        <option>Cloud Solutions & Infrastructure</option>
+
+                        <option>DevOps, CI/CD & Cloud Operations</option>
+
+                        <option>UI/UX Design & Digital Experience</option>
+
+                        <option>Data Analytics & Business Intelligence</option>
+
+                        <option>Quality Assurance (QA) & Software Testing</option>
                       </select>
                     </div>
 

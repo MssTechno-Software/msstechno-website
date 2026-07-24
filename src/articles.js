@@ -872,6 +872,21 @@ export const SEARCH_DATA = [
         type: "Page",
         url: "/about",
     },
+    {
+        title: "Services",
+        type: "Page",
+        url: "/solutions",
+    },
+    {
+        title: "Solutions",
+        type: "Page",
+        url: "/solutions",
+    },
+      {
+        title: "blogs",
+        type: "Page",
+        url: "/insights",
+    },
 
     // Blogs
     ...ARTICLE_DATA.map((article) => ({

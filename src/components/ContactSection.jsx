@@ -30,7 +30,7 @@ const CONTACT_ITEMS_LEFT = [
     id: "call",
     title: "Call Us",
     label: "Talk to an expert",
-    value: "+91 40 1234 5678",
+    value: "+1 (437) 299-7316",
     Icon: Phone,
     tone: "brown",
   },
@@ -302,38 +302,60 @@ function ContactSection({
     }
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+const handleSubmit = async (e) => {
+  e.preventDefault();
 
-    if (
-      !formState.name ||
-      !formState.email ||
-      !formState.message
-    ) {
-      alert(
-        "Please fill out the required fields (Name, Email, and Message)."
-      );
+  if (
+    !formState.name ||
+    !formState.email ||
+    !formState.message
+  ) {
+    alert("Please fill all required fields");
+    return;
+  }
 
-      return;
-    }
-
+  try {
     setIsSubmitting(true);
 
-    setTimeout(() => {
-      setIsSubmitting(false);
-      setIsSubmitted(true);
+    const response = await fetch(
+      "https://websiteapi-backend-git-642918032467.asia-south1.run.app/contact/submit",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          full_name: formState.name,
+          company_name: formState.company,
+          business_email: formState.email,
+          phone_number: formState.phone,
+          service_interested: formState.service,
+          message: formState.message,
+        }),
+      }
+    );
 
-      setFormState({
-        name: "",
-        company: "",
-        email: "",
-        phone: "",
-        service: "Custom Software Development",
-        message: "",
-      });
-    }, 1500);
-  };
+    if (!response.ok) {
+      throw new Error("Failed");
+    }
 
+    setIsSubmitted(true);
+
+    setFormState({
+      name: "",
+      company: "",
+      email: "",
+      phone: "",
+      service: "AI-Powered Solutions & Intelligent Automation",
+      message: "",
+    });
+  } catch (error) {
+    console.log(error);
+    alert("Failed to send message");
+  } finally {
+    setIsSubmitting(false);
+  }
+};
   const inputClass = `
     w-full
     rounded-[18px]
@@ -735,7 +757,7 @@ function ContactSection({
                           })
                         }
                         className={inputClass}
-                        placeholder="John Doe"
+                        placeholder="Your name"
                       />
                     </div>
 
@@ -754,7 +776,7 @@ function ContactSection({
                           })
                         }
                         className={inputClass}
-                        placeholder="Acme Corp"
+                        placeholder="MSS Techno"
                       />
                     </div>
 
@@ -774,7 +796,7 @@ function ContactSection({
                           })
                         }
                         className={inputClass}
-                        placeholder="john@acme.com"
+                        placeholder="john@example.com"
                       />
                     </div>
 
@@ -793,7 +815,7 @@ function ContactSection({
                           })
                         }
                         className={inputClass}
-                        placeholder="+1 (555) 000-0000"
+                        placeholder="Enter your phone number"
                       />
                     </div>
 

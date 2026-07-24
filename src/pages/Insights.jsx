@@ -10,7 +10,7 @@ const fallbackImage = "https://images.unsplash.com/photo-1451187580459-43490279c
 const CATEGORIES = ["All", "AI", "Backend", "Cloud", "UI/UX", "Security", "Data Analytics", "DevOps"];
 
 const LiquidCard = ({ children, className = "", ...props }) => (
-  <div 
+  <div
     className={`relative overflow-hidden rounded-[30px] border border-white/90 bg-white/60 backdrop-blur-[35px] backdrop-saturate-[180%] shadow-[inset_4px_4px_12px_rgba(255,255,255,0.9),0_20px_50px_rgba(40,60,45,0.1)] ${className}`}
     {...props}
   >
@@ -20,9 +20,9 @@ const LiquidCard = ({ children, className = "", ...props }) => (
 
 const LiquidImage = ({ src, alt, className = "" }) => (
   <div className={`relative overflow-hidden rounded-[20px] border border-white/80 shadow-inner ${className}`}>
-    <motion.img 
+    <motion.img
       src={src} alt={alt} whileHover={{ scale: 1.05 }} transition={{ duration: 0.7 }}
-      className="w-full h-full object-cover" 
+      className="w-full h-full object-cover"
       onError={(e) => { e.currentTarget.src = fallbackImage; }}
     />
     <div className="absolute inset-0 bg-gradient-to-tr from-white/30 to-transparent pointer-events-none" />
@@ -30,12 +30,12 @@ const LiquidImage = ({ src, alt, className = "" }) => (
 );
 
 export default function Insights() {
- const navigate = useNavigate();
-const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
 
-const initialSearch = searchParams.get("search") || "";
+  const initialSearch = searchParams.get("search") || "";
 
-const [searchTerm, setSearchTerm] = useState(initialSearch);
+  const [searchTerm, setSearchTerm] = useState(initialSearch);
   const [activeCategory, setActiveCategory] = useState("All");
   const [visibleCount, setVisibleCount] = useState(9);
   const [email, setEmail] = useState("");
@@ -80,20 +80,19 @@ const [searchTerm, setSearchTerm] = useState(initialSearch);
         <section className="flex flex-col lg:flex-row gap-6 mb-16 items-center">
           <div className="relative w-full lg:max-w-md">
             <Search className="absolute left-6 top-1/2 -translate-y-1/2 h-5 w-5 text-[#4D8B4F]" />
-            <input 
+            <input
               placeholder="Search articles..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)}
               className="w-full h-14 rounded-full border border-white bg-white/60 pl-14 pr-6 outline-none backdrop-blur-3xl shadow-[inset_0_1px_2px_white,0_10px_20px_rgba(40,60,45,0.08)] text-[#2B322C] placeholder:text-[#6A726B]"
             />
           </div>
           <div className="flex flex-wrap gap-3 justify-center">
             {CATEGORIES.map((cat) => (
-              <button 
+              <button
                 key={cat} onClick={() => setActiveCategory(cat)}
-                className={`rounded-full border px-6 py-3 text-xs font-bold uppercase tracking-wider backdrop-blur-xl transition shadow-[inset_0_1px_0_rgba(255,255,255,0.9)] ${
-                  activeCategory === cat 
-                    ? "bg-[#4D8B4F] text-white border-[#4D8B4F] shadow-[0_10px_25px_rgba(77,139,79,0.25)]" 
+                className={`rounded-full border px-6 py-3 text-xs font-bold uppercase tracking-wider backdrop-blur-xl transition shadow-[inset_0_1px_0_rgba(255,255,255,0.9)] ${activeCategory === cat
+                    ? "bg-[#4D8B4F] text-white border-[#4D8B4F] shadow-[0_10px_25px_rgba(77,139,79,0.25)]"
                     : "bg-[rgba(255,255,255,0.65)] border-white/90 text-[#4D5450] hover:bg-[#4D8B4F] hover:text-white hover:shadow-[0_0_15px_rgba(77,139,79,0.3)]"
-                }`}
+                  }`}
               >
                 {cat}
               </button>
@@ -102,7 +101,7 @@ const [searchTerm, setSearchTerm] = useState(initialSearch);
         </section>
 
         {filteredArticles.length > 0 && (
-          <LiquidCard 
+          <LiquidCard
             className="cursor-pointer mb-16 p-8 flex flex-col lg:flex-row gap-8 items-center shadow-[0_25px_60px_rgba(50,70,50,0.15)]"
             onClick={() => navigate(`/insights/${filteredArticles[0].slug}`)}
           >
@@ -118,11 +117,28 @@ const [searchTerm, setSearchTerm] = useState(initialSearch);
             </div>
           </LiquidCard>
         )}
+         {filteredArticles.length === 0 && (
+              <div className="py-24 text-center">
+                <h2 className="text-4xl font-bold text-[#1F2420]">
+                  No Results Found
+                </h2>
 
-        <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-20">
-          {filteredArticles.slice(1, visibleCount + 1).map((art) => (
-            <LiquidCard 
-              key={art.id} 
+                <p className="mt-4 text-[#5E6660]">
+                  We couldn't find any articles matching "{searchTerm}".
+                </p>
+
+                <button
+                  onClick={() => setSearchTerm("")}
+                  className="mt-8 rounded-full bg-[#4D8B4F] px-8 py-3 text-white font-bold"
+                >
+                  View All Articles
+                </button>
+              </div>
+            )}
+        {filteredArticles.length > 1 && (
+          <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-20">          {filteredArticles.slice(1, visibleCount + 1).map((art) => (
+            <LiquidCard
+              key={art.id}
               className="cursor-pointer p-5 flex flex-col group shadow-[0_20px_40px_rgba(50,70,50,0.1)]"
               onClick={() => navigate(`/insights/${art.slug}`)}
             >
@@ -136,7 +152,9 @@ const [searchTerm, setSearchTerm] = useState(initialSearch);
               </div>
             </LiquidCard>
           ))}
-        </section>
+            
+          </section>
+          )}
 
         {visibleCount < filteredArticles.length && (
           <div className="text-center mb-20">

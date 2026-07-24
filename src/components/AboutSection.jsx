@@ -17,6 +17,7 @@ const features = [
     tags: ["Architecture", "APIs", "Integration", "Performance"],
     icon: Building2,
     accent: "green",
+    url: "/solutions/custom-software",
   },
   {
     title: "AI & Automation",
@@ -24,6 +25,7 @@ const features = [
     tags: ["AI", "Automation", "Analytics", "Innovation"],
     icon: BrainCircuit,
     accent: "brown",
+    url: "/solutions/ai-solutions",
   },
   {
     title: "Cloud & DevOps",
@@ -31,6 +33,7 @@ const features = [
     tags: ["Cloud", "DevOps", "CI/CD", "Kubernetes"],
     icon: CloudCog,
     accent: "green",
+    url: "/solutions/cloud-solutions",
   },
   {
     title: "UI/UX Excellence",
@@ -38,6 +41,7 @@ const features = [
     tags: ["UX", "UI", "Prototyping", "Accessibility"],
     icon: PenTool,
     accent: "brown",
+   url: "/solutions/ui-ux-design",
   },
 ];
 
@@ -111,16 +115,16 @@ const AboutSection = () => {
       });
     }
   };
-  
+
   const navigate = useNavigate();
 
-const goToOurStory = () => {
-  navigate("/about", {
-    state: {
-      scrollTo: "about-story",
-    },
-  });
-};
+  const goToOurStory = () => {
+    navigate("/about", {
+      state: {
+        scrollTo: "about-story",
+      },
+    });
+  };
 
   return (
     <section
@@ -137,7 +141,7 @@ const goToOurStory = () => {
 
       {/* CONTENT BUILD AREA */}
       <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        
+
         {/* WHO WE ARE BADGE */}
         <div className="w-full flex justify-center mb-8">
           <motion.div
@@ -155,7 +159,7 @@ const goToOurStory = () => {
 
         {/* MAIN TEXT & SCENIC WORKSPACE COLLAPSED ROW */}
         <div id="about-story" className="mb-14 grid grid-cols-1 items-center gap-8 lg:grid-cols-12 lg:gap-12">
-          
+
           {/* LEFT CONTENT COLUMN */}
           <motion.div
             initial={{ opacity: 0, y: 35 }}
@@ -185,7 +189,7 @@ const goToOurStory = () => {
 
             <div className="mt-6 flex flex-wrap gap-4">
               <button
-                 onClick={goToOurStory}
+                onClick={goToOurStory}
                 className="group flex items-center gap-3 rounded-full border border-[#8FC88D]/60 bg-[#4D8B4F] px-7 py-3.5 text-sm font-semibold text-white shadow-[0_15px_35px_rgba(77,139,79,0.22)] transition-all duration-300 hover:-translate-y-1 hover:bg-[#3F7B43]"
               >
                 Explore Our Story
@@ -222,7 +226,7 @@ const goToOurStory = () => {
 
             {/* CLUSTER GEOMETRIC NETWORK MATRIX */}
             <div className="relative flex h-[310px] w-[310px] items-center justify-center">
-              
+
               {/* Symmetrical Interface Connection Vector Lines*/}
               <svg className="absolute inset-0 overflow-visible w-full h-full pointer-events-none stroke-white/[0.05]" style={{ transform: 'scale(2.3)' }}>
                 <line x1="50%" y1="50%" x2="50%" y2="-30%" strokeWidth="0.5" strokeDasharray="3 3" />
@@ -233,17 +237,17 @@ const goToOurStory = () => {
                 <line x1="50%" y1="50%" x2="-40%" y2="5%" strokeWidth="0.5" />
               </svg>
 
-              <motion.div 
+              <motion.div
                 animate={{ y: [0, -4, 0] }}
                 transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
                 className="relative z-20 flex h-[230px] w-[230px] flex-col items-center justify-center rounded-full border border-white/90 bg-white/15 backdrop-blur-3xl shadow-[inset_5px_5px_12px_rgba(255,255,255,0.65),inset_-3px_-3px_10px_rgba(0,0,0,0.01),0_35px_70px_rgba(0,0,0,0.07)]"
               >
                 {/* Center Core Ambient Glow Behind Logo */}
                 <div className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 h-64 w-64 rounded-full bg-[#4D8B4F]/5 blur-[80px]" />
-                
+
                 <div className="text-center flex flex-col items-center justify-center w-full h-full p-6">
                   {/* Official Transparent Brand Logo Placement */}
-                  <motion.img 
+                  <motion.img
                     src={logo}
                     alt="MSS Techno"
                     className="w-[160px] h-auto object-contain"
@@ -254,7 +258,7 @@ const goToOurStory = () => {
               </motion.div>
 
               {/* 1. Scalable Architecture (Top Center) */}
-              <motion.div 
+              <motion.div
                 animate={{ y: [0, -5, 0] }} transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut" }}
                 className="absolute -top-20 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full border border-white/95 bg-white/45 px-5 py-2 backdrop-blur-xl shadow-sm text-[12px] font-bold text-neutral-800"
               >
@@ -262,7 +266,7 @@ const goToOurStory = () => {
               </motion.div>
 
               {/* 2. Advanced Technology (Top Right) */}
-              <motion.div 
+              <motion.div
                 animate={{ y: [0, -3, 0] }} transition={{ duration: 4.2, repeat: Infinity, ease: "easeInOut" }}
                 className="absolute -right-32 top-6 whitespace-nowrap rounded-full border border-white/95 bg-white/45 px-5 py-2 backdrop-blur-xl shadow-sm text-[12px] font-bold text-neutral-800"
               >
@@ -270,7 +274,7 @@ const goToOurStory = () => {
               </motion.div>
 
               {/* 3. AI Innovation (Bottom Right) */}
-              <motion.div 
+              <motion.div
                 animate={{ y: [0, -4, 0] }} transition={{ duration: 3.8, repeat: Infinity, ease: "easeInOut" }}
                 className="absolute -right-28 bottom-6 whitespace-nowrap rounded-full border border-white/95 bg-white/45 px-5 py-2 backdrop-blur-xl shadow-sm text-[12px] font-bold text-neutral-800"
               >
@@ -278,7 +282,7 @@ const goToOurStory = () => {
               </motion.div>
 
               {/* 4. Cloud Infrastructure (Bottom Center) */}
-              <motion.div 
+              <motion.div
                 animate={{ y: [0, -5, 0] }} transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut" }}
                 className="absolute -bottom-20 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full border border-white/95 bg-white/45 px-5 py-2 backdrop-blur-xl shadow-sm text-[12px] font-bold text-neutral-800"
               >
@@ -286,7 +290,7 @@ const goToOurStory = () => {
               </motion.div>
 
               {/* 5. Enterprise Security (Bottom Left) */}
-              <motion.div 
+              <motion.div
                 animate={{ y: [0, -3, 0] }} transition={{ duration: 3.9, repeat: Infinity, ease: "easeInOut" }}
                 className="absolute -left-28 bottom-6 whitespace-nowrap rounded-full border border-white/95 bg-white/45 px-5 py-2 backdrop-blur-xl shadow-sm text-[12px] font-bold text-neutral-800"
               >
@@ -294,7 +298,7 @@ const goToOurStory = () => {
               </motion.div>
 
               {/* 6. Agile Methodology (Top Left) */}
-              <motion.div 
+              <motion.div
                 animate={{ y: [0, -4, 0] }} transition={{ duration: 4.1, repeat: Infinity, ease: "easeInOut" }}
                 className="absolute -left-32 top-6 whitespace-nowrap rounded-full border border-white/95 bg-white/45 px-5 py-2 backdrop-blur-xl shadow-sm text-[12px] font-bold text-neutral-800"
               >
@@ -317,10 +321,15 @@ const goToOurStory = () => {
                 initial={{ opacity: 0, y: 35 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.1 }}
-                transition={{ duration: 0.75, delay: index * 0.08, ease: [0.215, 0.61, 0.355, 1] }}
+                transition={{
+                  duration: 0.75,
+                  delay: index * 0.08,
+                  ease: [0.215, 0.61, 0.355, 1],
+                }}
                 whileHover={{ y: -10, scale: 1.015 }}
                 whileTap={{ scale: 0.99 }}
-                className="group relative isolate min-h-[260px] overflow-hidden rounded-[38px] border border-white/55 bg-white/[0.055] p-7 backdrop-blur-[20px] backdrop-saturate-[220%] backdrop-brightness-[1.06] shadow-[inset_2px_2px_5px_rgba(255,255,255,0.82),inset_-3px_-3px_7px_rgba(55,70,62,0.09),0_22px_55px_rgba(45,55,50,0.11)] transform-gpu transition-shadow duration-500 hover:shadow-[inset_3px_3px_7px_rgba(255,255,255,0.92),inset_-4px_-4px_9px_rgba(55,70,62,0.11),0_34px_75px_rgba(45,55,50,0.15)]"
+                onClick={() => navigate(feature.url)}
+                className="cursor-pointer group relative isolate min-h-[260px] overflow-hidden rounded-[38px] border border-white/55 bg-white/[0.055] p-7 backdrop-blur-[20px] backdrop-saturate-[220%] backdrop-brightness-[1.06] shadow-[inset_2px_2px_5px_rgba(255,255,255,0.82),inset_-3px_-3px_7px_rgba(55,70,62,0.09),0_22px_55px_rgba(45,55,50,0.11)] transform-gpu transition-shadow duration-500 hover:shadow-[inset_3px_3px_7px_rgba(255,255,255,0.92),inset_-4px_-4px_9px_rgba(55,70,62,0.11),0_34px_75px_rgba(45,55,50,0.15)]"
               >
                 <LiquidGlassLayers />
 
@@ -340,7 +349,7 @@ const goToOurStory = () => {
                   <p className="mt-2 text-sm leading-6 text-[#59655F]">
                     {feature.description}
                   </p>
-                  
+
                   {/* METADATA KEYWORDS STACKED FOOTER */}
                   <div className="mt-4 flex flex-wrap gap-x-2 gap-y-1 font-mono text-[10px] font-bold tracking-tight text-neutral-400">
                     {feature.tags.map((tag, tagIdx) => (

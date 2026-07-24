@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { Layers, ArrowRight } from "lucide-react";
-
 import MSSHeroVisual from "./MSSHeroVisual";
 import herobg1 from "../../assets/images/hero-bg-1.png";
 import herobg2 from "../../assets/images/hero-bg-2.png";
@@ -9,22 +8,29 @@ import herobg2 from "../../assets/images/hero-bg-2.png";
 const SLIDE_DATA = [
   {
     badge: "Our Company",
-    title1: "We Build Custom",
-    title2: "Solutions.",
-    description: "We empower businesses of all sizes to thrive by building robust software solutions that drive innovation and scale modern digital enterprise systems.",
-    image: herobg1, 
+    description:
+      "We empower businesses of all sizes to thrive by building robust software solutions that drive innovation and scale modern digital enterprise systems.",
+    image: herobg1,
   },
   {
     badge: "Welcome to MssTechno",
-    title1: "Cloud Solutions",
-    title2: "& DevOps.",
-    description: "Expertise covering web, mobile, AI backend APIs, data, and secure DevOps infrastructure orchestration to power your digital transformation ecosystem.",
+    description:
+      "We empower businesses of all sizes to thrive by building robust software solutions that drive innovation and scale modern digital enterprise systems.",
     image: herobg2,
-  }
+  },
 ];
-
 // Typewriter dynamic tracking frames list array loop configuration
-const TYPING_WORDS = ["intelligence.", "innovation.", "excellence."];
+const TYPING_WORDS = [
+  "AI Solutions.",
+  "Custom Software.",
+  "Web Development.",
+  "Mobile App Development.",
+  "Cloud Solutions.",
+  "DevOps.",
+  "UI/UX Design.",
+  "Data Analytics.",
+  "QA & Testing.",
+];
 
 const HeroSection = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -63,13 +69,13 @@ const HeroSection = () => {
       });
     }
   };
+  
 
   return (
     <section
       id="home"
       className="relative min-h-screen overflow-hidden bg-[#FAF8F5] flex flex-col justify-center"
     >
-      {/* IMPROVED CINEMATIC IMAGE SLIDER & SUBTLE COLOR GRADING */}
       <div className="absolute inset-0 z-0 overflow-hidden bg-[#1a1c1a]">
         <AnimatePresence mode="popLayout">
           {SLIDE_DATA.map((slide, index) => (
@@ -100,12 +106,12 @@ const HeroSection = () => {
       {/* MAIN CONTAINER CONTENT INTERFACE */}
       {/* ================================================= */}
       <div className="relative z-10 mx-auto w-full max-w-[1440px] px-6 sm:px-8 lg:px-12 pt-[120px] pb-12 flex-1 flex flex-col justify-center">
-        
+
         <div className="w-full grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-          
+
           {/* LEFT SIDE ARCHITECTURE CONTENT */}
           <div className="w-full lg:col-span-7 max-w-[760px]">
-            
+
             {/* iOS FROSTED HYPER-GLASS WATER DROPLET BADGE */}
             <div className="relative inline-flex items-center gap-2.5 rounded-full border border-white/20 bg-white/10 px-4 py-2 backdrop-blur-xl shadow-lg">
               <span className="h-2 w-2 rounded-full bg-[#4FA653] shadow-[0_0_8px_rgba(79,166,83,0.5)]" />
@@ -124,30 +130,29 @@ const HeroSection = () => {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -20 }}
-                  transition={{ duration: 0.5, ease: [0.25, 1, 0.5, 1] }}
+                  transition={{ duration: 0.5 }}
                   className="text-[44px] sm:text-[54px] lg:text-[60px] xl:text-[68px] leading-[1.12] tracking-[-0.035em] font-bold text-white"
                 >
-                  {SLIDE_DATA[currentSlide].title1} <br />
+                  We Build Custom <br />
+
                   <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#8FC56D] to-[#A3D99D]">
-                    {SLIDE_DATA[currentSlide].title2}
+                    Solutions
                   </span>
-                  
-                  {currentSlide === 0 && (
-                    <span className="block sm:inline ml-0 sm:ml-3 text-white/80">
-                      <AnimatePresence mode="wait">
-                        <motion.span
-                          key={typingIndex}
-                          initial={{ opacity: 0, y: 6 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          exit={{ opacity: 0, y: -6 }}
-                          transition={{ duration: 0.3 }}
-                          className="inline-block"
-                        >
-                          with {TYPING_WORDS[typingIndex]}
-                        </motion.span>
-                      </AnimatePresence>
-                    </span>
-                  )}
+
+                  <span className="block sm:inline ml-0 sm:ml-3 text-white/80">
+                    <AnimatePresence mode="wait">
+                      <motion.span
+                        key={typingIndex}
+                        initial={{ opacity: 0, y: 6 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -6 }}
+                        transition={{ duration: 0.3 }}
+                        className="inline-block"
+                      >
+                        with {TYPING_WORDS[typingIndex]}
+                      </motion.span>
+                    </AnimatePresence>
+                  </span>
                 </motion.h1>
               </AnimatePresence>
             </div>

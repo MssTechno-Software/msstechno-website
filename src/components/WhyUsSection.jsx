@@ -91,36 +91,40 @@ const WhyUsSection = () => {
           </p>
         </motion.div>
 
-        {/* =====================================================
-            GLASS BENTO GRID
-        ===================================================== */}
+        {/*GLASS BENTO GRID*/}
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
           {WHY_US_DATA.map((item, index) => {
             const isLast = index === WHY_US_DATA.length - 1;
             const isBrown = index % 2 !== 0;
 
             return (
-              <motion.div
-                key={item.id}
-                initial="hidden"
-                whileInView="visible"
-                viewport={SHARED_VIEWPORT}
-                variants={{
-                  hidden: { opacity: 0, y: 20 },
-                  visible: {
-                    opacity: 1,
-                    y: 0,
-                    transition: { duration: 0.5, delay: index * 0.04, ease: SMOOTH_CURVE }
-                  }
-                }}
-                whileHover={{ y: -3 }}
-                className={`group relative isolate flex min-h-[300px] flex-col justify-between overflow-hidden rounded-[34px] border border-white/80 bg-[linear-gradient(135deg,rgba(255,255,255,0.48)_0%,rgba(255,255,255,0.20)_32%,rgba(255,255,255,0.10)_64%,rgba(255,255,255,0.28)_100%)] p-8 shadow-[inset_0_1px_2px_rgba(255,255,255,1),inset_0_-1px_2px_rgba(61,82,64,0.06),inset_1px_0_1px_rgba(255,255,255,0.2),0_8px_20px_rgba(47,61,49,0.04),0_18px_45px_rgba(47,61,49,0.08)] backdrop-blur-[18px] backdrop-saturate-[180%] transition-transform duration-300 ease-out transform-gpu will-change-transform hover:border-white hover:bg-[linear-gradient(135deg,rgba(255,255,255,0.62)_0%,rgba(255,255,255,0.27)_32%,rgba(255,255,255,0.15)_64%,rgba(255,255,255,0.38)_100%)] hover:shadow-[inset_0_1px_2px_rgba(255,255,255,1),inset_0_-1px_3px_rgba(61,82,64,0.06),0_12px_26px_rgba(47,61,49,0.06),0_24px_55px_rgba(47,61,49,0.12)] before:pointer-events-none before:absolute before:inset-[1px] before:rounded-[33px] before:bg-[linear-gradient(112deg,rgba(255,255,255,0.46)_0%,transparent_19%,transparent_68%,rgba(255,255,255,0.28)_100%)] before:opacity-90 after:pointer-events-none after:absolute after:inset-x-[14%] after:bottom-0 after:h-20 after:rounded-full after:bg-[radial-gradient(ellipse_at_center,rgba(255,255,255,0.42),transparent_68%)] after:blur-xl ${
-                  isLast
-                    ? "md:col-span-2 lg:col-span-3 min-h-[330px] border-white/90 bg-[linear-gradient(125deg,rgba(255,255,255,0.54)_0%,rgba(255,255,255,0.24)_36%,rgba(255,255,255,0.14)_68%,rgba(255,255,255,0.42)_100%)] shadow-[inset_0_1px_2px_rgba(255,255,255,1),inset_0_-2px_4px_rgba(122,70,51,0.06),inset_1px_0_2px_rgba(255,255,255,0.3),0_12px_26px_rgba(71,67,49,0.08),0_24px_60px_rgba(112,82,61,0.12)]"
-                    : ""
-                }`}
-                id={`why-us-card-${item.id}`}
-              >
+             <motion.div
+  key={item.id}
+  initial="hidden"
+  whileInView="visible"
+  viewport={SHARED_VIEWPORT}
+  variants={{
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.5,
+        delay: index * 0.04,
+        ease: SMOOTH_CURVE,
+      },
+    },
+  }}
+  whileHover={{ y: -3 }}
+  onClick={goToContactSection}
+  whileTap={{ scale: 0.98 }}
+  className={`cursor-pointer group relative isolate flex min-h-[300px] flex-col justify-between overflow-hidden rounded-[34px] border border-white/80 bg-[linear-gradient(135deg,rgba(255,255,255,0.48)_0%,rgba(255,255,255,0.20)_32%,rgba(255,255,255,0.10)_64%,rgba(255,255,255,0.28)_100%)] p-8 shadow-[inset_0_1px_2px_rgba(255,255,255,1),inset_0_-1px_2px_rgba(61,82,64,0.06),inset_1px_0_1px_rgba(255,255,255,0.2),0_8px_20px_rgba(47,61,49,0.04),0_18px_45px_rgba(47,61,49,0.08)] backdrop-blur-[18px] backdrop-saturate-[180%] transition-transform duration-300 ease-out transform-gpu will-change-transform hover:border-white hover:bg-[linear-gradient(135deg,rgba(255,255,255,0.62)_0%,rgba(255,255,255,0.27)_32%,rgba(255,255,255,0.15)_64%,rgba(255,255,255,0.38)_100%)] hover:shadow-[inset_0_1px_2px_rgba(255,255,255,1),inset_0_-1px_3px_rgba(61,82,64,0.06),0_12px_26px_rgba(47,61,49,0.06),0_24px_55px_rgba(47,61,49,0.12)] before:pointer-events-none before:absolute before:inset-[1px] before:rounded-[33px] before:bg-[linear-gradient(112deg,rgba(255,255,255,0.46)_0%,transparent_19%,transparent_68%,rgba(255,255,255,0.28)_100%)] before:opacity-90 after:pointer-events-none after:absolute after:inset-x-[14%] after:bottom-0 after:h-20 after:rounded-full after:bg-[radial-gradient(ellipse_at_center,rgba(255,255,255,0.42),transparent_68%)] after:blur-xl ${
+    isLast
+      ? "md:col-span-2 lg:col-span-3 min-h-[330px] border-white/90 bg-[linear-gradient(125deg,rgba(255,255,255,0.54)_0%,rgba(255,255,255,0.24)_36%,rgba(255,255,255,0.14)_68%,rgba(255,255,255,0.42)_100%)] shadow-[inset_0_1px_2px_rgba(255,255,255,1),inset_0_-2px_4px_rgba(122,70,51,0.06),inset_1px_0_2px_rgba(255,255,255,0.3),0_12px_26px_rgba(71,67,49,0.08),0_24px_60px_rgba(112,82,61,0.12)]"
+      : ""
+  }`}
+  id={`why-us-card-${item.id}`}
+>
                 {/* GLASS COLOR REFRACTION (STATIC) */}
                 <div
                   className={`pointer-events-none absolute -left-20 -top-24 h-64 w-64 rounded-full blur-[55px] ${
@@ -138,9 +142,7 @@ const WhyUsSection = () => {
                 {/* TOP GLASS SHINE (STATIC) */}
                 <div className="pointer-events-none absolute left-[8%] right-[8%] top-0 h-[2px] bg-gradient-to-r from-transparent via-white to-transparent opacity-90 transition-all duration-300 group-hover:left-[3%] group-hover:right-[3%]" />
 
-                {/* =====================================================
-                    NORMAL CARD CONTENT
-                ==================================================== */}
+                {/*  NORMAL CARD CONTENT*/}
                 {!isLast && (
                   <>
                     <div className="relative z-10">

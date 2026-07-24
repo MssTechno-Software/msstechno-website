@@ -238,27 +238,47 @@ const Header = ({
 
     scrollToSection();
   };
-
+  const [searchError, setSearchError] = useState("");
   /*SEARCH*/
+  const handleSearch = () => {
+    const query = searchQuery.trim().toLowerCase();
 
-const handleSearch = () => {
-  const query = searchQuery.trim().toLowerCase();
+    if (!query) return;
 
-  if (!query) return;
+    // Search in all pages, solutions & blogs
+    const result = SEARCH_DATA.find((item) =>
+      item.title.toLowerCase().includes(query)
+    );
 
-  const result = SEARCH_DATA.find((item) =>
-    item.title.toLowerCase().includes(query)
-  );
+    if (result) {
+      navigate(result.url);
+      setSearchQuery("");
+      setIsSearchOpen(false);
+      setSearchError("");
+      return;
+    }
 
-  if (result) {
-    navigate(result.url);
-  } else {
-    navigate(`/insights?search=${encodeURIComponent(query)}`);
-  }
+    // Common keywords
+    if (
+      query === "service" ||
+      query === "services" ||
+      query === "solution" ||
+      query === "solutions"
+    ) {
+      navigate("/solutions");
+      setSearchQuery("");
+      setIsSearchOpen(false);
+      setSearchError("");
+      return;
+    }
 
-  setSearchQuery("");
-  setIsSearchOpen(false);
-};
+    // No results
+    setSearchError(`No results found for "${searchQuery}"`);
+
+    setTimeout(() => {
+      setSearchError("");
+    }, 3000);
+  };
 
   return (
     <>
@@ -536,10 +556,10 @@ const handleSearch = () => {
                 const isActive =
                   item.type === "route"
                     ? location.pathname ===
-                      item.href
+                    item.href
                     : location.pathname === "/" &&
-                      activeSection ===
-                      item.href.slice(1);
+                    activeSection ===
+                    item.href.slice(1);
 
                 if (isSolutions) {
                   return (
@@ -574,13 +594,13 @@ const handleSearch = () => {
 
                           ${isSolutionsOpen ||
                             isActive
-                              ? `
+                            ? `
                                  border-white/50
                                  bg-[#F8F6F2]/80
                                  text-[#6B2D1A]
                                  shadow-[inset_2px_2px_3px_rgba(255,255,255,1),0_8px_20px_rgba(107,45,26,0.10)]
                                `
-                              : `
+                            : `
                                  border-transparent
                                  text-[#4A2417]
                                  hover:bg-[#EADBC8]/30
@@ -1085,7 +1105,7 @@ const handleSearch = () => {
                       handleSearch();
                     }
                   }}
-                 placeholder="Search blogs, solutions, services..."
+                  placeholder="Search blogs, solutions, services..."
                   className="
                     flex-1
                     rounded-2xl
@@ -1114,6 +1134,13 @@ const handleSearch = () => {
                   Search
                 </button>
               </div>
+              {searchError && (
+                <div className="mx-auto mt-3 max-w-3xl">
+                  <p className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-center text-sm font-medium text-red-600">
+                    No results found for "<strong>{searchQuery}</strong>"
+                  </p>
+                </div>
+              )}
             </motion.div>
           )}
         </AnimatePresence>
@@ -1161,7 +1188,7 @@ const handleSearch = () => {
                         ? false
                         : location.pathname === item.href
                       : location.pathname === "/" &&
-                        activeSection === item.href.slice(1);
+                      activeSection === item.href.slice(1);
 
                   return (
                     <button

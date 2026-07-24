@@ -17,12 +17,10 @@ import {
   ShieldCheck,
   ChevronRight,
   Video,
-  RotateCcw
+  RotateCcw,
+  User,
+  Mail
 } from "lucide-react";
-
-// Brand Colors
-// Primary Success / Active Green: #4D8B4F
-// Supporting Accent Brown: #6B2D1A
 
 const MEETING_OPTIONS = [
   { id: "discovery", title: "Discovery Call", icon: MessageSquare, duration: "30 Minutes", description: "Discuss your goals and requirements." },
@@ -65,6 +63,9 @@ const MeetingModal = ({ isOpen, onClose }) => {
   const [selectedDate, setSelectedDate] = useState("");
   const [selectedTime, setSelectedTime] = useState("");
   const [processingStep, setProcessingStep] = useState(0);
+  const [timeslots, setTimeslots] = useState([]);
+  const [attendeeName, setAttendeeName] = useState("");
+  const [attendeeEmail, setAttendeeEmail] = useState("");
 
   // Manage body scroll lock
   useEffect(() => {
@@ -76,7 +77,34 @@ const MeetingModal = ({ isOpen, onClose }) => {
     return () => { document.body.style.overflow = ""; };
   }, [isOpen]);
 
-  const timeslots = ["09:30 AM", "11:00 AM", "01:30 PM", "03:00 PM", "04:30 PM"];
+  // Fetch Time Slots API
+  useEffect(() => {
+    const fetchTimeSlots = async () => {
+      if (!selectedDate || !selectedTimezone?.value) {
+        setTimeslots([]);
+        return;
+      }
+
+      try {
+        const url = `https://websiteapi-backend-git-642918032467.asia-south1.run.app/availability/slots?for_date=${encodeURIComponent(
+          selectedDate
+        )}&time_zone=${encodeURIComponent(selectedTimezone.value)}`;
+
+        const response = await fetch(url);
+        if (!response.ok) throw new Error("Failed to fetch time slots");
+
+        const data = await response.json();
+        setTimeslots(data.slots || []);
+      } catch (error) {
+        console.error("Error fetching time slots:", error);
+        setTimeslots([]);
+      }
+    };
+
+    if (calendlyStep) {
+      fetchTimeSlots();
+    }
+  }, [selectedDate, selectedTimezone, calendlyStep]);
 
   const processingMessages = [
     "Reserving your meeting slot...",
@@ -87,7 +115,7 @@ const MeetingModal = ({ isOpen, onClose }) => {
     "Finalizing your booking..."
   ];
 
-  // Build full searchable dataset using standard IANA list + enrichments
+  // Build full searchable dataset using standard 
   const allTimezoneOptions = useMemo(() => {
     let zones = [];
     if (typeof Intl !== "undefined" && Intl.supportedValuesOf) {
@@ -142,36 +170,85 @@ const MeetingModal = ({ isOpen, onClose }) => {
     }
 
     setTimeZoneError("");
-    setIsContinuing(true);
-    setTimeout(() => { setIsContinuing(false); setCalendlyStep(true); }, 1200);
+    setCalendlyStep(true);
   };
 
-  const handleBookMeeting = () => {
-    if (!selectedDate || !selectedTime) { alert("Please choose a date and time slot."); return; }
-    setIsContinuing(true);
-    let step = 0;
-    const interval = setInterval(() => {
-      step++;
-      setProcessingStep(step);
-      if (step >= processingMessages.length - 1) {
-        clearInterval(interval);
-        setTimeout(() => { setIsContinuing(false); setIsSuccess(true); }, 800);
+  // POST /meetings/schedule-teams API
+  const handleBookMeeting = async () => {
+    if (!attendeeName.trim() || !attendeeEmail.trim()) {
+      alert("Please enter your name and email.");
+      return;
+    }
+
+    if (!selectedDate || !selectedTime) {
+      alert("Please choose a date and time slot.");
+      return;
+    }
+
+    try {
+      setIsContinuing(true);
+
+      const selectedMeeting = MEETING_OPTIONS.find(
+        (item) => item.id === selectedOption
+      );
+
+      if (!selectedMeeting) {
+        throw new Error("Meeting type not found");
       }
-    }, 600);
+
+      const duration = parseInt(selectedMeeting.duration, 10);
+      const startTimeVal = typeof selectedTime === "object" ? selectedTime.start_time : selectedTime.split(" - ")[0];
+
+      const requestBody = {
+        meeting_type: selectedMeeting.title,
+        date: selectedDate,
+        time: startTimeVal,
+        start_time: startTimeVal,
+        time_zone: selectedTimezone.value,
+        duration_minutes: duration,
+        attendee_email: attendeeEmail,
+        attendee_name: attendeeName,
+      };
+
+      const response = await fetch(
+        "https://websiteapi-backend-git-642918032467.asia-south1.run.app/meetings/schedule-teams",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(requestBody),
+        }
+      );
+
+      if (!response.ok) {
+        const errData = await response.text();
+        throw new Error(errData || "Meeting booking failed");
+      }
+
+      setIsSuccess(true);
+    } catch (error) {
+      console.error("Error scheduling meeting:", error);
+      alert(error.message || "Failed to schedule meeting.");
+    } finally {
+      setIsContinuing(false);
+    }
   };
 
   const handleCloseAndReset = () => {
     onClose();
     setTimeout(() => {
-      setSelectedOption("discovery"); 
-      setSelectedTimezone(null); 
+      setSelectedOption("discovery");
+      setSelectedTimezone(null);
       setIsOtherSearchMode(false);
       setTimeZoneError("");
       setCalendlyStep(false);
-      setIsSuccess(false); 
-      setSelectedDate(""); 
-      setSelectedTime(""); 
+      setIsSuccess(false);
+      setSelectedDate("");
+      setSelectedTime("");
       setProcessingStep(0);
+      setAttendeeName("");
+      setAttendeeEmail("");
     }, 400);
   };
 
@@ -238,8 +315,8 @@ const MeetingModal = ({ isOpen, onClose }) => {
             className="relative z-10 w-full max-w-[880px] max-h-[85vh] rounded-3xl p-6 sm:p-10 md:p-12 shadow-2xl shadow-slate-900/10 border border-slate-200/80 bg-white/95 backdrop-blur-xl overflow-y-auto antialiased scrollbar-none"
           >
             {/* Top Bar Floating Close Button */}
-            <button 
-              onClick={handleCloseAndReset} 
+            <button
+              onClick={handleCloseAndReset}
               className="absolute top-6 right-6 p-2 rounded-full bg-slate-100/80 hover:bg-slate-200/80 hover:scale-105 active:scale-95 transition-all duration-200 text-slate-600 border border-slate-200/60 z-20 group"
               aria-label="Close modal"
             >
@@ -263,10 +340,10 @@ const MeetingModal = ({ isOpen, onClose }) => {
                     </div>
                   </div>
 
-                  <motion.div 
-                    key={processingStep} 
-                    initial={{ opacity: 0, y: 8 }} 
-                    animate={{ opacity: 1, y: 0 }} 
+                  <motion.div
+                    key={processingStep}
+                    initial={{ opacity: 0, y: 8 }}
+                    animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -8 }}
                     transition={{ duration: 0.2 }}
                     className="space-y-2 max-w-sm"
@@ -280,7 +357,7 @@ const MeetingModal = ({ isOpen, onClose }) => {
                   </motion.div>
 
                   <div className="w-48 h-1.5 bg-slate-100 rounded-full mt-8 overflow-hidden border border-slate-200/60">
-                    <motion.div 
+                    <motion.div
                       className="h-full bg-[#4D8B4F] rounded-full"
                       initial={{ width: "0%" }}
                       animate={{ width: `${((processingStep + 1) / processingMessages.length) * 100}%` }}
@@ -328,7 +405,9 @@ const MeetingModal = ({ isOpen, onClose }) => {
                       </div>
                       <div className="flex justify-between items-center border-b border-slate-200/60 pb-3">
                         <span className="text-[11px] font-bold tracking-wider text-slate-400 uppercase">TIME</span>
-                        <span className="text-xs font-bold text-slate-800">{selectedTime}</span>
+                        <span className="text-xs font-bold text-slate-800">
+                          {typeof selectedTime === "object" ? `${selectedTime.start_time} - ${selectedTime.end_time}` : selectedTime}
+                        </span>
                       </div>
                       <div className="flex justify-between items-center border-b border-slate-200/60 pb-3">
                         <span className="text-[11px] font-bold tracking-wider text-slate-400 uppercase">TIME ZONE</span>
@@ -375,14 +454,14 @@ const MeetingModal = ({ isOpen, onClose }) => {
                   </div>
 
                   <div className="pt-2 flex flex-col sm:flex-row justify-center gap-3">
-                    <button 
-                      onClick={handleCloseAndReset} 
+                    <button
+                      onClick={handleCloseAndReset}
                       className="px-7 py-3 rounded-xl text-white text-xs font-bold bg-[#6B2D1A] hover:bg-[#582415] active:scale-95 transition-all shadow-sm"
                     >
                       Return to Site
                     </button>
-                    <button 
-                      onClick={handleCloseAndReset} 
+                    <button
+                      onClick={handleCloseAndReset}
                       className="px-7 py-3 rounded-xl border border-slate-200 bg-white text-slate-700 text-xs font-bold hover:bg-slate-50 active:scale-95 transition-all shadow-sm"
                     >
                       Schedule Another Meeting
@@ -409,14 +488,40 @@ const MeetingModal = ({ isOpen, onClose }) => {
                   <div className="grid md:grid-cols-2 gap-6">
                     <div className="space-y-2">
                       <label className="text-xs font-bold tracking-wider text-slate-700 uppercase flex items-center gap-1.5">
+                        <User className="w-3.5 h-3.5 text-[#6B2D1A]" /> FULL NAME
+                      </label>
+                      <input
+                        type="text"
+                        value={attendeeName}
+                        onChange={(e) => setAttendeeName(e.target.value)}
+                        placeholder="Enter your full name"
+                        className="w-full p-3.5 rounded-xl border border-slate-200 bg-white text-slate-900 text-sm font-semibold outline-none focus:ring-2 focus:ring-[#4D8B4F]/20 focus:border-[#4D8B4F] transition-all shadow-sm"
+                      />
+                    </div>
+
+                    <div className="space-y-2">
+                      <label className="text-xs font-bold tracking-wider text-slate-700 uppercase flex items-center gap-1.5">
+                        <Mail className="w-3.5 h-3.5 text-[#6B2D1A]" /> WORK EMAIL
+                      </label>
+                      <input
+                        type="email"
+                        value={attendeeEmail}
+                        onChange={(e) => setAttendeeEmail(e.target.value)}
+                        placeholder="Enter your work email"
+                        className="w-full p-3.5 rounded-xl border border-slate-200 bg-white text-slate-900 text-sm font-semibold outline-none focus:ring-2 focus:ring-[#4D8B4F]/20 focus:border-[#4D8B4F] transition-all shadow-sm"
+                      />
+                    </div>
+
+                    <div className="space-y-2">
+                      <label className="text-xs font-bold tracking-wider text-slate-700 uppercase flex items-center gap-1.5">
                         <CalendarIcon className="w-3.5 h-3.5 text-[#6B2D1A]" /> DATE
                       </label>
                       <div className="relative">
-                        <input 
-                          type="date" 
-                          value={selectedDate} 
-                          onChange={(e) => setSelectedDate(e.target.value)} 
-                          className="w-full p-3.5 rounded-xl border border-slate-200 bg-white text-slate-900 text-sm font-semibold outline-none focus:ring-2 focus:ring-[#4D8B4F]/20 focus:border-[#4D8B4F] transition-all shadow-sm" 
+                        <input
+                          type="date"
+                          value={selectedDate}
+                          onChange={(e) => setSelectedDate(e.target.value)}
+                          className="w-full p-3.5 rounded-xl border border-slate-200 bg-white text-slate-900 text-sm font-semibold outline-none focus:ring-2 focus:ring-[#4D8B4F]/20 focus:border-[#4D8B4F] transition-all shadow-sm"
                         />
                       </div>
                     </div>
@@ -425,37 +530,59 @@ const MeetingModal = ({ isOpen, onClose }) => {
                       <label className="text-xs font-bold tracking-wider text-slate-700 uppercase flex items-center gap-1.5">
                         <Clock className="w-3.5 h-3.5 text-[#6B2D1A]" /> TIMESLOT
                       </label>
+
                       <div className="grid grid-cols-2 gap-2.5">
-                        {timeslots.map(slot => {
-                          const isSelected = selectedTime === slot;
-                          return (
-                            <button 
-                              key={slot} 
-                              onClick={() => setSelectedTime(slot)} 
-                              className={`p-3 rounded-xl border text-xs font-bold transition-all duration-200 flex items-center justify-center gap-2 ${
-                                isSelected 
-                                  ? "bg-[#4D8B4F] text-white border-[#4D8B4F] shadow-sm scale-[1.02]" 
-                                  : "bg-white border-slate-200 text-slate-700 hover:bg-slate-50 hover:border-slate-300"
-                              }`}
-                            >
-                              <Clock className={`w-3 h-3 ${isSelected ? "text-white" : "text-[#4D8B4F]"}`} />
-                              {slot}
-                            </button>
-                          );
-                        })}
+                        {!selectedDate ? (
+                          <p className="col-span-2 text-center text-sm text-slate-500">
+                            Please select a date to view available time slots.
+                          </p>
+                        ) : timeslots.length === 0 ? (
+                          <p className="col-span-2 text-center text-sm text-slate-500 mt-4  pr-[90px]">
+                            No available time slots for the selected date.
+                          </p>
+                        ) : (
+                          timeslots.map((slot, index) => {
+                            const displayLabel =
+                              typeof slot === "string"
+                                ? slot
+                                : `${slot.start_time} - ${slot.end_time}`;
+
+                            const isSelected =
+                              typeof selectedTime === "object"
+                                ? selectedTime?.start_time === slot.start_time
+                                : selectedTime === displayLabel;
+
+                            return (
+                              <button
+                                key={slot.start_time || index}
+                                onClick={() => setSelectedTime(slot)}
+                                className={`p-3 rounded-xl border text-xs font-bold transition-all duration-200 flex items-center justify-center gap-2 ${isSelected
+                                    ? "bg-[#4D8B4F] text-white border-[#4D8B4F] shadow-sm scale-[1.02]"
+                                    : "bg-white border-slate-200 text-slate-700 hover:bg-slate-50 hover:border-slate-300"
+                                  }`}
+                              >
+                                <Clock
+                                  className={`w-3 h-3 ${isSelected ? "text-white" : "text-[#4D8B4F]"
+                                    }`}
+                                />
+                                {displayLabel}
+                              </button>
+                            );
+                          })
+                        )}
                       </div>
                     </div>
                   </div>
 
                   <div className="flex justify-between items-center pt-6 border-t border-slate-200">
-                    <button 
-                      onClick={() => setCalendlyStep(false)} 
+                    <button
+                      onClick={() => setCalendlyStep(false)}
                       className="px-5 py-2.5 rounded-xl border border-slate-200 text-slate-700 text-xs font-bold hover:bg-slate-50 transition-all"
                     >
                       Back
                     </button>
-                    <button 
-                      onClick={handleBookMeeting} 
+                    <button
+                      onClick={handleBookMeeting}
                       className="px-7 py-3 rounded-xl text-white text-xs font-bold bg-[#6B2D1A] hover:bg-[#582415] active:scale-95 transition-all shadow-sm flex items-center gap-2 group"
                     >
                       Confirm Appointment
@@ -485,14 +612,13 @@ const MeetingModal = ({ isOpen, onClose }) => {
                       const Icon = option.icon;
                       const isActive = selectedOption === option.id;
                       return (
-                        <button 
-                          key={option.id} 
-                          onClick={() => setSelectedOption(option.id)} 
-                          className={`group relative text-left p-4 sm:p-5 rounded-2xl border transition-all duration-200 ${
-                            isActive 
-                              ? "border-[#4D8B4F] bg-emerald-50/30 ring-1 ring-[#4D8B4F] shadow-sm" 
-                              : "border-slate-200/80 bg-white hover:bg-slate-50/50 hover:border-slate-300"
-                          }`}
+                        <button
+                          key={option.id}
+                          onClick={() => setSelectedOption(option.id)}
+                          className={`group relative text-left p-4 sm:p-5 rounded-2xl border transition-all duration-200 ${isActive
+                            ? "border-[#4D8B4F] bg-emerald-50/30 ring-1 ring-[#4D8B4F] shadow-sm"
+                            : "border-slate-200/80 bg-white hover:bg-slate-50/50 hover:border-slate-300"
+                            }`}
                         >
                           <div className="flex justify-between items-center mb-3">
                             <div className={`p-2.5 rounded-xl transition-colors ${isActive ? "bg-[#4D8B4F] text-white" : "bg-slate-100 text-slate-700 group-hover:bg-slate-200/80"}`}>
@@ -520,7 +646,7 @@ const MeetingModal = ({ isOpen, onClose }) => {
                       </label>
 
                       {isOtherSearchMode && (
-                        <button 
+                        <button
                           type="button"
                           onClick={() => setIsOtherSearchMode(false)}
                           className="text-[11px] font-bold text-[#6B2D1A] hover:underline flex items-center gap-1"
@@ -535,9 +661,8 @@ const MeetingModal = ({ isOpen, onClose }) => {
                       <select
                         value={selectedTimezone ? (PRESET_TIMEZONES.some((t) => t.value === selectedTimezone.value) ? selectedTimezone.value : selectedTimezone.value) : ""}
                         onChange={handlePresetSelect}
-                        className={`w-full p-3 rounded-xl border bg-white text-slate-900 text-xs font-semibold outline-none focus:ring-2 focus:ring-[#4D8B4F]/20 focus:border-[#4D8B4F] transition-all shadow-sm ${
-                          timeZoneError ? "border-red-400" : "border-slate-200"
-                        }`}
+                        className={`w-full p-3 rounded-xl border bg-white text-slate-900 text-xs font-semibold outline-none focus:ring-2 focus:ring-[#4D8B4F]/20 focus:border-[#4D8B4F] transition-all shadow-sm ${timeZoneError ? "border-red-400" : "border-slate-200"
+                          }`}
                       >
                         <option value="" disabled hidden>
                           Select Preferred Time Zone
@@ -573,19 +698,19 @@ const MeetingModal = ({ isOpen, onClose }) => {
                     )}
 
                     {timeZoneError && (
-                      <motion.p 
-                        initial={{ opacity: 0, y: -4 }} 
-                        animate={{ opacity: 1, y: 0 }} 
-                        className="mt-1.5 text-xs text-red-600 font-bold"
+                      <motion.p
+                        initial={{ opacity: 0, y: -4 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className="text-xs font-semibold text-red-500 mt-1"
                       >
                         {timeZoneError}
                       </motion.p>
                     )}
                   </div>
 
-                  <div className="flex justify-end pt-5 border-t border-slate-200">
-                    <button 
-                      onClick={handleContinue} 
+                  <div className="flex justify-end pt-4 border-t border-slate-200">
+                    <button
+                      onClick={handleContinue}
                       className="px-8 py-3 rounded-xl text-white text-xs font-bold bg-[#6B2D1A] hover:bg-[#582415] active:scale-95 transition-all shadow-sm flex items-center gap-2 group"
                     >
                       Continue

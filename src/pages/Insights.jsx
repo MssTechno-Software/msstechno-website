@@ -48,7 +48,7 @@ export default function Insights() {
 
   //get api 
   const fetchArticles = async (pageNumber = 1) => {
-  
+
     try {
       const response = await fetch(
         `https://websiteapi-backend-git-642918032467.asia-south1.run.app/blocks/approved?page=${pageNumber}&page_size=10`
@@ -348,9 +348,23 @@ export default function Insights() {
                   {filteredArticles[0].author.initials}
                 </div>
 
-                <p className="font-bold text-sm text-[#1F2420]">
-                  {filteredArticles[0].author.name}
-                </p>
+                <div className="flex flex-col">
+                  <p className="font-semibold text-[#1F2420]">
+                    {filteredArticles[0].author.name}
+                  </p>
+
+                  <p className="text-sm text-[#7A7A7A]">
+                    {new Date(filteredArticles[0].publishedDate).toLocaleDateString(
+                      "en-GB",
+                      {
+                        day: "numeric",
+                        month: "short",
+                        year: "numeric",
+                      }
+                    )}{" "}
+                    • {filteredArticles[0].readTime}
+                  </p>
+                </div>
               </div>
             </div>
           </LiquidCard>
@@ -391,9 +405,20 @@ export default function Insights() {
                       {art.author.initials}
                     </div>
 
-                    <span className="text-xs font-bold text-[#5E6660]">
-                      {art.author.name}
-                    </span>
+                    <div className="flex flex-col">
+                      <p className="text-sm font-semibold text-[#1F2420]">
+                        {art.author.name}
+                      </p>
+
+                      <p className="text-xs text-[#7A7A7A]">
+                        {new Date(art.publishedDate).toLocaleDateString("en-GB", {
+                          day: "numeric",
+                          month: "short",
+                          year: "numeric",
+                        })}{" "}
+                        • {art.readTime}
+                      </p>
+                    </div>
                   </div>
 
                   <button className="h-10 w-10 rounded-full bg-[#6B2D1A] text-white flex items-center justify-center hover:scale-110 transition-transform shadow-[0_5px_15px_rgba(107,45,26,0.3)]">

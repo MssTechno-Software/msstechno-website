@@ -20,20 +20,79 @@ const Footer = ({ openMeetingModal }) => {
   const currentYear = new Date().getFullYear();
   const navigate = useNavigate();
 
-  const [email, setEmail] = useState("");
-  const [isSubscribed, setIsSubscribed] = useState(false);
+ const [loading, setLoading] = useState(false);
+const [subscribed, setSubscribed] = useState(false);
+const [email, setEmail] = useState("");
+const [message, setMessage] = useState("");
+const [messageType, setMessageType] = useState("");
 
-  const handleSubscribe = (e) => {
+//subscribe Api
+  const handleSubscribe = async (e) => {
     e.preventDefault();
 
-    if (!email.trim()) return;
+    if (!email.trim()) {
+      setMessage("Please enter your email.");
+      setMessageType("error");
 
-    setIsSubscribed(true);
-    setEmail("");
+      setTimeout(() => {
+        setMessage("");
+        setMessageType("");
+      }, 4000);
 
-    setTimeout(() => {
-      setIsSubscribed(false);
-    }, 5000);
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      const response = await fetch(
+        "https://websiteapi-backend-git-642918032467.asia-south1.run.app/subscribe",
+        {
+          method: "POST",
+          headers: {
+            accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email: email.trim(),
+          }),
+        }
+      );
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        setMessage(data.detail || "Subscription failed.");
+        setMessageType("error");
+
+        setTimeout(() => {
+          setMessage("");
+          setMessageType("");
+        }, 4000);
+
+        return;
+      }
+
+      // Success
+      setSubscribed(true);
+      setEmail("");
+
+      setTimeout(() => {
+        setSubscribed(false);
+      }, 4000);
+    } catch (error) {
+      console.error(error);
+
+      setMessage("Something went wrong. Please try again.");
+      setMessageType("error");
+
+      setTimeout(() => {
+        setMessage("");
+        setMessageType("");
+      }, 4000);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleScrollToTop = () => {
@@ -70,7 +129,6 @@ const Footer = ({ openMeetingModal }) => {
 
   const handleSolutionsNavigation = () => {
     navigate("/solutions");
-    // Ensure scroll resets immediately on state change/render layer setup
     window.scrollTo(0, 0);
   };
 
@@ -211,18 +269,22 @@ const Footer = ({ openMeetingModal }) => {
       >
         <div
           className="
-            grid
-            grid-cols-1
-            gap-12
-            pb-14
-            md:grid-cols-2
-            lg:grid-cols-12
-            lg:gap-12
-          "
+    grid
+    grid-cols-1
+    gap-12
+    pb-14
+    justify-items-center
+    text-center
+    md:grid-cols-2
+    md:text-left
+    md:justify-items-stretch
+    lg:grid-cols-12
+    lg:gap-12
+  "
         >
           {/* BRAND AREA */}
-          <div className="lg:col-span-4">
-            <div className="flex items-center gap-4">
+          <div className="w-full max-w-sm lg:col-span-4">
+            <div className="flex items-center justify-center gap-4 md:justify-start">
               <div
                 className="
                   flex
@@ -280,7 +342,7 @@ const Footer = ({ openMeetingModal }) => {
             </div>
 
             {/* NEWSLETTER */}
-            <div className="mt-8">
+            <div className="mt-8 flex flex-col items-center md:items-start">
               <h4
                 className="
                   mb-4
@@ -294,102 +356,95 @@ const Footer = ({ openMeetingModal }) => {
                 Stay Informed
               </h4>
 
-              {isSubscribed ? (
-                <motion.div
-                  initial={{
-                    opacity: 0,
-                    y: 8,
-                  }}
-                  animate={{
-                    opacity: 1,
-                    y: 0,
-                  }}
+              <form
+                onSubmit={handleSubscribe}
+                className="
+    flex
+    max-w-sm
+    items-center
+    rounded-full
+    border
+    border-white/80
+    bg-white/35
+    p-1.5
+    shadow-[inset_0_1px_0_white,0_12px_35px_rgba(50,60,50,0.06)]
+    backdrop-blur-2xl
+    transition-all
+    duration-300
+    focus-within:bg-white/50
+    focus-within:border-[#4D8B4F]/30
+  "
+              >
+                <input
+                  type="email"
+                  required
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="Enter your email"
                   className="
-                    flex
-                    max-w-sm
-                    items-center
-                    gap-2
-                    rounded-full
-                    border
-                    border-white/80
-                    bg-white/35
-                    px-5
-                    py-3
-                    text-xs
-                    font-semibold
-                    text-[#4D8B4F]
-                    shadow-[inset_0_1px_0_white]
-                    backdrop-blur-2xl
-                  "
-                >
-                  <Check className="h-4 w-4" />
-                  Success! You have subscribed.
-                </motion.div>
-              ) : (
-                <form
-                  onSubmit={handleSubscribe}
-                  className="
-                    flex
-                    max-w-sm
-                    items-center
-                    rounded-full
-                    border
-                    border-white/80
-                    bg-white/35
-                    p-1.5
-                    shadow-[inset_0_1px_0_white,0_12px_35px_rgba(50,60,50,0.06)]
-                    backdrop-blur-2xl
-                    transition-all
-                    duration-300
-                    focus-within:bg-white/50
-                    focus-within:border-[#4D8B4F]/30
-                  "
-                >
-                  <input
-                    type="email"
-                    required
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder="Enter your email"
-                    className="
-                      min-w-0
-                      flex-1
-                      bg-transparent
-                      px-4
-                      py-2
-                      text-xs
-                      text-[#283029]
-                      outline-none
-                      placeholder:text-[#7B857C]
-                    "
-                  />
+      min-w-0
+      flex-1
+      bg-transparent
+      px-4
+      py-2
+      text-xs
+      text-[#283029]
+      outline-none
+      placeholder:text-[#7B857C]
+    "
+                />
 
-                  <motion.button
-                    whileHover={{
-                      scale: 1.03,
-                    }}
-                    whileTap={{
-                      scale: 0.97,
-                    }}
-                    type="submit"
-                    className="
-                      flex
-                      items-center
-                      gap-2
-                      rounded-full
-                      bg-[#4D8B4F]
-                      px-5
-                      py-2.5
-                      text-xs
-                      font-bold
-                      text-white
-                      shadow-[0_10px_25px_rgba(77,139,79,0.22)]
-                    "
-                  >
-                    Subscribe
-                    <ArrowRight className="h-3.5 w-3.5" />
-                  </motion.button>
-                </form>
+                <motion.button
+                  whileHover={{ scale: loading ? 1 : 1.03 }}
+                  whileTap={{ scale: loading ? 1 : 0.97 }}
+                  type="submit"
+                  disabled={loading || subscribed}
+                  className="
+      flex
+      items-center
+      gap-2
+      rounded-full
+      bg-[#4D8B4F]
+      px-5
+      py-2.5
+      text-xs
+      font-bold
+      text-white
+      shadow-[0_10px_25px_rgba(77,139,79,0.22)]
+      disabled:opacity-70
+      disabled:cursor-not-allowed
+    "
+                >
+                  {loading ? (
+                    <>
+                      <div className="h-3.5 w-3.5 animate-spin rounded-full border-2 border-white/30 border-t-white" />
+                      Subscribing...
+                    </>
+                  ) : subscribed ? (
+                    <>
+                      <Check className="h-3.5 w-3.5" />
+                      Subscribed
+                    </>
+                  ) : (
+                    <>
+                      Subscribe
+                      <ArrowRight className="h-3.5 w-3.5" />
+                    </>
+                  )}
+                </motion.button>
+              </form>
+
+              {message && (
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className={`mt-4 rounded-xl border px-4 py-3 text-sm ${messageType === "success"
+                    ? "border-green-300 bg-green-50 text-green-700"
+                    : "border-red-300 bg-red-50 text-red-700"
+                    }`}
+                >
+                  {message}
+                </motion.div>
               )}
             </div>
 
@@ -408,7 +463,7 @@ const Footer = ({ openMeetingModal }) => {
                 Connect
               </h4>
 
-              <div className="flex flex-wrap gap-2.5">
+              <div className="flex flex-wrap justify-center gap-2.5 md:justify-start">
                 {socials.map((social) => {
                   const Icon = social.icon;
 
@@ -495,7 +550,7 @@ const Footer = ({ openMeetingModal }) => {
           </div>
 
           {/* QUICK LINKS SECTION */}
-          <div className="lg:col-span-2">
+          <div className="w-full max-w-sm lg:col-span-2">
             <h4
               className="
                 font-serif
@@ -507,7 +562,7 @@ const Footer = ({ openMeetingModal }) => {
               Quick Links
             </h4>
 
-            <ul className="mt-6 space-y-3">
+            <ul className="mt-6 space-y-3 flex flex-col items-center md:items-start">
               {quickLinks.map((link) => (
                 <li key={link.name}>
                   <button
@@ -550,19 +605,28 @@ const Footer = ({ openMeetingModal }) => {
           </div>
 
           {/* SOLUTIONS SECTION */}
-          <div className="lg:col-span-3">
-            <h4
-              className="
+          <div
+            className="
+                  w-full
+                  max-w-sm
+                  lg:col-span-3
+                  flex
+                  flex-col
+                  items-center
+                  md:items-start
+               "
+          >            <h4
+            className="
                 font-serif
                 text-lg
                 font-semibold
                 text-[#4D8B4F]
               "
-            >
+          >
               Solutions
             </h4>
 
-            <ul className="mt-6 space-y-3">
+            <ul className="mt-6 space-y-3 flex flex-col items-center md:items-start">
               {solutionsLinks.map((solution) => (
                 <li key={solution.name}>
                   <button
@@ -585,7 +649,7 @@ const Footer = ({ openMeetingModal }) => {
           </div>
 
           {/* OFFICE INFRASTRUCTURE */}
-          <div className="lg:col-span-3">
+          <div className="w-full max-w-sm lg:col-span-3">
             <h4
               className="
                 font-serif
@@ -597,7 +661,7 @@ const Footer = ({ openMeetingModal }) => {
               Office
             </h4>
 
-            <div className="mt-6 space-y-4">
+            <div className="mt-6 w-full flex flex-col items-center gap-4 md:items-start">
               <div className="flex items-center gap-3">
                 <div
                   className="
@@ -664,21 +728,23 @@ const Footer = ({ openMeetingModal }) => {
             </div>
 
             <motion.button
-              whileHover={{
-                x: 3,
-              }}
+              whileHover={{ x: 3 }}
               onClick={openMeetingModal}
               className="
-                mt-6
-                flex
-                items-center
-                gap-2
-                text-sm
-                font-bold
-                text-[#6B2D1A]
-              "
+    mt-6
+    inline-flex
+    px-2
+    items-center
+    justify-center
+    gap-2
+    self-center
+    md:self-start
+    text-sm
+    font-bold
+    text-[#6B2D1A]
+  "
             >
-              <Calendar className="h-4 w-10" />
+              <Calendar className="h-4 w-4" />
               Schedule a Meeting
             </motion.button>
           </div>

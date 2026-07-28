@@ -3,16 +3,15 @@ import { useParams, Link } from "react-router-dom";
 import { motion, useScroll, useSpring } from "motion/react";
 import { Header } from "../components/Header";
 import { Footer } from "../components/Footer";
-import { ARTICLE_DATA } from "../articles";
+import Loader from "../components/Loader";
 import { Linkedin, Twitter, Copy, ArrowLeft } from "lucide-react";
-
 
 const fallbackImage = "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80&w=1200";
 
 export default function ArticleDetails() {
     const { slug } = useParams();
-
-    const article = ARTICLE_DATA.find((a) => a.slug === slug);
+    const [article, setArticle] = useState(null);
+    const [loading, setLoading] = useState(true);
 
     const { scrollYProgress } = useScroll();
 
@@ -25,7 +24,42 @@ export default function ArticleDetails() {
     useEffect(() => {
         window.scrollTo(0, 0);
     }, [slug]);
-    
+
+    useEffect(() => {
+        const fetchArticle = async () => {
+            setLoading(true);
+            try {
+                const response = await fetch(
+                    "https://websiteapi-backend-git-642918032467.asia-south1.run.app/blocks/approved?page=1&page_size=10"
+                );
+                //// Process the paginated API response and retrieve the requested active article
+                const data = await response.json();
+
+                const allArticles = data.dates?.flatMap((item) => item.blocks) || [];
+
+                const activeArticles = allArticles
+                    .filter((item) => item.is_active)
+                    .sort((a, b) => a.display_order - b.display_order);
+
+                const foundArticle = activeArticles.find(
+                    (item) => item.slug === slug
+                );
+
+                setArticle(foundArticle || null);
+
+            } catch (error) {
+                console.error("Failed to fetch article details:", error);
+                setArticle(null);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        if (slug) {
+            fetchArticle();
+        }
+    }, [slug]);
+
     const shareLinkedIn = () => {
         const url = encodeURIComponent(window.location.href);
 
@@ -38,7 +72,7 @@ export default function ArticleDetails() {
     const shareTwitter = () => {
         const url = encodeURIComponent(window.location.href);
         const text = encodeURIComponent(
-            `🚀 ${article.title}\n\n${article.description}\n\nRead more:`
+            `🚀 ${article?.title || ""}\n\n${article?.description || ""}\n\nRead more:`
         );
 
         window.open(
@@ -55,6 +89,10 @@ export default function ArticleDetails() {
             alert("Failed to copy link.");
         }
     };
+
+    if (loading) {
+        return <Loader />;
+    }
 
     if (!article) {
         return (
@@ -82,7 +120,7 @@ export default function ArticleDetails() {
                     </span>
                     <h1 className="font-serif text-5xl md:text-6xl font-bold mb-8 text-[#171A17] leading-tight">{article.title}</h1>
                     <div className="flex justify-center items-center gap-4 text-sm text-[#5E6660] font-medium">
-                        <span>{article.author}</span> • <span>July 17, 2026</span> • <span>8 min read</span>
+                        <span>{article.author?.name || article.author}</span> • <span>{article.publishedDate}</span> • <span>{article.readTime}</span>
                     </div>
                 </header>
 
@@ -94,32 +132,34 @@ export default function ArticleDetails() {
                 />
 
                 {/* Content */}
-                <div className="prose prose-lg lg:prose-xl max-w-none text-[#1F2420] leading-relaxed">
-
-                    <p>{article.content.introduction}</p>
-
-                    {article.content.sections.map((section, index) => (
-                        <div key={index} className="mt-10">
-                            <h2 className="font-serif text-3xl font-bold text-[#171A17]">
+                <div className="max-w-none">
+                    <h2 className="font-serif text-3xl md:text-3xl font-bold text-[#171A17] mb-6">
+                        Introduction
+                    </h2>
+                    <p className="mb-14 text-[15px] md:text-[20px] leading-10 text-[#3F4541]">
+                        {article.content?.introduction}
+                    </p>
+                    {article.content?.sections?.map((section, index) => (
+                        <section key={index} className="mb-16">
+                            <h2 className="font-serif text-3xl md:text-3xl font-bold text-[#171A17] mb-6">
                                 {section.title}
                             </h2>
 
                             {section.text && (
-                                <p className="mt-4">
+                                <p className="text-[15px] md:text-[20px] leading-10 text-[#3F4541]">
                                     {section.text}
                                 </p>
                             )}
 
                             {section.list && (
-                                <ul className="mt-4 list-disc pl-6">
+                                <ul className="mt-6 list-disc pl-7 space-y-3 text-[20px] leading-9 text-[#3F4541]">
                                     {section.list.map((item, i) => (
                                         <li key={i}>{item}</li>
                                     ))}
                                 </ul>
                             )}
-                        </div>
+                        </section>
                     ))}
-
                 </div>
             </article>
 

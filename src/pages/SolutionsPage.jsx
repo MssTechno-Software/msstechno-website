@@ -220,7 +220,7 @@ const SolutionsPage = () => {
         });
       }
     } else {
-      navigate("/");
+      navigate("/?scroll=contact-section");
       setTimeout(() => {
         const section = document.getElementById("contact-section");
         if (section) {

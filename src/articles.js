@@ -1,4 +1,4 @@
-export const BLOGS = [
+{/*export const BLOGS = [
     {
         id: 1,
         title: "Mastering Scalable Backend API Architectures",
@@ -894,4 +894,4 @@ export const SEARCH_DATA = [
         type: "Blog",
         url: `/insights/${article.slug}`,
     })),
-];
+];*/}

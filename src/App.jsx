@@ -86,22 +86,26 @@ function HomePage() {
       );
     };
   }, []);
+
  // Scroll to a specific section when redirected with a scroll query parameter
   // Example: /?scroll=contact-section or /?scroll=case-studies
-  useEffect(() => {
+ useEffect(() => {
   const params = new URLSearchParams(window.location.search);
   const scrollTo = params.get("scroll");
 
   if (!scrollTo) return;
 
-  setTimeout(() => {
-    document
-      .getElementById(scrollTo)
-      ?.scrollIntoView({
-        behavior: "smooth",
-        block: "start",
-      });
-  }, 300);
+  const timer = setTimeout(() => {
+    document.getElementById(scrollTo)?.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    });
+
+    // remove query after scrolling
+    window.history.replaceState({}, "", "/");
+  }, 1200); // wait until FeaturedInsights finishes rendering
+
+  return () => clearTimeout(timer);
 }, []);
 
   return (
@@ -143,7 +147,7 @@ function HomePage() {
           {/*<TestimonialsSection />*/}
 
           <CareersSection />
-          <FeaturedInsights />
+         <FeaturedInsights />
 
           <ContactSection
             

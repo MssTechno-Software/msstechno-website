@@ -29,7 +29,6 @@ import {
 } from "react-router-dom";
 
 import logo from "../../assets/images/logo.png";
-import { SEARCH_DATA } from "../articles";
 
 /* SOLUTIONS */
 
@@ -110,34 +109,71 @@ const Header = ({
 
   const [searchQuery, setSearchQuery] =
     useState("");
-
+  const [searchData, setSearchData] = useState([]);
   const navigate = useNavigate();
   const location = useLocation();
-
+  //hybrid search 
   const isScrolled = true;
+  useEffect(() => {
+    const fetchSearchData = async () => {
+      try {
+        const response = await fetch(
+          "https://websiteapi-backend-git-642918032467.asia-south1.run.app/blocks/approved?page=1&page_size=100"
+        );
+
+        const data = await response.json()
+
+        const staticSearchData = [
+          { title: "Home", url: "/" },
+          { title: "About", url: "/about" },
+          { title: "Service", url: "/solutions" },
+          { title: "Services", url: "/solutions" },
+          { title: "Solution", url: "/solutions" },
+          { title: "Solutions", url: "/solutions" },
+          { title: "Solutions", url: "/solutions" },
+          { title: "Blogs", url: "/insights" },
+          { title: "Why Us", url: "/" },
+          { title: "Process", url: "/about" },
+
+          ...solutions.map((item) => ({
+            title: item.title,
+            url: `/solutions/${item.slug}`,
+          })),
+
+          ...(
+            data.dates?.flatMap((date) => date.blocks) || []
+          )
+            .filter((item) => item.is_active)
+            .sort((a, b) => a.display_order - b.display_order)
+            .map((item) => ({
+              title: item.title,
+              url: `/insights/${item.slug}`,
+            })),
+        ];
+
+        setSearchData(staticSearchData);
+      } catch (error) {
+        console.error("Search API Error:", error);
+      }
+    };
+
+    fetchSearchData();
+  }, []);
+
   const goToContactSection = () => {
     setIsMobileMenuOpen(false);
     setIsSearchOpen(false);
     setIsSolutionsOpen(false);
 
-    const scroll = () => {
-      const section = document.getElementById("contact-section");
-
-      if (section) {
-        section.scrollIntoView({
-          behavior: "smooth",
-          block: "start",
-        });
-      }
-    };
-
     if (location.pathname !== "/") {
-      navigate("/");
-
-      setTimeout(scroll, 300);
-    } else {
-      scroll();
+      navigate("/?scroll=contact-section");
+      return;
     }
+
+    document.getElementById("contact-section")?.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    });
   };
 
   /* =========================================================
@@ -246,15 +282,57 @@ const Header = ({
     if (!query) return;
 
     // Search in all pages, solutions & blogs
-    const result = SEARCH_DATA.find((item) =>
+    const result = searchData.find((item) =>
       item.title.toLowerCase().includes(query)
     );
-
     if (result) {
+
+      // Process page
+      if (result.title === "Process") {
+        navigate("/about", {
+          state: {
+            scrollTo: "about-process",
+          },
+        });
+
+        setSearchQuery("");
+        setIsSearchOpen(false);
+        setSearchError("");
+        return;
+      }
+
+      // Why Us section
+      if (result.title === "Why Us") {
+
+        const scrollToWhyUs = () => {
+          document
+            .querySelector("#why-us")
+            ?.scrollIntoView({
+              behavior: "smooth",
+              block: "start",
+            });
+        };
+
+        if (location.pathname !== "/") {
+          navigate("/");
+
+          setTimeout(scrollToWhyUs, 300);
+        } else {
+          scrollToWhyUs();
+        }
+
+        setSearchQuery("");
+        setIsSearchOpen(false);
+        setSearchError("");
+        return;
+      }
+
       navigate(result.url);
+
       setSearchQuery("");
       setIsSearchOpen(false);
       setSearchError("");
+
       return;
     }
 

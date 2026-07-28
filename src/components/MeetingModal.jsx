@@ -19,7 +19,8 @@ import {
   Video,
   RotateCcw,
   User,
-  Mail
+  Mail,
+  AlertCircle
 } from "lucide-react";
 
 const MEETING_OPTIONS = [
@@ -67,6 +68,20 @@ const MeetingModal = ({ isOpen, onClose }) => {
   const [attendeeName, setAttendeeName] = useState("");
   const [attendeeEmail, setAttendeeEmail] = useState("");
 
+  // Error & Loading States
+  const [isLoadingSlots, setIsLoadingSlots] = useState(false);
+  const [slotsError, setSlotsError] = useState("");
+  const [bookingError, setBookingError] = useState("");
+  const [fieldErrors, setFieldErrors] = useState({});
+  const [toastMessage, setToastMessage] = useState(null);
+
+  const showToast = (message, type = "error") => {
+    setToastMessage({ message, type });
+    setTimeout(() => {
+      setToastMessage(null);
+    }, 4000);
+  };
+
   // Manage body scroll lock
   useEffect(() => {
     if (isOpen) {
@@ -78,29 +93,36 @@ const MeetingModal = ({ isOpen, onClose }) => {
   }, [isOpen]);
 
   // Fetch Time Slots API
+  const fetchTimeSlots = async () => {
+    if (!selectedDate || !selectedTimezone?.value) {
+      setTimeslots([]);
+      setSlotsError("");
+      return;
+    }
+
+    setIsLoadingSlots(true);
+    setSlotsError("");
+
+    try {
+      const url = `https://websiteapi-backend-git-642918032467.asia-south1.run.app/availability/slots?for_date=${encodeURIComponent(
+        selectedDate
+      )}&time_zone=${encodeURIComponent(selectedTimezone.value)}`;
+
+      const response = await fetch(url);
+      if (!response.ok) throw new Error("Failed to fetch time slots");
+
+      const data = await response.json();
+      setTimeslots(data.slots || []);
+    } catch (error) {
+      console.error("Error fetching time slots:", error);
+      setTimeslots([]);
+      setSlotsError("Unable to load available time slots.");
+    } finally {
+      setIsLoadingSlots(false);
+    }
+  };
+
   useEffect(() => {
-    const fetchTimeSlots = async () => {
-      if (!selectedDate || !selectedTimezone?.value) {
-        setTimeslots([]);
-        return;
-      }
-
-      try {
-        const url = `https://websiteapi-backend-git-642918032467.asia-south1.run.app/availability/slots?for_date=${encodeURIComponent(
-          selectedDate
-        )}&time_zone=${encodeURIComponent(selectedTimezone.value)}`;
-
-        const response = await fetch(url);
-        if (!response.ok) throw new Error("Failed to fetch time slots");
-
-        const data = await response.json();
-        setTimeslots(data.slots || []);
-      } catch (error) {
-        console.error("Error fetching time slots:", error);
-        setTimeslots([]);
-      }
-    };
-
     if (calendlyStep) {
       fetchTimeSlots();
     }
@@ -165,7 +187,7 @@ const MeetingModal = ({ isOpen, onClose }) => {
 
   const handleContinue = () => {
     if (!selectedTimezone || !selectedTimezone.value) {
-      setTimeZoneError("Please select your preferred time zone.");
+      setTimeZoneError("Please select a time zone.");
       return;
     }
 
@@ -173,15 +195,38 @@ const MeetingModal = ({ isOpen, onClose }) => {
     setCalendlyStep(true);
   };
 
-  // POST /meetings/schedule-teams API
-  const handleBookMeeting = async () => {
-    if (!attendeeName.trim() || !attendeeEmail.trim()) {
-      alert("Please enter your name and email.");
-      return;
+  const validateStepTwo = () => {
+    const errors = {};
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!attendeeName.trim()) {
+      errors.attendeeName = "Please enter your full name.";
     }
 
-    if (!selectedDate || !selectedTime) {
-      alert("Please choose a date and time slot.");
+    if (!attendeeEmail.trim()) {
+      errors.attendeeEmail = "Please enter a valid email address.";
+    } else if (!emailRegex.test(attendeeEmail.trim())) {
+      errors.attendeeEmail = "Please enter a valid email address.";
+    }
+
+    if (!selectedDate) {
+      errors.selectedDate = "Please select a date.";
+    }
+
+    if (!selectedTime) {
+      errors.selectedTime = "Please select a time slot.";
+    }
+
+    setFieldErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
+
+  // POST /meetings/schedule-teams API
+  const handleBookMeeting = async () => {
+    setBookingError("");
+
+    if (!validateStepTwo()) {
+      showToast("Please fill in all required fields correctly.");
       return;
     }
 
@@ -229,7 +274,13 @@ const MeetingModal = ({ isOpen, onClose }) => {
       setIsSuccess(true);
     } catch (error) {
       console.error("Error scheduling meeting:", error);
-      alert(error.message || "Failed to schedule meeting.");
+      const isNetworkError = !window.navigator.onLine || error.message?.includes("Failed to fetch");
+      const friendlyMsg = isNetworkError 
+        ? "Network error. Please try again." 
+        : "Unable to schedule your meeting.";
+      
+      setBookingError(friendlyMsg);
+      showToast(friendlyMsg);
     } finally {
       setIsContinuing(false);
     }
@@ -249,6 +300,10 @@ const MeetingModal = ({ isOpen, onClose }) => {
       setProcessingStep(0);
       setAttendeeName("");
       setAttendeeEmail("");
+      setFieldErrors({});
+      setSlotsError("");
+      setBookingError("");
+      setToastMessage(null);
     }, 400);
   };
 
@@ -296,6 +351,29 @@ const MeetingModal = ({ isOpen, onClose }) => {
     <AnimatePresence>
       {isOpen && (
         <div className="fixed inset-0 z-[100000] flex items-center justify-center p-4 sm:p-6 md:p-8 overflow-y-auto selection:bg-[#4D8B4F]/10 selection:text-[#4D8B4F]">
+          {/* Toast Notification */}
+          <AnimatePresence>
+            {toastMessage && (
+              <motion.div
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                className="fixed top-6 left-1/2 -translate-x-1/2 z-[100001] flex items-center gap-2 px-4 py-3 rounded-xl bg-slate-900 text-white text-xs font-semibold shadow-lg border border-slate-700 max-w-md w-full justify-between"
+              >
+                <div className="flex items-center gap-2">
+                  <AlertCircle className="w-4 h-4 text-red-400 shrink-0" />
+                  <span>{toastMessage.message}</span>
+                </div>
+                <button
+                  onClick={() => setToastMessage(null)}
+                  className="p-1 hover:bg-slate-800 rounded-lg text-slate-400 hover:text-white"
+                >
+                  <X className="w-3.5 h-3.5" />
+                </button>
+              </motion.div>
+            )}
+          </AnimatePresence>
+
           {/* Backdrop */}
           <motion.div
             initial={{ opacity: 0 }}
@@ -485,6 +563,15 @@ const MeetingModal = ({ isOpen, onClose }) => {
                     <p className="text-xs text-slate-500 mt-1">Pick a convenient slot according to your selected time zone.</p>
                   </header>
 
+                  {bookingError && (
+                    <div className="p-3.5 rounded-xl bg-red-50 border border-red-200 text-red-700 text-xs font-semibold flex items-center justify-between gap-2">
+                      <div className="flex items-center gap-2">
+                        <AlertCircle className="w-4 h-4 text-red-500 shrink-0" />
+                        <span>{bookingError}</span>
+                      </div>
+                    </div>
+                  )}
+
                   <div className="grid md:grid-cols-2 gap-6">
                     <div className="space-y-2">
                       <label className="text-xs font-bold tracking-wider text-slate-700 uppercase flex items-center gap-1.5">
@@ -493,10 +580,23 @@ const MeetingModal = ({ isOpen, onClose }) => {
                       <input
                         type="text"
                         value={attendeeName}
-                        onChange={(e) => setAttendeeName(e.target.value)}
+                        onChange={(e) => {
+                          setAttendeeName(e.target.value);
+                          if (fieldErrors.attendeeName) {
+                            setFieldErrors((prev) => ({ ...prev, attendeeName: "" }));
+                          }
+                        }}
                         placeholder="Enter your full name"
-                        className="w-full p-3.5 rounded-xl border border-slate-200 bg-white text-slate-900 text-sm font-semibold outline-none focus:ring-2 focus:ring-[#4D8B4F]/20 focus:border-[#4D8B4F] transition-all shadow-sm"
+                        className={`w-full p-3.5 rounded-xl border ${
+                          fieldErrors.attendeeName ? "border-red-400 bg-red-50/20" : "border-slate-200 bg-white"
+                        } text-slate-900 text-sm font-semibold outline-none focus:ring-2 focus:ring-[#4D8B4F]/20 focus:border-[#4D8B4F] transition-all shadow-sm`}
                       />
+                      {fieldErrors.attendeeName && (
+                        <p className="text-[11px] font-semibold text-red-500 flex items-center gap-1 mt-1">
+                          <AlertCircle className="w-3 h-3 shrink-0" />
+                          {fieldErrors.attendeeName}
+                        </p>
+                      )}
                     </div>
 
                     <div className="space-y-2">
@@ -506,10 +606,23 @@ const MeetingModal = ({ isOpen, onClose }) => {
                       <input
                         type="email"
                         value={attendeeEmail}
-                        onChange={(e) => setAttendeeEmail(e.target.value)}
+                        onChange={(e) => {
+                          setAttendeeEmail(e.target.value);
+                          if (fieldErrors.attendeeEmail) {
+                            setFieldErrors((prev) => ({ ...prev, attendeeEmail: "" }));
+                          }
+                        }}
                         placeholder="Enter your work email"
-                        className="w-full p-3.5 rounded-xl border border-slate-200 bg-white text-slate-900 text-sm font-semibold outline-none focus:ring-2 focus:ring-[#4D8B4F]/20 focus:border-[#4D8B4F] transition-all shadow-sm"
+                        className={`w-full p-3.5 rounded-xl border ${
+                          fieldErrors.attendeeEmail ? "border-red-400 bg-red-50/20" : "border-slate-200 bg-white"
+                        } text-slate-900 text-sm font-semibold outline-none focus:ring-2 focus:ring-[#4D8B4F]/20 focus:border-[#4D8B4F] transition-all shadow-sm`}
                       />
+                      {fieldErrors.attendeeEmail && (
+                        <p className="text-[11px] font-semibold text-red-500 flex items-center gap-1 mt-1">
+                          <AlertCircle className="w-3 h-3 shrink-0" />
+                          {fieldErrors.attendeeEmail}
+                        </p>
+                      )}
                     </div>
 
                     <div className="space-y-2">
@@ -520,10 +633,23 @@ const MeetingModal = ({ isOpen, onClose }) => {
                         <input
                           type="date"
                           value={selectedDate}
-                          onChange={(e) => setSelectedDate(e.target.value)}
-                          className="w-full p-3.5 rounded-xl border border-slate-200 bg-white text-slate-900 text-sm font-semibold outline-none focus:ring-2 focus:ring-[#4D8B4F]/20 focus:border-[#4D8B4F] transition-all shadow-sm"
+                          onChange={(e) => {
+                            setSelectedDate(e.target.value);
+                            if (fieldErrors.selectedDate) {
+                              setFieldErrors((prev) => ({ ...prev, selectedDate: "" }));
+                            }
+                          }}
+                          className={`w-full p-3.5 rounded-xl border ${
+                            fieldErrors.selectedDate ? "border-red-400 bg-red-50/20" : "border-slate-200 bg-white"
+                          } text-slate-900 text-sm font-semibold outline-none focus:ring-2 focus:ring-[#4D8B4F]/20 focus:border-[#4D8B4F] transition-all shadow-sm`}
                         />
                       </div>
+                      {fieldErrors.selectedDate && (
+                        <p className="text-[11px] font-semibold text-red-500 flex items-center gap-1 mt-1">
+                          <AlertCircle className="w-3 h-3 shrink-0" />
+                          {fieldErrors.selectedDate}
+                        </p>
+                      )}
                     </div>
 
                     <div className="space-y-2">
@@ -531,13 +657,37 @@ const MeetingModal = ({ isOpen, onClose }) => {
                         <Clock className="w-3.5 h-3.5 text-[#6B2D1A]" /> TIMESLOT
                       </label>
 
+                      {fieldErrors.selectedTime && (
+                        <p className="text-[11px] font-semibold text-red-500 flex items-center gap-1 mb-1">
+                          <AlertCircle className="w-3 h-3 shrink-0" />
+                          {fieldErrors.selectedTime}
+                        </p>
+                      )}
+
                       <div className="grid grid-cols-2 gap-2.5">
-                        {!selectedDate ? (
-                          <p className="col-span-2 text-center text-sm text-slate-500">
+                        {isLoadingSlots ? (
+                          <div className="col-span-2 flex items-center justify-center py-6 text-slate-500 text-xs font-semibold gap-2 border border-slate-200/80 rounded-xl bg-slate-50/50">
+                            <Loader2 className="w-4 h-4 text-[#4D8B4F] animate-spin" />
+                            <span>Loading available times...</span>
+                          </div>
+                        ) : slotsError ? (
+                          <div className="col-span-2 flex flex-col items-center justify-center py-4 px-3 border border-red-200 rounded-xl bg-red-50/50 text-center gap-2">
+                            <p className="text-xs font-semibold text-red-600">{slotsError}</p>
+                            <button
+                              type="button"
+                              onClick={fetchTimeSlots}
+                              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-red-100 hover:bg-red-200 text-red-700 text-xs font-bold transition-all"
+                            >
+                              <RotateCcw className="w-3 h-3" />
+                              Retry
+                            </button>
+                          </div>
+                        ) : !selectedDate ? (
+                          <p className="col-span-2 text-center text-sm text-slate-500 mt-4 pr-[70px]">
                             Please select a date to view available time slots.
                           </p>
                         ) : timeslots.length === 0 ? (
-                          <p className="col-span-2 text-center text-sm text-slate-500 mt-4  pr-[90px]">
+                          <p className="col-span-2 text-center text-sm text-slate-500 mt-4 pr-[90px]">
                             No available time slots for the selected date.
                           </p>
                         ) : (
@@ -555,15 +705,25 @@ const MeetingModal = ({ isOpen, onClose }) => {
                             return (
                               <button
                                 key={slot.start_time || index}
-                                onClick={() => setSelectedTime(slot)}
-                                className={`p-3 rounded-xl border text-xs font-bold transition-all duration-200 flex items-center justify-center gap-2 ${isSelected
+                                disabled={isLoadingSlots}
+                                onClick={() => {
+                                  setSelectedTime(slot);
+                                  if (fieldErrors.selectedTime) {
+                                    setFieldErrors((prev) => ({ ...prev, selectedTime: "" }));
+                                  }
+                                }}
+                                className={`p-3 rounded-xl border text-xs font-bold transition-all duration-200 flex items-center justify-center gap-2 ${
+                                  isLoadingSlots ? "opacity-50 cursor-not-allowed " : ""
+                                }${
+                                  isSelected
                                     ? "bg-[#4D8B4F] text-white border-[#4D8B4F] shadow-sm scale-[1.02]"
                                     : "bg-white border-slate-200 text-slate-700 hover:bg-slate-50 hover:border-slate-300"
-                                  }`}
+                                }`}
                               >
                                 <Clock
-                                  className={`w-3 h-3 ${isSelected ? "text-white" : "text-[#4D8B4F]"
-                                    }`}
+                                  className={`w-3 h-3 ${
+                                    isSelected ? "text-white" : "text-[#4D8B4F]"
+                                  }`}
                                 />
                                 {displayLabel}
                               </button>
@@ -583,10 +743,22 @@ const MeetingModal = ({ isOpen, onClose }) => {
                     </button>
                     <button
                       onClick={handleBookMeeting}
-                      className="px-7 py-3 rounded-xl text-white text-xs font-bold bg-[#6B2D1A] hover:bg-[#582415] active:scale-95 transition-all shadow-sm flex items-center gap-2 group"
+                      disabled={isContinuing}
+                      className={`px-7 py-3 rounded-xl text-white text-xs font-bold bg-[#6B2D1A] hover:bg-[#582415] active:scale-95 transition-all shadow-sm flex items-center gap-2 group ${
+                        isContinuing ? "opacity-60 cursor-not-allowed" : ""
+                      }`}
                     >
-                      Confirm Appointment
-                      <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" />
+                      {isContinuing ? (
+                        <>
+                          <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                          Processing...
+                        </>
+                      ) : (
+                        <>
+                          Confirm Appointment
+                          <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" />
+                        </>
+                      )}
                     </button>
                   </div>
                 </motion.div>
@@ -615,10 +787,11 @@ const MeetingModal = ({ isOpen, onClose }) => {
                         <button
                           key={option.id}
                           onClick={() => setSelectedOption(option.id)}
-                          className={`group relative text-left p-4 sm:p-5 rounded-2xl border transition-all duration-200 ${isActive
-                            ? "border-[#4D8B4F] bg-emerald-50/30 ring-1 ring-[#4D8B4F] shadow-sm"
-                            : "border-slate-200/80 bg-white hover:bg-slate-50/50 hover:border-slate-300"
-                            }`}
+                          className={`group relative text-left p-4 sm:p-5 rounded-2xl border transition-all duration-200 ${
+                            isActive
+                              ? "border-[#4D8B4F] bg-emerald-50/30 ring-1 ring-[#4D8B4F] shadow-sm"
+                              : "border-slate-200/80 bg-white hover:bg-slate-50/50 hover:border-slate-300"
+                          }`}
                         >
                           <div className="flex justify-between items-center mb-3">
                             <div className={`p-2.5 rounded-xl transition-colors ${isActive ? "bg-[#4D8B4F] text-white" : "bg-slate-100 text-slate-700 group-hover:bg-slate-200/80"}`}>
@@ -642,76 +815,61 @@ const MeetingModal = ({ isOpen, onClose }) => {
                   <div className="space-y-2 pt-2">
                     <div className="flex justify-between items-center">
                       <label className="text-xs font-bold tracking-wider text-slate-700 uppercase flex items-center gap-1.5">
-                        <Globe className="w-3.5 h-3.5 text-[#6B2D1A]" /> Preferred Time Zone
+                        <Globe className="w-3.5 h-3.5 text-[#6B2D1A]" /> TIME ZONE
                       </label>
-
                       {isOtherSearchMode && (
                         <button
                           type="button"
                           onClick={() => setIsOtherSearchMode(false)}
-                          className="text-[11px] font-bold text-[#6B2D1A] hover:underline flex items-center gap-1"
+                          className="text-[11px] text-[#4D8B4F] hover:underline font-bold"
                         >
-                          <RotateCcw className="w-3 h-3" /> Quick Presets
+                          Switch to Quick Pick
                         </button>
                       )}
                     </div>
 
                     {!isOtherSearchMode ? (
-                      /* Preset Options View */
                       <select
-                        value={selectedTimezone ? (PRESET_TIMEZONES.some((t) => t.value === selectedTimezone.value) ? selectedTimezone.value : selectedTimezone.value) : ""}
+                        value={selectedTimezone?.value || ""}
                         onChange={handlePresetSelect}
-                        className={`w-full p-3 rounded-xl border bg-white text-slate-900 text-xs font-semibold outline-none focus:ring-2 focus:ring-[#4D8B4F]/20 focus:border-[#4D8B4F] transition-all shadow-sm ${timeZoneError ? "border-red-400" : "border-slate-200"
-                          }`}
+                        className={`w-full p-3.5 rounded-xl border ${
+                          timeZoneError ? "border-red-400 bg-red-50/20" : "border-slate-200 bg-white"
+                        } text-slate-900 text-xs font-semibold outline-none focus:ring-2 focus:ring-[#4D8B4F]/20 focus:border-[#4D8B4F] transition-all shadow-sm`}
                       >
-                        <option value="" disabled hidden>
-                          Select Preferred Time Zone
-                        </option>
+                        <option value="" disabled>Select your time zone...</option>
                         {PRESET_TIMEZONES.map((tz) => (
                           <option key={tz.value} value={tz.value}>
                             {tz.label}
                           </option>
                         ))}
-                        {selectedTimezone && !PRESET_TIMEZONES.some((t) => t.value === selectedTimezone.value) && (
-                          <option value={selectedTimezone.value}>
-                            ✓ {selectedTimezone.label || selectedTimezone.value}
-                          </option>
-                        )}
-                        <option value="OTHER">Other Time Zones...</option>
+                        <option value="OTHER">Other — Search all global time zones...</option>
                       </select>
                     ) : (
-                      /* Searchable Popover View */
                       <Select
-                        autoFocus
-                        defaultMenuIsOpen
                         options={allTimezoneOptions}
                         value={selectedTimezone}
                         onChange={handleSearchSelect}
-                        placeholder="🔍 Search country, city, or time zone (e.g. Hyderabad, London, Dubai)..."
+                        placeholder="Search city, country, or code (e.g. Dubai, EST, Tokyo)..."
                         styles={customSelectStyles}
-                        filterOption={(candidate, input) => {
-                          if (!input) return true;
-                          const term = input.toLowerCase();
-                          return candidate.data.keywords.includes(term);
+                        filterOption={(option, rawInput) => {
+                          const input = rawInput.toLowerCase().trim();
+                          return option.data.keywords.includes(input);
                         }}
                       />
                     )}
 
                     {timeZoneError && (
-                      <motion.p
-                        initial={{ opacity: 0, y: -4 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        className="text-xs font-semibold text-red-500 mt-1"
-                      >
+                      <p className="text-[11px] font-semibold text-red-500 flex items-center gap-1 mt-1">
+                        <AlertCircle className="w-3 h-3 shrink-0" />
                         {timeZoneError}
-                      </motion.p>
+                      </p>
                     )}
                   </div>
 
-                  <div className="flex justify-end pt-4 border-t border-slate-200">
+                  <div className="flex justify-end items-center pt-4 border-t border-slate-200">
                     <button
                       onClick={handleContinue}
-                      className="px-8 py-3 rounded-xl text-white text-xs font-bold bg-[#6B2D1A] hover:bg-[#582415] active:scale-95 transition-all shadow-sm flex items-center gap-2 group"
+                      className="px-7 py-3 rounded-xl text-white text-xs font-bold bg-[#6B2D1A] hover:bg-[#582415] active:scale-95 transition-all shadow-sm flex items-center gap-2 group"
                     >
                       Continue
                       <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" />
@@ -727,4 +885,4 @@ const MeetingModal = ({ isOpen, onClose }) => {
   );
 };
 
-export { MeetingModal };
+export { MeetingModal};

@@ -1,10 +1,10 @@
-import React, { useEffect, useMemo } from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "motion/react";
-import { BLOGS } from "../articles";
 import { ArrowRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { useLocation } from "react-router-dom";
+import Loader from "../components/Loader";
 
 const SMOOTH_CURVE = [0.25, 1, 0.5, 1];
 
@@ -29,11 +29,137 @@ export function FeaturedInsights() {
     const navigate = useNavigate();
     const location = useLocation();
 
+    const [blogs, setBlogs] = useState([]);
+    const [loading, setLoading] = useState(true);
+
     useEffect(() => {
-        window.scrollTo({ top: 0, behavior: "instant" });
+        if (location.pathname === "/insights") {
+            window.scrollTo({
+                top: 0,
+                behavior: "auto",
+            });
+        }
     }, [location.pathname]);
 
-    const memoizedBlogs = useMemo(() => BLOGS, []);
+    //API
+    useEffect(() => {
+        const fetchBlogs = async () => {
+            try {
+                const response = await fetch(
+                    "https://websiteapi-backend-git-642918032467.asia-south1.run.app/blocks/approved?page=1&page_size=10"
+                );
+                if (!response.ok) {
+                    throw new Error("Failed to fetch blogs");
+                }
+
+                const data = await response.json();
+
+                const allBlogs = data.dates?.flatMap((item) => item.blocks) || [];
+
+                const featuredBlogs = allBlogs
+                    .filter((blog) => blog.is_active)
+                    .sort((a, b) => a.display_order - b.display_order)
+                    .slice(0, 3);
+
+                setBlogs(featuredBlogs);
+            } catch (error) {
+                console.error("Error fetching blogs:", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchBlogs();
+    }, []);
+
+    if (loading) {
+        return (
+            <section className="min-h-[1100px] bg-[#f8faf2]">
+                <Loader />
+            </section>
+        );
+    }
+    if (blogs.length === 0) {
+        return (
+            <section className="relative overflow-hidden bg-[#f8faf2] pt-12 pb-20 md:pt-16 md:pb-24">
+
+                {/* Background Blobs */}
+                <div className="absolute top-0 left-0 w-full h-full pointer-events-none overflow-hidden z-0">
+                    <div className="absolute -top-[20%] -left-[10%] w-[60%] h-[60%] bg-[#b0f3ac]/20 blur-[120px] rounded-full" />
+                    <div className="absolute top-[40%] -right-[10%] w-[50%] h-[50%] bg-[#ffdbd1]/15 blur-[120px] rounded-full" />
+                </div>
+
+                <div className="max-w-[1280px] mx-auto px-6 relative z-10">
+
+                    {/* Existing Header */}
+                    <div className="text-center mb-16 space-y-6">
+                        <div className="mb-6 flex justify-center">
+                            <div className="relative inline-flex items-center gap-2 rounded-full border border-white/60 bg-white/35 px-5 py-2 backdrop-blur-xl">
+                                <span className="h-2 w-2 rounded-full bg-[#6B2D1A]" />
+                                <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#38573D]">
+                                    Latest Insights
+                                </span>
+                            </div>
+                        </div>
+
+                        <h2 className="font-serif text-4xl sm:text-5xl font-semibold tracking-tight text-[#172019]">
+                            Technology{" "}
+                            <span className="italic text-[#4D8B4F]">Insights</span> &
+                            <span className="text-[#6B2D1A]"> Industry Trends</span>
+                        </h2>
+
+                        <p className="mx-auto max-w-2xl text-[#526057]">
+                            Stay informed with expert articles, technology trends, AI innovations,
+                            cloud engineering insights, and enterprise software best practices.
+                        </p>
+                    </div>
+
+                    {/* Premium Empty State */}
+                    <div className="relative isolate overflow-hidden rounded-[36px] border border-white/60 bg-[linear-gradient(135deg,rgba(255,255,255,0.18)_0%,rgba(255,255,255,0.06)_100%)] backdrop-blur-[18px] shadow-[inset_2px_2px_5px_rgba(255,255,255,0.9),0_25px_60px_rgba(0,0,0,0.06)]">
+
+                        <LiquidGlassHighlight />
+
+                        <div className="relative z-10 flex flex-col items-center justify-center py-24 px-10 text-center">
+
+                            {/* Glass Icon */}
+                            <div className="mb-8 flex h-20 w-20 items-center justify-center rounded-full border border-white/60 bg-white/40 backdrop-blur-xl">
+                                <svg
+                                    className="h-10 w-10 text-[#4D8B4F]"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    strokeWidth="1.8"
+                                    viewBox="0 0 24 24"
+                                >
+                                    <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        d="M4 6h16M4 12h10M4 18h7"
+                                    />
+                                </svg>
+                            </div>
+
+                            <h3 className="text-3xl font-serif font-semibold text-[#172019]">
+                                Nothing Published Today
+                            </h3>
+
+                            <p className="mt-4 max-w-xl text-[16px] leading-7 text-[#526057]">
+                                There are no approved insights scheduled for today's date.
+                                Fresh articles will appear here automatically once they are
+                                published.
+                            </p>
+
+                            <div className="mt-8 rounded-full border border-[#4D8B4F]/20 bg-[#4D8B4F]/10 px-5 py-2 text-sm font-medium text-[#2b6831]">
+                                Check back later for new insights.
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+        );
+    }
+
 
     return (
         <section className="relative overflow-hidden bg-[#f8faf2] pt-12 pb-20 md:pt-16 md:pb-24">
@@ -98,7 +224,9 @@ export function FeaturedInsights() {
 
                 {/*INSIGHTS CRYSTALLINE GLASS BENTO GRID*/}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
-                    {memoizedBlogs.map((blog, index) => (
+                    {blogs.map((blog, index) => (
+                        //console.log(blog) 
+
                         <motion.article
                             key={blog.id}
                             initial={{ opacity: 0, y: 30 }}
@@ -126,7 +254,7 @@ export function FeaturedInsights() {
                             {/* INTERACTIVE BODY DESCRIPTION WRAP */}
                             <div className="p-8 flex flex-col flex-grow relative z-10">
                                 <time className="text-[#41493f]/60 text-[12px] font-bold uppercase tracking-[0.12em] mb-3">
-                                    {blog.date}
+                                    {blog.publishedDate}
                                 </time>
 
                                 <h3 className="text-[24px] font-semibold tracking-[0.02em] text-[#191d18] mb-4 line-clamp-2 leading-[1.3]">
@@ -134,7 +262,7 @@ export function FeaturedInsights() {
                                 </h3>
 
                                 <p className="text-[#41493f] text-[16px] leading-[1.6] tracking-[0.01em] line-clamp-2 mb-8">
-                                    {blog.excerpt}
+                                    {blog.description}
                                 </p>
 
                                 {/* BOTTOM FOOTER CREDENTIAL LAYERS */}

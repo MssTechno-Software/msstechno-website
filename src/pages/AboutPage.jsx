@@ -52,7 +52,7 @@ import dnaImage from "../../assets/images/dna.png";
 import { Header } from "../components/Header";
 import { ProcessSection } from "../components/ProcessSection";
 import { Footer } from "../components/Footer";
-{/*images imports for meet out team*/}
+{/*images imports for meet out team*/ }
 import ceoImage from "../../assets/images/team/ceo.png";
 import meghanaImage from "../../assets/images/team/meghana.png";
 import snehaImage from "../../assets/images/team/sneha.png";
@@ -67,24 +67,24 @@ const AboutPage = () => {
   const location = useLocation();
 
   useEffect(() => {
-  if (location.state?.scrollTo === "about-process") {
-    setTimeout(() => {
-      document.getElementById("about-process")?.scrollIntoView({
-        behavior: "smooth",
-        block: "start",
-      });
-    }, 200);
-  }
+    if (location.state?.scrollTo === "about-process") {
+      setTimeout(() => {
+        document.getElementById("about-process")?.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
+      }, 200);
+    }
 
-  if (location.state?.scrollTo === "about-story") {
-    setTimeout(() => {
-      document.getElementById("about-story")?.scrollIntoView({
-        behavior: "smooth",
-        block: "start",
-      });
-    }, 200);
-  }
-}, [location]);
+    if (location.state?.scrollTo === "about-story") {
+      setTimeout(() => {
+        document.getElementById("about-story")?.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
+      }, 200);
+    }
+  }, [location]);
 
 
   const handleStoryScroll = () => {
@@ -94,19 +94,7 @@ const AboutPage = () => {
   };
 
   const goToContact = () => {
-  if (window.location.pathname === "/") {
-    const section = document.getElementById("contact-section");
-
-    if (section) {
-      section.scrollIntoView({
-        behavior: "smooth",
-        block: "start",
-      });
-    }
-  } else {
-    navigate("/");
-
-    setTimeout(() => {
+    if (window.location.pathname === "/") {
       const section = document.getElementById("contact-section");
 
       if (section) {
@@ -115,9 +103,21 @@ const AboutPage = () => {
           block: "start",
         });
       }
-    }, 300);
-  }
-};
+    } else {
+      navigate("/");
+
+      setTimeout(() => {
+        const section = document.getElementById("contact-section");
+
+        if (section) {
+          section.scrollIntoView({
+            behavior: "smooth",
+            block: "start",
+          });
+        }
+      }, 300);
+    }
+  };
 
   const goToSolutionsPage = () => {
     navigate("/solutions");
@@ -128,23 +128,23 @@ const AboutPage = () => {
       }
     }, 100);
   };
-const aboutSchema = {
-  "@context": "https://schema.org",
-  "@type": "AboutPage",
-  "@id": "https://www.msstechno.com/about-us#about",
-  "url": "https://www.msstechno.com/about-us",
-  "name": "About MSS Techno",
-  "description":
-    "Learn about MSS Techno, our mission, vision, leadership, and enterprise software expertise.",
-  "isPartOf": {
-    "@id": "https://www.msstechno.com/#website"
-  },
-  "about": {
-    "@id": "https://www.msstechno.com/#organization"
-  }
-};
+  const aboutSchema = {
+    "@context": "https://schema.org",
+    "@type": "AboutPage",
+    "@id": "https://www.msstechno.com/about-us#about",
+    "url": "https://www.msstechno.com/about-us",
+    "name": "About MSS Techno",
+    "description":
+      "Learn about MSS Techno, our mission, vision, leadership, and enterprise software expertise.",
+    "isPartOf": {
+      "@id": "https://www.msstechno.com/#website"
+    },
+    "about": {
+      "@id": "https://www.msstechno.com/#organization"
+    }
+  };
   return (
-    
+
     <div className="min-h-screen bg-[#F7F8F5] font-sans text-[#171A17] antialiased">
       <SEO
         title="About MSS Techno | Our Story & Mission"
@@ -153,9 +153,9 @@ const aboutSchema = {
         showSchemas={true}
       />
       <Helmet>
-     <script type="application/ld+json">
-      {JSON.stringify(aboutSchema)}
-      </script>
+        <script type="application/ld+json">
+          {JSON.stringify(aboutSchema)}
+        </script>
       </Helmet>
       <Header activeSection="about" />
       <main>
@@ -761,8 +761,8 @@ const aboutSchema = {
           </motion.div>
         </section>
         <section id="about-process">
-       <ProcessSection />
-       </section>
+          <ProcessSection />
+        </section>
         {/* WHO WE ARE / MSS DNA */}
         <section
           id="who-we-are"
@@ -817,7 +817,7 @@ const aboutSchema = {
               </button>
             </motion.div>
 
-            <div className="relative min-h-[760px] w-full">
+            <div className="relative min-h-[760px] w-full hidden lg:block">
               <div className="pointer-events-none absolute left-[52%] top-[50%] z-[5] h-[600px] w-[690px] -translate-x-1/2 -translate-y-1/2 rounded-[50%] border border-[#4D8B4F]/35" />
               <div className="pointer-events-none absolute left-[52%] top-[50%] z-[5] h-[480px] w-[570px] -translate-x-1/2 -translate-y-1/2 rotate-[18deg] rounded-[50%] border border-[#4D8B4F]/20" />
 
@@ -958,8 +958,20 @@ const aboutSchema = {
               </div>
             </motion.div>
 
-            <div className="relative flex min-h-[700px] items-center justify-center gap-14">
-              <motion.div
+            <div
+              className="
+                relative
+                flex
+                flex-col
+                items-center
+                gap-8
+                lg:min-h-[700px]
+                lg:flex-row
+                lg:justify-center
+                lg:gap-14
+             "
+            >              
+             <motion.div
                 animate={{ rotate: 360 }}
                 transition={{ duration: 42, repeat: Infinity, ease: "linear" }}
                 className="pointer-events-none absolute left-[29%] top-1/2 h-[590px] w-[330px] -translate-x-1/2 -translate-y-1/2 rounded-[50%] border-2 border-white/90 bg-white/[0.03] backdrop-blur-[10px] shadow-[inset_10px_14px_24px_white,inset_-10px_-14px_26px_rgba(77,139,79,0.08)]"
@@ -1019,7 +1031,7 @@ const aboutSchema = {
                 className="mx-auto max-w-[900px] rounded-[54px] border-2 border-[#D4AF37]/50 bg-white/30 p-10 sm:p-14 backdrop-blur-[45px] backdrop-saturate-[250%] shadow-[inset_0_2px_6px_white,0_35px_100px_rgba(212,175,55,0.15)] relative overflow-hidden"
               >
                 <div className="pointer-events-none absolute left-[25%] top-0 h-[2px] w-[50%] bg-[linear-gradient(90deg,transparent,#D4AF37,transparent)]" />
-                
+
                 <div className="relative mx-auto h-[180px] w-[180px] overflow-hidden rounded-full border-4 border-white shadow-[0_20px_45px_rgba(0,0,0,0.15)] bg-white/40">
                   <img
                     src={ceoImage}
@@ -1036,7 +1048,7 @@ const aboutSchema = {
                 </p>
 
                 <blockquote className="mt-6 mx-auto max-w-[680px] text-[17px] leading-[1.8] italic text-[#4F5650]">
-                 "True leadership inspires innovation, builds strong teams, and transforms ideas into meaningful solutions."                          </blockquote>
+                  "True leadership inspires innovation, builds strong teams, and transforms ideas into meaningful solutions."                          </blockquote>
 
                 <div className="mt-8 flex flex-wrap items-center justify-center gap-6 text-[14px] font-medium text-[#5E665F] border-t border-white/60 pt-6">
                   <div className="flex items-center gap-2">
@@ -1072,7 +1084,7 @@ const aboutSchema = {
             </div>
 
             <div className="grid grid-cols-1 gap-14 lg:grid-cols-[40%_60%] items-start">
-              
+
               {/* LEFT SIDE (40%) - Balanced vertical fill card */}
               <motion.div
                 initial={{ opacity: 0, x: -40 }}
@@ -1305,35 +1317,35 @@ const aboutSchema = {
                   name="Meghana"
                   role="Project Management Office (PMO)"
                   description="Driving project coordination, timelines, and seamless cross-functional delivery."
-                  image={meghanaImage}     
+                  image={meghanaImage}
                   delay={0.1}
                 />
                 <TeamMemberCard
                   name="Sneha"
                   role="Solution Architect"
                   description="Leading solution design, technical architecture, and successful module implementation."
-                  image={snehaImage}       
+                  image={snehaImage}
                   delay={0.2}
                 />
                 <TeamMemberCard
                   name="Venkat"
                   role="Python Backend Developer"
                   description="Developing robust backend logic, APIs, and scalable data integration layers."
-                  image={venkatImage}   
+                  image={venkatImage}
                   delay={0.3}
                 />
                 <TeamMemberCard
                   name="Jasmin"
                   role="Front End Developer"
                   description="Crafting responsive, intuitive user interfaces and smooth interactive workflows."
-                  image={jasminImage}  
+                  image={jasminImage}
                   delay={0.4}
                 />
                 <TeamMemberCard
                   name="Praveen"
                   role="Front End Developer"
                   description="Engineering modern UI components and high-performance client-side application views."
-                  image={praveenImage}   
+                  image={praveenImage}
                   delay={0.5}
                 />
               </div>
@@ -1406,9 +1418,8 @@ const TeamFeatureItem = ({ text, icon: Icon, color = "green" }) => {
       className="flex items-center gap-3.5 rounded-[24px] border border-white/80 bg-white/20 p-4 backdrop-blur-[30px] backdrop-saturate-[220%] shadow-[inset_3px_3px_5px_white,0_10px_25px_rgba(60,75,62,0.06)]"
     >
       <div
-        className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-white/90 ${
-          isGreen ? "bg-[#D8E8D8]/50 text-[#3F8045]" : "bg-[#EBDCD4]/50 text-[#91472E]"
-        } shadow-[inset_2px_2px_4px_white]`}
+        className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-white/90 ${isGreen ? "bg-[#D8E8D8]/50 text-[#3F8045]" : "bg-[#EBDCD4]/50 text-[#91472E]"
+          } shadow-[inset_2px_2px_4px_white]`}
       >
         <Icon className="h-5 w-5" />
       </div>
@@ -1531,27 +1542,24 @@ const MissionVisionCard = ({
     <div className="pointer-events-none absolute left-[12%] top-0 h-[2px] w-[72%] bg-white" />
 
     <div
-      className={`flex h-[130px] w-[130px] items-center justify-center rounded-full border-2 border-white/90 backdrop-blur-[35px] ${
-        brown
+      className={`flex h-[130px] w-[130px] items-center justify-center rounded-full border-2 border-white/90 backdrop-blur-[35px] ${brown
           ? "bg-[#EAD9D0]/35 text-[#9A4828]"
           : "bg-[#DCE9DC]/40 text-[#477B4B]"
-      } shadow-[inset_6px_7px_12px_white,inset_-5px_-6px_12px_rgba(77,139,79,0.06),0_18px_45px_rgba(60,75,63,0.08)]`}
+        } shadow-[inset_6px_7px_12px_white,inset_-5px_-6px_12px_rgba(77,139,79,0.06),0_18px_45px_rgba(60,75,63,0.08)]`}
     >
       <Icon className="h-14 w-14" strokeWidth={1.8} />
     </div>
 
     <h3
-      className={`mt-9 text-[27px] font-semibold tracking-[-0.035em] ${
-        brown ? "text-[#974526]" : "text-[#3F8045]"
-      }`}
+      className={`mt-9 text-[27px] font-semibold tracking-[-0.035em] ${brown ? "text-[#974526]" : "text-[#3F8045]"
+        }`}
     >
       {title}
     </h3>
 
     <span
-      className={`mt-5 h-[2px] w-11 ${
-        brown ? "bg-[#9A4828]" : "bg-[#4D8B4F]"
-      }`}
+      className={`mt-5 h-[2px] w-11 ${brown ? "bg-[#9A4828]" : "bg-[#4D8B4F]"
+        }`}
     />
 
     <p className="mt-7 text-[15px] leading-[1.9] text-[#4F5650]">
@@ -1563,9 +1571,8 @@ const MissionVisionCard = ({
       className="mt-8 flex h-14 w-14 items-center justify-center rounded-full border border-white/90 bg-white/25 backdrop-blur-[30px] shadow-[inset_3px_3px_6px_white,0_12px_30px_rgba(55,70,58,0.08)]"
     >
       <ArrowRight
-        className={`h-5 w-5 ${
-          brown ? "text-[#9A4828]" : "text-[#4D8B4F]"
-        }`}
+        className={`h-5 w-5 ${brown ? "text-[#9A4828]" : "text-[#4D8B4F]"
+          }`}
       />
     </motion.div>
   </motion.div>
@@ -1580,11 +1587,10 @@ const DNAValue = ({ className = "", icon: Icon, title, text, brown = false }) =>
     className={`absolute z-20 flex w-[245px] items-center gap-4 ${className}`}
   >
     <div
-      className={`flex h-[92px] w-[92px] shrink-0 items-center justify-center rounded-full border-2 border-white/90 backdrop-blur-[35px] ${
-        brown
+      className={`flex h-[92px] w-[92px] shrink-0 items-center justify-center rounded-full border-2 border-white/90 backdrop-blur-[35px] ${brown
           ? "bg-[#EAD9D0]/45 text-[#91472E]"
           : "bg-[#DCE9DC]/45 text-[#477B4B]"
-      } shadow-[inset_5px_6px_10px_white,inset_-4px_-5px_10px_rgba(77,139,79,0.06),0_18px_45px_rgba(60,75,63,0.10)]`}
+        } shadow-[inset_5px_6px_10px_white,inset_-4px_-5px_10px_rgba(77,139,79,0.06),0_18px_45px_rgba(60,75,63,0.10)]`}
     >
       <Icon className="h-9 w-9" />
     </div>
@@ -1611,11 +1617,10 @@ const StoryItem = ({
   return (
     <motion.div whileHover={{ x: 5 }} className="flex items-center gap-6 py-5 transition">
       <div
-        className={`flex h-[68px] w-[68px] shrink-0 items-center justify-center rounded-full border border-white/90 backdrop-blur-3xl ${
-          isGreen
+        className={`flex h-[68px] w-[68px] shrink-0 items-center justify-center rounded-full border border-white/90 backdrop-blur-3xl ${isGreen
             ? "bg-[#CFE4D0]/45 text-[#3F8045]"
             : "bg-[#E8D7CE]/45 text-[#91472E]"
-        } shadow-[inset_3px_3px_6px_white,0_12px_30px_rgba(60,75,63,0.08)]`}
+          } shadow-[inset_3px_3px_6px_white,0_12px_30px_rgba(60,75,63,0.08)]`}
       >
         <Icon className="h-7 w-7" />
       </div>
@@ -1627,9 +1632,8 @@ const StoryItem = ({
           </p>
         )}
 
-        <p className={`text-[29px] font-semibold leading-none tracking-[-0.035em] ${
-          isGreen ? "text-[#3F8045]" : "text-[#9A4B30]"
-        }`}>
+        <p className={`text-[29px] font-semibold leading-none tracking-[-0.035em] ${isGreen ? "text-[#3F8045]" : "text-[#9A4B30]"
+          }`}>
           {value}
         </p>
 
@@ -1659,16 +1663,14 @@ const ValueItem = ({
   return (
     <motion.div
       whileHover={{ y: -4 }}
-      className={`flex items-center gap-4 px-7 py-7 ${
-        !last ? "border-b border-white/70 lg:border-b-0 lg:border-r" : ""
-      }`}
+      className={`flex items-center gap-4 px-7 py-7 ${!last ? "border-b border-white/70 lg:border-b-0 lg:border-r" : ""
+        }`}
     >
       <div
-        className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-white/80 ${
-          isGreen
+        className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-white/80 ${isGreen
             ? "bg-[#D8E8D8]/45 text-[#3F8045]"
             : "bg-[#EBDCD4]/45 text-[#91472E]"
-        } shadow-[inset_2px_2px_4px_white]`}
+          } shadow-[inset_2px_2px_4px_white]`}
       >
         <Icon className="h-6 w-6" />
       </div>

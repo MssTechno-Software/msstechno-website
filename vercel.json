@@ -36,10 +36,15 @@
             "permanent": true
         }
     ],
-    "rewrites": [
-        {
-            "source": "/(.*)",
-            "destination": "/index.html"
-        }
-    ]
+     "rewrites": [
+    {
+      "source": "/verification/:id",
+      "destination": "https://websiteapi-backend-git-642918032467.asia-south1.run.app/certificates/verify/:id"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
+
 }

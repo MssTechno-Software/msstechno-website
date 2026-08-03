@@ -30,7 +30,7 @@ const CONTACT_ITEMS_LEFT = [
     id: "call",
     title: "Call Us",
     label: "Talk to an expert",
-    value: "+1 (437) 299-7316",
+    value: "+1 (437) 299-7361",
     Icon: Phone,
     tone: "brown",
   },

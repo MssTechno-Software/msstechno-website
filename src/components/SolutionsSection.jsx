@@ -264,7 +264,8 @@ const SolutionsSection = () => {
                   p-7
                   sm:p-8
 
-                  backdrop-blur-[22px]
+                 -backdrop-blur-[22px]
+                +backdrop-blur-[12px]
                   backdrop-saturate-[1.4]
 
                   shadow-[inset_1px_1px_0_rgba(255,255,255,1),inset_-1px_-1px_0_rgba(255,255,255,0.22),0_18px_45px_rgba(38,55,45,0.12)]

@@ -2,8 +2,8 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { Layers, ArrowRight } from "lucide-react";
 import MSSHeroVisual from "./MSSHeroVisual";
-import herobg1 from "../../assets/images/hero-bg-1.png";
-import herobg2 from "../../assets/images/hero-bg-2.png";
+import herobg1 from "../../assets/images/hero-bg-1.avif";
+import herobg2 from "../../assets/images/hero-bg-2.avif";
 
 const SLIDE_DATA = [
   {

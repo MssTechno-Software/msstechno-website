@@ -45,8 +45,6 @@ const features = [
   },
 ];
 
-
-
 const LiquidGlassLayers = () => {
   return (
     <>
@@ -134,9 +132,9 @@ const AboutSection = () => {
       {/* LIQUID ATMOSPHERIC BACKGROUND (UNTOUCHED) */}
       <div className="absolute inset-0 pointer-events-none bg-[linear-gradient(135deg,#DDE9DA_0%,#F3F1E9_30%,#E7ECEC_56%,#F0DDD3_78%,#DFE8DA_100%)]" />
       <div className="pointer-events-none absolute -left-[280px] top-[-220px] h-[900px] w-[900px] rounded-full bg-[#79A875]/42 blur-[180px]" />
-      <div className="pointer-events-none absolute right-[-320px] top-[8%] h-[850px] w-[850px] rounded-full bg-[#C98E70]/34 blur-[190px]" />
-      <div className="pointer-events-none absolute left-[30%] top-[24%] h-[700px] w-[800px] rounded-full bg-[#AEBECB]/28 blur-[190px]" />
-      <div className="pointer-events-none absolute left-[20%] top-[-300px] h-[750px] w-[900px] rounded-full bg-white/70 blur-[190px]" />
+      <div className="pointer-events-none absolute right-[-320px] top-[8%] h-[850px] w-[850px] rounded-full bg-[#C98E70]/34 blur-[100px]" />
+      <div className="pointer-events-none absolute left-[30%] top-[24%] h-[700px] w-[800px] rounded-full bg-[#AEBECB]/28 blur-[100px]" />
+      <div className="pointer-events-none absolute left-[20%] top-[-300px] h-[750px] w-[900px] rounded-full bg-white/70 blur-[100px]" />
       <div className="pointer-events-none absolute -left-[20%] top-[48%] h-[420px] w-[145%] -rotate-[5deg] rounded-[48%_52%_42%_58%/60%_38%_62%_40%] bg-[linear-gradient(90deg,rgba(77,139,79,0.13),rgba(255,255,255,0.10),rgba(145,167,184,0.14),rgba(107,45,26,0.11))] blur-[18px]" />
 
       {/* CONTENT BUILD AREA */}
@@ -322,8 +320,8 @@ const AboutSection = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.1 }}
                 transition={{
-                  duration: 0.75,
-                  delay: index * 0.08,
+                  duration: 0.35,
+                  delay: index * 0.03,
                   ease: [0.215, 0.61, 0.355, 1],
                 }}
                 whileHover={{ y: -10, scale: 1.015 }}

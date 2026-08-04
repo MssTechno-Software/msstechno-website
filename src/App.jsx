@@ -1,32 +1,79 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, lazy, Suspense } from "react";
 import SEO from "./components/SEO";
+
 import { Header } from "./components/Header";
 import { HeroSection } from "./components/HeroSection";
-import { AboutSection } from "./components/AboutSection";
-import { WhyUsSection } from "./components/WhyUsSection";
-import { SolutionsSection } from "./components/SolutionsSection";
-import { PartnersSection } from "./components/PartnersSection";
-import { CaseStudiesSection } from "./components/CaseStudiesSection";
-import { CareersSection } from "./components/CareersSection";
-import { ContactSection } from "./components/ContactSection";
 import { Footer } from "./components/Footer";
 import { MeetingModal } from "./components/MeetingModal";
-import { FeaturedInsights } from "./components/FeaturedInsights";
 
-{/*import { IndustriesSection } from "./components/IndustriesSection";*/}
-{/*import { ProcessSection } from "./components/ProcessSection";*/}
-{/*import { TechStackSection } from "./components/TechStackSection";*/}
-{/*import { TestimonialsSection } from "./components/TestimonialsSection";*/}
+const AboutSection = lazy(() =>
+  import("./components/AboutSection").then((m) => ({
+    default: m.AboutSection,
+  })),
+);
+
+const WhyUsSection = lazy(() =>
+  import("./components/WhyUsSection").then((m) => ({
+    default: m.WhyUsSection,
+  })),
+);
+
+const SolutionsSection = lazy(() =>
+  import("./components/SolutionsSection").then((m) => ({
+    default: m.SolutionsSection,
+  })),
+);
+
+const PartnersSection = lazy(() =>
+  import("./components/PartnersSection").then((m) => ({
+    default: m.PartnersSection,
+  })),
+);
+
+const CaseStudiesSection = lazy(() =>
+  import("./components/CaseStudiesSection").then((m) => ({
+    default: m.CaseStudiesSection,
+  })),
+);
+
+const CareersSection = lazy(() =>
+  import("./components/CareersSection").then((m) => ({
+    default: m.CareersSection,
+  })),
+);
+
+const FeaturedInsights = lazy(() =>
+  import("./components/FeaturedInsights").then((m) => ({
+    default: m.FeaturedInsights,
+  })),
+);
+
+const ContactSection = lazy(() =>
+  import("./components/ContactSection").then((m) => ({
+    default: m.ContactSection,
+  })),
+);
+
+{
+  /*import { IndustriesSection } from "./components/IndustriesSection";*/
+}
+{
+  /*import { ProcessSection } from "./components/ProcessSection";*/
+}
+{
+  /*import { TechStackSection } from "./components/TechStackSection";*/
+}
+{
+  /*import { TestimonialsSection } from "./components/TestimonialsSection";*/
+}
 
 import Loader from "./components/Loader";
 
-import {
-  BrowserRouter,
-  Routes,
-  Route,
-} from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-{/*import TestimonialsPage from "./pages/TestimonialsPage";*/}
+{
+  /*import TestimonialsPage from "./pages/TestimonialsPage";*/
+}
 import AboutPage from "./pages/AboutPage";
 import SolutionsPage from "./pages/SolutionsPage";
 import SolutionDetailPage from "./pages/SolutionDetailPage";
@@ -36,22 +83,15 @@ import ArticleDetails from "./pages/ArticleDetails";
 /* HOME PAGE */
 
 function HomePage() {
-  const [activeSection, setActiveSection] =
-    useState("home");
+  const [activeSection, setActiveSection] = useState("home");
 
-  const [isMeetingOpen, setIsMeetingOpen] =
-    useState(false);
+  const [isMeetingOpen, setIsMeetingOpen] = useState(false);
 
-// Update the active navigation item based on the current scroll position
+  // Update the active navigation item based on the current scroll position
 
   useEffect(() => {
     const handleScroll = () => {
-      const sections = [
-        "home",
-        "industries",
-        "why-us",
-        "process",
-      ];
+      const sections = ["home", "industries", "why-us", "process"];
 
       const scrollPosition = window.scrollY + 250;
 
@@ -63,10 +103,7 @@ function HomePage() {
         const top = el.offsetTop;
         const height = el.offsetHeight;
 
-        if (
-          scrollPosition >= top &&
-          scrollPosition < top + height
-        ) {
+        if (scrollPosition >= top && scrollPosition < top + height) {
           setActiveSection(section);
           break;
         }
@@ -80,45 +117,40 @@ function HomePage() {
     handleScroll();
 
     return () => {
-      window.removeEventListener(
-        "scroll",
-        handleScroll
-      );
+      window.removeEventListener("scroll", handleScroll);
     };
   }, []);
 
- // Scroll to a specific section when redirected with a scroll query parameter
+  // Scroll to a specific section when redirected with a scroll query parameter
   // Example: /?scroll=contact-section or /?scroll=case-studies
- useEffect(() => {
-  const params = new URLSearchParams(window.location.search);
-  const scrollTo = params.get("scroll");
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const scrollTo = params.get("scroll");
 
-  if (!scrollTo) return;
+    if (!scrollTo) return;
 
-  const timer = setTimeout(() => {
-    document.getElementById(scrollTo)?.scrollIntoView({
-      behavior: "smooth",
-      block: "start",
-    });
+    const timer = setTimeout(() => {
+      document.getElementById(scrollTo)?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
 
-    // remove query after scrolling
-    window.history.replaceState({}, "", "/");
-  }, 1200); // wait until FeaturedInsights finishes rendering
+      // remove query after scrolling
+      window.history.replaceState({}, "", "/");
+    }, 1200); // wait until FeaturedInsights finishes rendering
 
-  return () => clearTimeout(timer);
-}, []);
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
     <>
-     <SEO
-      title="MSS Techno Software Pvt Ltd"
-      description="MSS Techno Software Pvt Ltd delivers AI Solutions, Custom Software Development, Web Development, Mobile App Development, Cloud Solutions, DevOps, UI/UX Design, Data Analytics and QA Testing."
-      url={window.location.href}
-      showSchemas={true}
-    />
-      <Header
-      activeSection={activeSection}
+      <SEO
+        title="MSS Techno Software Pvt Ltd"
+        description="MSS Techno Software Pvt Ltd delivers AI Solutions, Custom Software Development, Web Development, Mobile App Development, Cloud Solutions, DevOps, UI/UX Design, Data Analytics and QA Testing."
+        url={window.location.href}
+        showSchemas={true}
       />
+      <Header activeSection={activeSection} />
 
       <div
         className="
@@ -133,28 +165,35 @@ function HomePage() {
         "
       >
         <main>
-          <HeroSection/>
-           <AboutSection />
+          <HeroSection />
 
-           <WhyUsSection/>
+          <AboutSection />
 
-          <SolutionsSection/>
+          <WhyUsSection />
 
-          <PartnersSection />
+          <SolutionsSection />
 
-          <CaseStudiesSection/>
+          <Suspense fallback={null}>
+            <PartnersSection />
+          </Suspense>
+
+          <Suspense fallback={null}>
+            <CaseStudiesSection />
+          </Suspense>
+
+          <Suspense fallback={null}>
+            <CareersSection />
+          </Suspense>
+
+          <Suspense fallback={null}>
+            <FeaturedInsights />
+          </Suspense>
+
+          <Suspense fallback={null}>
+            <ContactSection onOpenMeeting={() => setIsMeetingOpen(true)} />
+          </Suspense>
 
           {/*<TestimonialsSection />*/}
-
-          <CareersSection />
-         <FeaturedInsights />
-
-          <ContactSection
-            
-            onOpenMeeting={() =>
-              setIsMeetingOpen(true)
-            }
-          />
           {/* <IndustriesSection
             onOpenContact={handleOpenContact}
           />*/}
@@ -163,22 +202,17 @@ function HomePage() {
             onOpenContact={handleOpenContact}
           />*/}
 
-           {/*<TechStackSection
+          {/*<TechStackSection
             onOpenContact={handleOpenContact}
           />*/}
         </main>
 
-       <Footer
-      openMeetingModal={() => setIsMeetingOpen(true)}
-       />
+        <Footer openMeetingModal={() => setIsMeetingOpen(true)} />
       </div>
 
-    
       <MeetingModal
         isOpen={isMeetingOpen}
-        onClose={() =>
-          setIsMeetingOpen(false)
-        }
+        onClose={() => setIsMeetingOpen(false)}
       />
     </>
   );
@@ -195,7 +229,7 @@ function App() {
     const timer = setTimeout(() => {
       setLoading(false);
       document.body.style.overflow = "";
-    }, 3000);
+    }, 500);
 
     return () => {
       clearTimeout(timer);
@@ -206,20 +240,11 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route
-          path="/"
-          element={<HomePage />}
-        />
+        <Route path="/" element={<HomePage />} />
 
-        <Route
-          path="/about"
-          element={<AboutPage />}
-        />
+        <Route path="/about" element={<AboutPage />} />
 
-        <Route
-          path="/solutions"
-          element={<SolutionsPage />}
-        />
+        <Route path="/solutions" element={<SolutionsPage />} />
 
         {/*<Route
           path="/testimonials"
@@ -227,22 +252,14 @@ function App() {
         />*/}
 
         <Route
-         path="/solutions/:serviceSlug"
-        element={<SolutionDetailPage />}
+          path="/solutions/:serviceSlug"
+          element={<SolutionDetailPage />}
         />
-       <Route 
-       path="/insights"
-        element={<Insights />}
-       />
-         <Route
-        path="/insights/:slug"
-        element={<ArticleDetails />}
-    />
-
+        <Route path="/insights" element={<Insights />} />
+        <Route path="/insights/:slug" element={<ArticleDetails />} />
       </Routes>
-     
 
-    {loading && <Loader />}
+      {loading && <Loader />}
     </BrowserRouter>
   );
 }

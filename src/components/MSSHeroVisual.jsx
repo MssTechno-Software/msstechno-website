@@ -12,13 +12,13 @@ import {
 
 import * as THREE from "three";
 
-import aiImage from "../../assets/images/ai&automation.png";
-import cloudImage from "../../assets/images/cloud&devops.png";
-import softwareImage from "../../assets/images/software.png";
-import backendapi  from "../../assets/images/backendapi.png";
-import uiuxImage from "../../assets/images/uiux.png";
-import dataImage from "../../assets/images/data.png";
-import digitalgrowth from "../../assets/images/digitalgrowth.png";
+import aiImage from "../../assets/images/ai&automation.avif";
+import cloudImage from "../../assets/images/cloud&devops.avif";
+import softwareImage from "../../assets/images/software.avif";
+import backendapi  from "../../assets/images/backendapi.avif";
+import uiuxImage from "../../assets/images/uiux.avif";
+import dataImage from "../../assets/images/data.avif";
+import digitalgrowth from "../../assets/images/digitalgrowth.avif";
 
 const CARDS = [
   aiImage,
@@ -47,7 +47,7 @@ function Card({
   texture.colorSpace =
     THREE.SRGBColorSpace;
 
-  texture.anisotropy = 16;
+  texture.anisotropy = 4;
 
   const radius = 2.35;
 

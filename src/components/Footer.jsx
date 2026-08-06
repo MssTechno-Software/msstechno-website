@@ -11,22 +11,35 @@ import {
   ArrowRight,
   ArrowUp,
   Check,
+  MapPin,
+  ChevronRight,
+  Brain,
+  Cog,
+  Globe,
+  Smartphone,
+  Cloud,
+  GitBranch,
+  Palette,
+  BarChart3,
+  ShieldCheck,
 } from "lucide-react";
 
+
 import { motion } from "motion/react";
+import { locationsData } from "../data/locationsData";
 import logo from "../../assets/images/logo.png";
 
 const Footer = ({ openMeetingModal }) => {
   const currentYear = new Date().getFullYear();
   const navigate = useNavigate();
 
- const [loading, setLoading] = useState(false);
-const [subscribed, setSubscribed] = useState(false);
-const [email, setEmail] = useState("");
-const [message, setMessage] = useState("");
-const [messageType, setMessageType] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [subscribed, setSubscribed] = useState(false);
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
+  const [messageType, setMessageType] = useState("");
 
-//subscribe Api
+  //subscribe Api
   const handleSubscribe = async (e) => {
     e.preventDefault();
 
@@ -172,17 +185,16 @@ const [messageType, setMessageType] = useState("");
     { name: "Careers", action: () => handleHomeScroll("#careers-section"), badge: "Hiring" },
     { name: "Contact", action: () => handleHomeScroll("#contact-section") },
   ];
-
   const solutionsLinks = [
-    { name: "AI Solutions", slug: "ai-solutions" },
-    { name: "Custom Software", slug: "custom-software" },
-    { name: "Web Development", slug: "web-development" },
-    { name: "Mobile App", slug: "mobile-development" },
-    { name: "Cloud Solutions", slug: "cloud-solutions" },
-    { name: "DevOps", slug: "devops" },
-    { name: "UI/UX Design", slug: "ui-ux-design" },
-    { name: "Data Analytics", slug: "data-analytics" },
-    { name: "QA & Testing", slug: "qa-testing" },
+    { name: "AI Solutions", slug: "ai-solutions", icon: Brain },
+    { name: "Custom Software", slug: "custom-software", icon: Cog },
+    { name: "Web Development", slug: "web-development", icon: Globe },
+    { name: "Mobile App", slug: "mobile-development", icon: Smartphone },
+    { name: "Cloud Solutions", slug: "cloud-solutions", icon: Cloud },
+    { name: "DevOps", slug: "devops", icon: GitBranch },
+    { name: "UI/UX Design", slug: "ui-ux-design", icon: Palette },
+    { name: "Data Analytics", slug: "data-analytics", icon: BarChart3 },
+    { name: "QA & Testing", slug: "qa-testing", icon: ShieldCheck },
   ];
 
   return (
@@ -260,30 +272,31 @@ const [messageType, setMessageType] = useState("");
           relative
           z-10
           mx-auto
-          max-w-7xl
-          px-4
+          max-w-[1600px]
+          px-6
           py-20
-          sm:px-6
-          lg:px-8
+          sm:px-8
+          lg:px-10
         "
       >
         <div
           className="
-    grid
-    grid-cols-1
-    gap-12
-    pb-14
-    justify-items-center
-    text-center
-    md:grid-cols-2
-    md:text-left
-    md:justify-items-stretch
-    lg:grid-cols-12
-    lg:gap-12
-  "
+grid
+grid-cols-1
+gap-10
+pb-14
+justify-items-center
+text-center
+md:grid-cols-2
+md:text-left
+md:justify-items-stretch
+lg:grid-cols-12
+lg:gap-x-6
+lg:gap-y-10
+"
         >
           {/* BRAND AREA */}
-          <div className="w-full max-w-sm lg:col-span-4">
+          <div className="w-full max-w-[320px] lg:col-span-3">
             <div className="flex items-center justify-center gap-4 md:justify-start">
               <div
                 className="
@@ -578,8 +591,13 @@ const [messageType, setMessageType] = useState("");
                       duration-300
                       hover:translate-x-1
                       hover:text-[#6B2D1A]
+                      cursor-pointer
                     "
                   >
+                    <ChevronRight
+                      size={16}
+                      className="text-[#4D8B4F] transition-colors group-hover:text-[#6B2D1A]"
+                    />
                     {link.name}
 
                     {link.badge && (
@@ -609,10 +627,9 @@ const [messageType, setMessageType] = useState("");
             className="
                   w-full
                   max-w-sm
-                  lg:col-span-3
+                  lg:col-span-2
                   flex
                   flex-col
-                  items-center
                   md:items-start
                "
           >            <h4
@@ -627,29 +644,151 @@ const [messageType, setMessageType] = useState("");
             </h4>
 
             <ul className="mt-6 space-y-3 flex flex-col items-center md:items-start">
-              {solutionsLinks.map((solution) => (
-                <li key={solution.name}>
+              {solutionsLinks.map((solution) => {
+                const Icon = solution.icon;
+
+                return (
+                  <li key={solution.name}>
+                    <button
+                      onClick={() => navigate(`/solutions/${solution.slug}`)}
+                      className="
+          group
+          flex
+          items-center
+          gap-2
+          text-sm
+          font-medium
+          text-[#5D685F]
+          transition-all
+          duration-300
+          hover:translate-x-1
+          hover:text-[#6B2D1A]
+           cursor-pointer
+        "
+                    >
+                      <Icon
+                        size={16}
+                        className="
+            text-[#4D8B4F]
+            transition-colors
+            duration-300
+            group-hover:text-[#6B2D1A]
+          "
+                      />
+
+                      <span>{solution.name}</span>
+                    </button>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+          {/* LOCATIONS */}
+          <div
+            className="
+                     w-full
+                     max-w-sm
+                     lg:col-span-3
+                     flex
+                      flex-col
+                      md:items-start
+                       "
+          >
+            <h4
+              className="
+                    font-serif
+                    text-lg
+                  font-semibold
+                   text-[#4D8B4F]
+                       "
+            >
+              Locations
+            </h4>
+
+            <ul className="mt-6 space-y-3 flex flex-col items-center md:items-start">
+              {Object.values(locationsData).map((location) => (
+                <li key={location.slug}>
                   <button
-                    onClick={() => navigate(`/solutions/${solution.slug}`)}
+                    onClick={() => {
+                      navigate(`/locations/${location.slug}`);
+                      window.scrollTo(0, 0);
+                    }}
                     className="
-                      text-sm
-                      font-medium
-                      text-[#5D685F]
-                      transition-all
-                      duration-300
-                      hover:translate-x-1
-                      hover:text-[#6B2D1A]
-                    "
+                          group
+                           flex
+                         items-center
+                           gap-2
+                           text-sm
+                          font-medium
+                          text-[#5D685F]
+                          transition-all
+                          duration-300
+                          hover:translate-x-1
+                          hover:text-[#6B2D1A]
+                           whitespace-nowrap
+                           cursor-pointer
+                        "
                   >
-                    {solution.name}
+                    <span
+                      className="
+    relative
+    flex
+    h-9
+    w-9
+    items-center
+    justify-center
+    overflow-hidden
+    rounded-2xl
+    border
+    border-white/60
+    bg-white/[0.08]
+    backdrop-blur-xl
+    backdrop-saturate-150
+    shadow-[inset_0_1px_1px_rgba(255,255,255,0.8),inset_0_-1px_1px_rgba(255,255,255,0.15),0_8px_20px_rgba(77,139,79,0.08)]
+    transition-all
+    duration-300
+    group-hover:bg-white/[0.18]
+    group-hover:border-white/80
+    group-hover:shadow-[inset_0_1px_1px_rgba(255,255,255,0.9),0_12px_30px_rgba(77,139,79,0.18)]
+  "
+                    >
+                      {/* Glass Reflection */}
+                      <span
+                        className="
+      pointer-events-none
+      absolute
+      left-1
+      top-1
+      h-3
+      w-5
+      rounded-full
+      bg-white/50
+      blur-[3px]
+    "
+                      />
+
+                      <MapPin
+                        size={16}
+                        strokeWidth={2.2}
+                        className="
+      relative
+      z-10
+      text-[#4D8B4F]
+      transition-all
+      duration-300
+      group-hover:scale-110
+      group-hover:text-[#6B2D1A]
+    "
+                      />
+                    </span>
+                    <span>Software Company in {location.city}</span>
                   </button>
                 </li>
               ))}
             </ul>
           </div>
-
           {/* OFFICE INFRASTRUCTURE */}
-          <div className="w-full max-w-sm lg:col-span-3">
+          <div className="w-full max-w-sm lg:col-span-2">
             <h4
               className="
                 font-serif
@@ -742,6 +881,7 @@ const [messageType, setMessageType] = useState("");
     text-sm
     font-bold
     text-[#6B2D1A]
+    cursor-pointer
   "
             >
               <Calendar className="h-4 w-4" />

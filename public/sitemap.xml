@@ -1,53 +1,163 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
   <!-- Home -->
   <url>
     <loc>https://msstechno.com/</loc>
+    <lastmod>2026-08-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
 
-  <!-- About -->
+  <!-- Main Pages -->
   <url>
     <loc>https://msstechno.com/about</loc>
+    <lastmod>2026-08-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
-
-  <!-- Solutions -->
   <url>
     <loc>https://msstechno.com/solutions</loc>
+    <lastmod>2026-08-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
 
-  <!-- Insights (Blog Listing) -->
   <url>
     <loc>https://msstechno.com/insights</loc>
+    <lastmod>2026-08-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
 
+  <!-- Location Pages -->
+
+  <url>
+    <loc>https://msstechno.com/locations/hyderabad</loc>
+    <lastmod>2026-08-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://msstechno.com/locations/visakhapatnam</loc>
+    <lastmod>2026-08-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://msstechno.com/locations/bangalore</loc>
+    <lastmod>2026-08-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://msstechno.com/locations/chennai</loc>
+    <lastmod>2026-08-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://msstechno.com/locations/vijayawada</loc>
+    <lastmod>2026-08-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://msstechno.com/locations/toronto</loc>
+    <lastmod>2026-08-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+
+  <!-- Service Location Pages -->
+
+  <!-- Hyderabad -->
+  <url><loc>https://msstechno.com/website-development-company-hyderabad</loc><lastmod>2026-08-06</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://msstechno.com/custom-software-development-company-hyderabad</loc><lastmod>2026-08-06</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://msstechno.com/mobile-app-development-company-hyderabad</loc><lastmod>2026-08-06</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://msstechno.com/ai-development-company-hyderabad</loc><lastmod>2026-08-06</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://msstechno.com/cloud-services-company-hyderabad</loc><lastmod>2026-08-06</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://msstechno.com/ui-ux-design-company-hyderabad</loc><lastmod>2026-08-06</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://msstechno.com/qa-testing-company-hyderabad</loc><lastmod>2026-08-06</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://msstechno.com/devops-company-hyderabad</loc><lastmod>2026-08-06</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  
+  <!-- Visakhapatnam -->
+<url><loc>https://msstechno.com/website-development-company-visakhapatnam</loc><lastmod>2026-08-06</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+<url><loc>https://msstechno.com/custom-software-development-company-visakhapatnam</loc><lastmod>2026-08-06</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+<url><loc>https://msstechno.com/mobile-app-development-company-visakhapatnam</loc><lastmod>2026-08-06</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+<url><loc>https://msstechno.com/ai-development-company-visakhapatnam</loc><lastmod>2026-08-06</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+<url><loc>https://msstechno.com/cloud-services-company-visakhapatnam</loc><lastmod>2026-08-06</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+<url><loc>https://msstechno.com/ui-ux-design-company-visakhapatnam</loc><lastmod>2026-08-06</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+<url><loc>https://msstechno.com/qa-testing-company-visakhapatnam</loc><lastmod>2026-08-06</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+<url><loc>https://msstechno.com/devops-company-visakhapatnam</loc><lastmod>2026-08-06</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+
+<!-- Bangalore -->
+<url><loc>https://msstechno.com/website-development-company-bangalore</loc><lastmod>2026-08-06</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+<url><loc>https://msstechno.com/custom-software-development-company-bangalore</loc><lastmod>2026-08-06</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+<url><loc>https://msstechno.com/mobile-app-development-company-bangalore</loc><lastmod>2026-08-06</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+<url><loc>https://msstechno.com/ai-development-company-bangalore</loc><lastmod>2026-08-06</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+<url><loc>https://msstechno.com/cloud-services-company-bangalore</loc><lastmod>2026-08-06</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+<url><loc>https://msstechno.com/ui-ux-design-company-bangalore</loc><lastmod>2026-08-06</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+<url><loc>https://msstechno.com/qa-testing-company-bangalore</loc><lastmod>2026-08-06</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+<url><loc>https://msstechno.com/devops-company-bangalore</loc><lastmod>2026-08-06</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+
+<!-- Chennai -->
+<url><loc>https://msstechno.com/website-development-company-chennai</loc><lastmod>2026-08-06</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+<url><loc>https://msstechno.com/custom-software-development-company-chennai</loc><lastmod>2026-08-06</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+<url><loc>https://msstechno.com/mobile-app-development-company-chennai</loc><lastmod>2026-08-06</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+<url><loc>https://msstechno.com/ai-development-company-chennai</loc><lastmod>2026-08-06</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+<url><loc>https://msstechno.com/cloud-services-company-chennai</loc><lastmod>2026-08-06</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+<url><loc>https://msstechno.com/ui-ux-design-company-chennai</loc><lastmod>2026-08-06</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+<url><loc>https://msstechno.com/qa-testing-company-chennai</loc><lastmod>2026-08-06</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+<url><loc>https://msstechno.com/devops-company-chennai</loc><lastmod>2026-08-06</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+
+<!-- Vijayawada -->
+<url><loc>https://msstechno.com/website-development-company-vijayawada</loc><lastmod>2026-08-06</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+<url><loc>https://msstechno.com/custom-software-development-company-vijayawada</loc><lastmod>2026-08-06</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+<url><loc>https://msstechno.com/mobile-app-development-company-vijayawada</loc><lastmod>2026-08-06</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+<url><loc>https://msstechno.com/ai-development-company-vijayawada</loc><lastmod>2026-08-06</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+<url><loc>https://msstechno.com/cloud-services-company-vijayawada</loc><lastmod>2026-08-06</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+<url><loc>https://msstechno.com/ui-ux-design-company-vijayawada</loc><lastmod>2026-08-06</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+<url><loc>https://msstechno.com/qa-testing-company-vijayawada</loc><lastmod>2026-08-06</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+<url><loc>https://msstechno.com/devops-company-vijayawada</loc><lastmod>2026-08-06</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+
+<!-- Toronto -->
+<url><loc>https://msstechno.com/website-development-company-toronto</loc><lastmod>2026-08-06</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+<url><loc>https://msstechno.com/custom-software-development-company-toronto</loc><lastmod>2026-08-06</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+<url><loc>https://msstechno.com/mobile-app-development-company-toronto</loc><lastmod>2026-08-06</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+<url><loc>https://msstechno.com/ai-development-company-toronto</loc><lastmod>2026-08-06</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+<url><loc>https://msstechno.com/cloud-services-company-toronto</loc><lastmod>2026-08-06</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+<url><loc>https://msstechno.com/ui-ux-design-company-toronto</loc><lastmod>2026-08-06</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+<url><loc>https://msstechno.com/qa-testing-company-toronto</loc><lastmod>2026-08-06</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+<url><loc>https://msstechno.com/devops-company-toronto</loc><lastmod>2026-08-06</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+
+
   <!-- Blog Articles -->
-  <!-- Replace these with your actual blog slugs -->
   <url>
     <loc>https://msstechno.com/insights/future-of-ai</loc>
+    <lastmod>2026-08-06</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://msstechno.com/insights/cloud-computing-guide</loc>
+    <lastmod>2026-08-06</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://msstechno.com/insights/custom-software-development</loc>
+    <lastmod>2026-08-06</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.7</priority>
   </url>
 
 </urlset>

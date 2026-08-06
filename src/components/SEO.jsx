@@ -1,5 +1,6 @@
 import { Helmet } from "react-helmet-async";
 
+
 const baseUrl = "https://www.msstechno.com";
 const logoUrl = `${baseUrl}/logo.png`;
 
@@ -187,6 +188,7 @@ const SEO = ({
         property="og:image:alt"
         content="MSS Techno - Building Intelligent Software for Modern Businesses"
       />
+      <meta name="robots" content="index, follow" />
 
       {/* Twitter */}
       <meta name="twitter:card" content="summary_large_image" />

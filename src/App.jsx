@@ -5,6 +5,8 @@ import { Header } from "./components/Header";
 import { HeroSection } from "./components/HeroSection";
 import { Footer } from "./components/Footer";
 import { MeetingModal } from "./components/MeetingModal";
+import FAQSection from "./components/FAQSection";
+import LazySection from "./components/LazySection";
 
 const AboutSection = lazy(() =>
   import("./components/AboutSection").then((m) => ({
@@ -68,17 +70,16 @@ const ContactSection = lazy(() =>
 }
 
 import Loader from "./components/Loader";
-
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-{
-  /*import TestimonialsPage from "./pages/TestimonialsPage";*/
-}
+{/*import TestimonialsPage from "./pages/TestimonialsPage";*/ }
 import AboutPage from "./pages/AboutPage";
 import SolutionsPage from "./pages/SolutionsPage";
 import SolutionDetailPage from "./pages/SolutionDetailPage";
 import Insights from "./pages/Insights";
 import ArticleDetails from "./pages/ArticleDetails";
+import ServiceLocationPage from "./pages/ServiceLocationPage";
+import LocationDetailsPage from "./pages/LocationServiceDetailsPage";
 
 /* HOME PAGE */
 
@@ -89,37 +90,44 @@ function HomePage() {
 
   // Update the active navigation item based on the current scroll position
 
-  useEffect(() => {
-    const handleScroll = () => {
-      const sections = ["home", "industries", "why-us", "process"];
+useEffect(() => {
+  const handleScroll = () => {
+    const sections = [
+      "home",
+      "why-us",
+      "solutions",
+      "case-studies",
+      "careers",
+      "contact-section",
+    ];
 
-      const scrollPosition = window.scrollY + 250;
+    const scrollPosition = window.scrollY + 120;
 
-      for (const section of sections) {
-        const el = document.getElementById(section);
+    for (const section of sections) {
+      const el = document.getElementById(section);
 
-        if (!el) continue;
+      if (!el) continue;
 
-        const top = el.offsetTop;
-        const height = el.offsetHeight;
+      const top = el.offsetTop;
+      const height = el.offsetHeight;
 
-        if (scrollPosition >= top && scrollPosition < top + height) {
-          setActiveSection(section);
-          break;
-        }
+      if (scrollPosition >= top && scrollPosition < top + height) {
+        setActiveSection(section);
+        break;
       }
-    };
+    }
+  };
 
-    window.addEventListener("scroll", handleScroll, {
-      passive: true,
-    });
+  window.addEventListener("scroll", handleScroll, {
+    passive: true,
+  });
 
-    handleScroll();
+  handleScroll();
 
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
+  return () => {
+    window.removeEventListener("scroll", handleScroll);
+  };
+}, []);
 
   // Scroll to a specific section when redirected with a scroll query parameter
   // Example: /?scroll=contact-section or /?scroll=case-studies
@@ -185,9 +193,13 @@ function HomePage() {
             <CareersSection />
           </Suspense>
 
-          <Suspense fallback={null}>
-            <FeaturedInsights />
-          </Suspense>
+          <LazySection rootMargin="1000px">
+            <Suspense fallback={null}>
+              <FeaturedInsights />
+            </Suspense>
+          </LazySection>
+
+          <FAQSection />
 
           <Suspense fallback={null}>
             <ContactSection onOpenMeeting={() => setIsMeetingOpen(true)} />
@@ -250,13 +262,20 @@ function App() {
           path="/testimonials"
           element={<TestimonialsPage />}
         />*/}
-
         <Route
           path="/solutions/:serviceSlug"
           element={<SolutionDetailPage />}
         />
+        <Route
+          path="/locations/:locationSlug"
+          element={<LocationDetailsPage />}
+        />
         <Route path="/insights" element={<Insights />} />
         <Route path="/insights/:slug" element={<ArticleDetails />} />
+        <Route
+          path="/:serviceLocationSlug"
+          element={<ServiceLocationPage />}
+        />
       </Routes>
 
       {loading && <Loader />}

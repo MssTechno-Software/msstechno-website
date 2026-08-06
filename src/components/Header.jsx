@@ -114,51 +114,46 @@ const Header = ({
   const location = useLocation();
   //hybrid search 
   const isScrolled = true;
-  useEffect(() => {
-    const fetchSearchData = async () => {
-      try {
-        const response = await fetch(
-          "https://websiteapi-backend-git-642918032467.asia-south1.run.app/blocks/approved?page=1&page_size=100"
-        );
 
-        const data = await response.json()
+  const fetchSearchData = async () => {
+    if (searchData.length > 0) return;
+    try {
+      const response = await fetch(
+        "https://websiteapi-backend-git-642918032467.asia-south1.run.app/blocks/approved?page=1&page_size=100"
+      );
 
-        const staticSearchData = [
-          { title: "Home", url: "/" },
-          { title: "About", url: "/about" },
-          { title: "Service", url: "/solutions" },
-          { title: "Services", url: "/solutions" },
-          { title: "Solution", url: "/solutions" },
-          { title: "Solutions", url: "/solutions" },
-          { title: "Solutions", url: "/solutions" },
-          { title: "Blogs", url: "/insights" },
-          { title: "Why Us", url: "/" },
-          { title: "Process", url: "/about" },
+      const data = await response.json();
 
-          ...solutions.map((item) => ({
+      const staticSearchData = [
+        { title: "Home", url: "/" },
+        { title: "About", url: "/about" },
+        { title: "Service", url: "/solutions" },
+        { title: "Services", url: "/solutions" },
+        { title: "Solution", url: "/solutions" },
+        { title: "Solutions", url: "/solutions" },
+        { title: "Blogs", url: "/insights" },
+        { title: "Why Us", url: "/" },
+        { title: "Process", url: "/about" },
+
+        ...solutions.map((item) => ({
+          title: item.title,
+          url: `/solutions/${item.slug}`,
+        })),
+
+        ...(data.dates?.flatMap((date) => date.blocks) || [])
+          .filter((item) => item.is_active)
+          .sort((a, b) => a.display_order - b.display_order)
+          .map((item) => ({
             title: item.title,
-            url: `/solutions/${item.slug}`,
+            url: `/insights/${item.slug}`,
           })),
+      ];
 
-          ...(
-            data.dates?.flatMap((date) => date.blocks) || []
-          )
-            .filter((item) => item.is_active)
-            .sort((a, b) => a.display_order - b.display_order)
-            .map((item) => ({
-              title: item.title,
-              url: `/insights/${item.slug}`,
-            })),
-        ];
-
-        setSearchData(staticSearchData);
-      } catch (error) {
-        console.error("Search API Error:", error);
-      }
-    };
-
-    fetchSearchData();
-  }, []);
+      setSearchData(staticSearchData);
+    } catch (error) {
+      console.error("Search API Error:", error);
+    }
+  };
 
   const goToContactSection = () => {
     setIsMobileMenuOpen(false);
@@ -276,11 +271,14 @@ const Header = ({
   };
   const [searchError, setSearchError] = useState("");
   /*SEARCH*/
-  const handleSearch = () => {
+  const handleSearch = async () => {
+    if (searchData.length === 0) {
+      await fetchSearchData();
+    }
+
     const query = searchQuery.trim().toLowerCase();
 
     if (!query) return;
-
     // Search in all pages, solutions & blogs
     const result = searchData.find((item) =>
       item.title.toLowerCase().includes(query)
@@ -760,11 +758,14 @@ const Header = ({
                 whileTap={{
                   scale: 0.94,
                 }}
-                onClick={() =>
-                  setIsSearchOpen(
-                    (current) => !current
-                  )
-                }
+                onClick={async () => {
+                  const nextState = !isSearchOpen;
+                  setIsSearchOpen(nextState);
+
+                  if (nextState) {
+                    await fetchSearchData();
+                  }
+                }}
                 className="
                   hidden
                   h-12

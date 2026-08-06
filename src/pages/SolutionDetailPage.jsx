@@ -26,7 +26,7 @@ import { motion, AnimatePresence } from "motion/react";
 
 import { Header } from "../components/Header";
 import { Footer } from "../components/Footer";
-import { servicesData } from "../servicesData";
+import { servicesData } from "./servicesData";
 
 const SERVICE_ICONS = {
   "ai-solutions": BrainCircuit,

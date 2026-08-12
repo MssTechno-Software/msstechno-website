@@ -19,13 +19,22 @@ const LiquidCard = ({ children, className = "", ...props }) => (
 );
 
 const LiquidImage = ({ src, alt, className = "" }) => (
-  <div className={`relative overflow-hidden rounded-[20px] border border-white/80 shadow-inner ${className}`}>
+  <div
+    className={`relative overflow-hidden rounded-[20px] border border-white/80 shadow-inner bg-[#F8F6F2] ${className}`}
+  >
     <motion.img
-      src={src} alt={alt} whileHover={{ scale: 1.05 }} transition={{ duration: 0.7 }}
-      className="w-full h-full object-cover"
-      onError={(e) => { e.currentTarget.src = fallbackImage; }}
+      src={src}
+      alt={alt}
+      loading="lazy"
+      whileHover={{ scale: 1.02 }}
+      transition={{ duration: 0.7 }}
+      className="w-full h-full object-contain object-center block"
+      onError={(e) => {
+        e.currentTarget.src = fallbackImage;
+      }}
     />
-    <div className="absolute inset-0 bg-gradient-to-tr from-white/30 to-transparent pointer-events-none" />
+
+    <div className="absolute inset-0 bg-gradient-to-tr from-white/20 to-transparent pointer-events-none" />
   </div>
 );
 
@@ -337,8 +346,11 @@ export default function Insights() {
             className="cursor-pointer mb-16 p-8 flex flex-col lg:flex-row gap-8 items-center shadow-[0_25px_60px_rgba(50,70,50,0.15)]"
             onClick={() => navigate(`/insights/${filteredArticles[0].slug}`)}
           >
-            <LiquidImage src={filteredArticles[0].image} alt="Featured" className="w-full lg:w-1/2 h-[400px]" />
-            <div className="p-4">
+            <LiquidImage
+              src={filteredArticles[0].image}
+              alt="Featured"
+              className="w-full lg:w-1/2 aspect-[16/9]"
+            />            <div className="p-4">
               <span className="text-[10px] font-black uppercase tracking-[0.2em] text-[#4D8B4F]">{filteredArticles[0].category}</span>
               <h2 className="font-serif text-4xl mt-3 mb-5 text-[#1F2420]">{filteredArticles[0].title}</h2>
               <p className="text-[#5E6660] mb-8 leading-relaxed">{filteredArticles[0].description}</p>
@@ -395,7 +407,11 @@ export default function Insights() {
                 className="cursor-pointer p-5 flex flex-col group shadow-[0_20px_40px_rgba(50,70,50,0.1)]"
                 onClick={() => navigate(`/insights/${art.slug}`)}
               >
-                <LiquidImage src={art.image} alt={art.title} className="w-full h-48 mb-6" />
+                <LiquidImage
+                  src={art.image}
+                  alt={art.title}
+                  className="w-full aspect-[16/9] mb-6"
+                />
                 <span className="text-[10px] font-black uppercase tracking-[0.2em] text-[#4D8B4F]">{art.category}</span>
                 <h3 className="font-serif text-xl font-bold mt-2 mb-3 text-[#1F2420]">{art.title}</h3>
                 <p className="text-xs text-[#5E6660] mb-6 leading-relaxed flex-1">{art.description}</p>

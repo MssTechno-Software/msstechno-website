@@ -239,16 +239,26 @@ export function FeaturedInsights() {
                             <LiquidGlassHighlight />
 
                             {/* CARD TOP BANNER IMAGE PORT */}
-                            <div className="relative h-64 overflow-hidden rounded-t-[32px]">
-                                <div
-                                    className="w-full h-full bg-cover bg-center transition-transform duration-700 ease-out group-hover:scale-110"
-                                    style={{ backgroundImage: `url(${blog.image})` }}
+                            {/* CARD TOP BANNER IMAGE */}
+                            <div className="relative w-full aspect-[16/9] overflow-hidden rounded-t-[32px] bg-[#f8f6f2]">
+                                <img
+                                    src={blog.image}
+                                    alt={blog.title}
+                                    loading="lazy"
+                                    className="
+            absolute
+            inset-0
+            w-full
+            h-full
+            object-cover
+            object-center
+            block
+            transition-transform
+            duration-700
+            ease-out
+            group-hover:scale-[1.02]
+        "
                                 />
-                                <div className="absolute top-4 left-4 z-10">
-                                    <span className="px-4 py-1.5 rounded-full bg-white/80 backdrop-blur-md border border-white/40 text-[#2b6831] font-bold text-xs uppercase tracking-wider shadow-sm">
-                                        {blog.category}
-                                    </span>
-                                </div>
                             </div>
 
                             {/* INTERACTIVE BODY DESCRIPTION WRAP */}

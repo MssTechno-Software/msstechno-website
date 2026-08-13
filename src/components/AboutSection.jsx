@@ -41,7 +41,7 @@ const features = [
     tags: ["UX", "UI", "Prototyping", "Accessibility"],
     icon: PenTool,
     accent: "brown",
-   url: "/solutions/ui-ux-design",
+    url: "/solutions/ui-ux-design",
   },
 ];
 
@@ -174,11 +174,11 @@ const AboutSection = () => {
             </h2>
 
             <p className="mt-5 max-w-[590px] text-base leading-7 text-[#53605A] md:text-[16px]">
-              MSS Techno partners with startups, enterprises, and global
-              organizations to build scalable software, AI-powered platforms,
-              cloud-native applications, and digital transformation solutions.
+              MSS Techno is a software development company that partners with
+              startups, enterprises, and organizations to build scalable software,
+              AI-powered platforms, cloud-native applications, and digital
+              transformation solutions.
             </p>
-
             <p className="mt-3 max-w-[590px] text-base leading-7 text-[#66706B] md:text-[16px]">
               We combine precise engineering with human-centered design to
               create digital experiences built for performance, scale, and

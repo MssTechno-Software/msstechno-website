@@ -265,24 +265,21 @@ const AboutPage = () => {
                 }}
                 className="
                   mt-7
-                  text-[50px]
+                  text-[45px]
                   font-semibold
                   leading-[1.08]
                   tracking-[-0.055em]
-                  sm:text-[60px]
-                  xl:text-[72px]
+                  sm:text-[50px]
+                  xl:text-[75px]
                 "
               >
-                Engineering
-                <br />
-                the{" "}
+                About  MSS Techno:
                 <span className="text-[#4D8B4F]">
-                  Future
+                  Software Development
                 </span>
                 <br />
-                with{" "}
                 <span className="text-[#8B3C24]">
-                  Intelligence.
+                  Company.
                 </span>
               </motion.h1>
 
@@ -684,12 +681,11 @@ const AboutPage = () => {
                 </p>
               </div>
 
-              <h2 className="mt-7 text-[55px] font-semibold leading-[1.04] tracking-[-0.055em] text-[#171917] sm:text-[65px] xl:text-[78px]">
-                Engineering
+              <h2 className="mt-7 text-[55px] font-semibold leading-[1.04] tracking-[-0.055em] text-[#4D8B4F] sm:text-[65px] xl:text-[78px]">
+                Building Software
                 <br />
-                <span className="text-[#4D8B4F]">Beyond</span>
-                <br />
-                <span className="text-[#8B3C24]">Technology</span>
+
+                <span className="text-[#8B3C24]">Solutions</span>
               </h2>
 
               <div className="mt-7 h-[2px] w-10 bg-[#4D8B4F]" />
@@ -922,7 +918,6 @@ const AboutPage = () => {
                   Mission & Vision
                 </p>
               </div>
-
               <h2 className="mt-10 text-[50px] font-semibold leading-[1.13] tracking-[-0.055em] text-[#191B19] sm:text-[58px] xl:text-[66px]">
                 Guided by{" "}
                 <span className="text-[#4D8B4F]">Purpose.</span>
@@ -970,8 +965,8 @@ const AboutPage = () => {
                 lg:justify-center
                 lg:gap-14
              "
-            >              
-             <motion.div
+            >
+              <motion.div
                 animate={{ rotate: 360 }}
                 transition={{ duration: 42, repeat: Infinity, ease: "linear" }}
                 className="pointer-events-none absolute left-[29%] top-1/2 h-[590px] w-[330px] -translate-x-1/2 -translate-y-1/2 rounded-[50%] border-2 border-white/90 bg-white/[0.03] backdrop-blur-[10px] shadow-[inset_10px_14px_24px_white,inset_-10px_-14px_26px_rgba(77,139,79,0.08)]"
@@ -1543,8 +1538,8 @@ const MissionVisionCard = ({
 
     <div
       className={`flex h-[130px] w-[130px] items-center justify-center rounded-full border-2 border-white/90 backdrop-blur-[35px] ${brown
-          ? "bg-[#EAD9D0]/35 text-[#9A4828]"
-          : "bg-[#DCE9DC]/40 text-[#477B4B]"
+        ? "bg-[#EAD9D0]/35 text-[#9A4828]"
+        : "bg-[#DCE9DC]/40 text-[#477B4B]"
         } shadow-[inset_6px_7px_12px_white,inset_-5px_-6px_12px_rgba(77,139,79,0.06),0_18px_45px_rgba(60,75,63,0.08)]`}
     >
       <Icon className="h-14 w-14" strokeWidth={1.8} />
@@ -1588,8 +1583,8 @@ const DNAValue = ({ className = "", icon: Icon, title, text, brown = false }) =>
   >
     <div
       className={`flex h-[92px] w-[92px] shrink-0 items-center justify-center rounded-full border-2 border-white/90 backdrop-blur-[35px] ${brown
-          ? "bg-[#EAD9D0]/45 text-[#91472E]"
-          : "bg-[#DCE9DC]/45 text-[#477B4B]"
+        ? "bg-[#EAD9D0]/45 text-[#91472E]"
+        : "bg-[#DCE9DC]/45 text-[#477B4B]"
         } shadow-[inset_5px_6px_10px_white,inset_-4px_-5px_10px_rgba(77,139,79,0.06),0_18px_45px_rgba(60,75,63,0.10)]`}
     >
       <Icon className="h-9 w-9" />
@@ -1618,8 +1613,8 @@ const StoryItem = ({
     <motion.div whileHover={{ x: 5 }} className="flex items-center gap-6 py-5 transition">
       <div
         className={`flex h-[68px] w-[68px] shrink-0 items-center justify-center rounded-full border border-white/90 backdrop-blur-3xl ${isGreen
-            ? "bg-[#CFE4D0]/45 text-[#3F8045]"
-            : "bg-[#E8D7CE]/45 text-[#91472E]"
+          ? "bg-[#CFE4D0]/45 text-[#3F8045]"
+          : "bg-[#E8D7CE]/45 text-[#91472E]"
           } shadow-[inset_3px_3px_6px_white,0_12px_30px_rgba(60,75,63,0.08)]`}
       >
         <Icon className="h-7 w-7" />
@@ -1668,8 +1663,8 @@ const ValueItem = ({
     >
       <div
         className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-white/80 ${isGreen
-            ? "bg-[#D8E8D8]/45 text-[#3F8045]"
-            : "bg-[#EBDCD4]/45 text-[#91472E]"
+          ? "bg-[#D8E8D8]/45 text-[#3F8045]"
+          : "bg-[#EBDCD4]/45 text-[#91472E]"
           } shadow-[inset_2px_2px_4px_white]`}
       >
         <Icon className="h-6 w-6" />

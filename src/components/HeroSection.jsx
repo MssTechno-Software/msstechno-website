@@ -9,13 +9,13 @@ const SLIDE_DATA = [
   {
     badge: "Our Company",
     description:
-      "We empower businesses of all sizes to thrive by building robust software solutions that drive innovation and scale modern digital enterprise systems.",
+      "MSS Techno is a software company delivering custom web applications, mobile apps, AI solutions, cloud platforms, APIs, data solutions and enterprise software for modern businesses.",
     image: herobg1,
   },
   {
     badge: "Welcome to MssTechno",
     description:
-      "We empower businesses of all sizes to thrive by building robust software solutions that drive innovation and scale modern digital enterprise systems.",
+      "MSS Techno is a software company delivering custom web applications, mobile apps, AI solutions, cloud platforms, APIs, data solutions and enterprise software for modern businesses.",
     image: herobg2,
   },
 ];
@@ -69,7 +69,7 @@ const HeroSection = () => {
       });
     }
   };
-  
+
 
   return (
     <section
@@ -123,6 +123,7 @@ const HeroSection = () => {
             </div>
 
             {/* DYNAMIC AUTO-SHIFTING SLIDER HEADING */}
+            {/* SEO OPTIMIZED MAIN H1 */}
             <div className="min-h-[160px] sm:min-h-[190px] md:min-h-[130px] lg:min-h-[210px] xl:min-h-[160px] flex flex-col justify-start mt-7">
               <AnimatePresence mode="wait">
                 <motion.h1
@@ -131,25 +132,26 @@ const HeroSection = () => {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -20 }}
                   transition={{ duration: 0.5 }}
-                  className="text-[44px] sm:text-[54px] lg:text-[60px] xl:text-[68px] leading-[1.12] tracking-[-0.035em] font-bold text-white"
+                  className="text-[44px] sm:text-[54px] lg:text-[60px] xl:text-[68px] leading-[1.08] tracking-[-0.035em] font-bold text-white"
                 >
-                  We Build Custom <br />
+                  Software Company for Custom
+                  <br />
 
                   <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#8FC56D] to-[#A3D99D]">
-                    Solutions
+                    Digital Solutions
                   </span>
 
-                  <span className="block sm:inline ml-0 sm:ml-3 text-white/80">
+                  <span className="block">
                     <AnimatePresence mode="wait">
                       <motion.span
                         key={typingIndex}
-                        initial={{ opacity: 0, y: 6 }}
+                        initial={{ opacity: 0, y: 15 }}
                         animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -6 }}
-                        transition={{ duration: 0.3 }}
-                        className="inline-block"
+                        exit={{ opacity: 0, y: -15 }}
+                        transition={{ duration: 0.35 }}
+                        className="inline-block text-[44px] sm:text-[54px] lg:text-[60px] xl:text-[68px] leading-[1.08] tracking-[-0.035em] font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#8FC56D] to-[#A3D99D]"
                       >
-                        with {TYPING_WORDS[typingIndex]}
+                        {TYPING_WORDS[typingIndex]}
                       </motion.span>
                     </AnimatePresence>
                   </span>

@@ -5,7 +5,6 @@ import {
   ArrowUpRight,
   Sparkles,
 } from "lucide-react";
-
 const IndustriesSection = ({ onOpenContact }) => {
   return (
     <section

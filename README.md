@@ -1,20 +1,47 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://ai.google.dev/static/site-assets/images/share-ais-513315318.png" />
-</div>
+# MSS Techno
 
-# Run and deploy your AI Studio app
+MSS Techno is a modern technology and consulting company website built to showcase the company's services, solutions, expertise, and business capabilities.
 
-This contains everything you need to run your app locally.
+## About
 
-View your app in AI Studio: https://ai.studio/apps/6f7591de-9f41-406f-96f3-dfd936beacfe
+The MSS Techno website provides a professional digital presence for the company with a modern, responsive, and user-friendly interface.
+
+## Features
+
+- Modern corporate website
+- Responsive design
+- Home page
+- About Us
+- Services
+- Our Team
+- Contact / Get in Touch
+- Smooth animations and interactions
+- Mobile-friendly design
+- SEO-friendly structure
+- Production-ready frontend
+
+## Technologies Used
+
+- React.js
+- Vite
+- JavaScript
+- Tailwind CSS
+- HTML5
+- CSS3
+- Git
+- GitHub
 
 ## Run Locally
 
-**Prerequisites:**  Node.js
+### Prerequisites
 
+- Node.js
+- npm
+- Git
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+### Installation
+
+Clone the repository:
+
+```bash
+git clone YOUR_GITHUB_REPOSITORY_URL
